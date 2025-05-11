@@ -1,0 +1,21 @@
+# Normalize line endings
+* text=auto
+
+# JavaScript/TypeScript files
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+
+# Lock files
+package-lock.json merge=union
+yarn.lock merge=union
+
+# Binary files
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary
+*.pdf binary
+
+# Markdown files
+*.md text eol=lf
