@@ -3,6 +3,7 @@ import Login from '../../Pages/Login/Login';
 import Layout from './Layout';
 import Dashboard from '../../Pages/Dashboard/Dashboard';
 import Register from '../../Pages/Register/Register';
+import NotFound from '../../Pages/NotFound/NotFound';
 
 const AppRoutes = () => {
   return (
@@ -14,7 +15,7 @@ const AppRoutes = () => {
           <Route index element={<Dashboard />} />
         </Route>
 
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
