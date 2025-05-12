@@ -26,6 +26,7 @@
   }
   button {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    width: auto;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: pulse 2s infinite alternate-reverse;
@@ -36,7 +37,7 @@
     cursor: pointer;
     transition: all 0.2s;
     &:hover {
-      -webkit-text-fill-color: white;
+      -webkit-text-fill-color: black;
       transform: scale(1.1);
       animation: paused;
     }
