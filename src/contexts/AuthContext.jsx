@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   // Validate token with backend
   const validateToken = async (token) => {
     try {
-      const response = await fetch('http://localhost:8000/api/validate-token.php', {
+      const response = await fetch('http://localhost:8000/src/backend/api/validate-token.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     try {
       // Call logout API to invalidate session
       if (token) {
-        await fetch('http://localhost:8000/api/logout.php', {
+        await fetch('http://localhost:8000/src/backend/api/logout.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

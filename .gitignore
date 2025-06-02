@@ -11,8 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
-src/backend/.env
-src/backend/vendor/
+.env
+vendor
 
 # Editor directories and files
 .vscode/*

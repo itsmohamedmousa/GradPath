@@ -40,7 +40,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/register.php', {
+      const response = await fetch('http://localhost:8000/src/backend/api/register.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
