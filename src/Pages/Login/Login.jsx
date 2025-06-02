@@ -1,17 +1,70 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+// File location: src/Pages/Login/Login.js
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
 
-  const handleSubmit = (e) => {
+  // Get the page user was trying to access before login
+  const from = location.state?.from?.pathname || '/dashboard';
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempted with:', username);
-    // In a real app, you would call an authentication API here
+    setError('');
+    setLoading(true);
+
+    // Basic frontend validation
+    if (!username || !password) {
+      setError('Username and password are required');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Use the auth context login function
+        login(data.data.user, data.data.token, data.data.sessionId);
+        
+        // Redirect to the page they were trying to access, or dashboard
+        navigate(from, { replace: true });
+      } else {
+        setError(data.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Network error. Please check if your backend server is running.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,9 +73,13 @@ function Login() {
         <img className="logo" src="/src/assets/Logo-no-bg-landscape.png" alt="logo" />
       </div>
       <h2 className="login-title text-center">Login</h2>
-
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
       <form className="login-form" onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group mb-4">
           <div className="form-floating">
             <input
               type="text"
@@ -32,10 +89,10 @@ function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={loading}
             />
             <label htmlFor="username">Username or Email</label>
           </div>
-
           <div className="form-floating">
             <input
               type="password"
@@ -45,21 +102,33 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
             <label htmlFor="password">Password</label>
           </div>
         </div>
+       
         <button
           type="submit"
           className={`btn btn-primary ${
-            (password.length > 0) &
-            (username.length > 0)
+            (password.length > 0) &&
+            (username.length > 0) &&
+            !loading
               ? ''
               : 'disabled'
           }`}
+          disabled={loading || !username || !password}
         >
-          Login
+          {loading ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              Logging in...
+            </>
+          ) : (
+            'Login'
+          )}
         </button>
+       
         <div className="login-footer text-center">
           <p>
             Don't have an account? <Link to="/register">Register here</Link>
