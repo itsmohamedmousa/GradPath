@@ -88,8 +88,8 @@ try {
                 'username' => $user['username'],
                 'email' => $user['email'],
                 'university' => $user['university'],
-                'major' => $user['major'],
-                'total_credits' => (int)$totalCredits
+                'major' => $user['major']
+                // 'total_credits' => (int)$totalCredits
             ]
         ]
     ]);
