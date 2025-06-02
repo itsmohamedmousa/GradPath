@@ -16,9 +16,8 @@ function Login() {
 
   return (
     <div className="login-container">
-      <div className="logo text-center" onClick={() => navigate('/')}>
-        <i className="bi bi-mortarboard" />
-        <h1 className="logo-name">GradPath</h1>
+      <div className="logo-container">
+        <img className="logo" src="/src/assets/Logo-no-bg-landscape.png" alt="logo" />
       </div>
       <h2 className="login-title text-center">Login</h2>
 
@@ -34,7 +33,7 @@ function Login() {
               onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username or Email</label>
           </div>
 
           <div className="form-floating">
@@ -50,7 +49,15 @@ function Login() {
             <label htmlFor="password">Password</label>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className={`btn btn-primary ${
+            (password.length > 0) &
+            (username.length > 0)
+              ? ''
+              : 'disabled'
+          }`}
+        >
           Login
         </button>
         <div className="login-footer text-center">

@@ -4,6 +4,7 @@ import './Register.css';
 
 function Register() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
@@ -25,9 +26,8 @@ function Register() {
 
   return (
     <div className="register-container">
-      <div className="logo text-center" onClick={() => navigate('/')}>
-        <i className="bi bi-mortarboard" />
-        <h1 className="logo-name">GradPath</h1>
+      <div className="logo-container">
+        <img className="logo" src="/src/assets/Logo-no-bg-landscape.png" alt="logo" />
       </div>
       <h2 className="register-title text-center">Register</h2>
 
@@ -44,6 +44,19 @@ function Register() {
               required
             />
             <label htmlFor="username">Username</label>
+          </div>
+
+          <div className="form-floating">
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              placeholder=""
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label htmlFor="email">Email</label>
           </div>
 
           <div className="form-floating">
@@ -79,7 +92,10 @@ function Register() {
         <button
           type="submit"
           className={`btn btn-primary ${
-            (password.length > 0) & (username.length > 0) & (password == confirmPassword)
+            (password.length > 0) &
+            (email.length > 0) &
+            (username.length > 0) &
+            (password == confirmPassword)
               ? ''
               : 'disabled'
           }`}
