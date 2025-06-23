@@ -181,7 +181,7 @@ function Register() {
         
         <button
           type="submit"
-          className={`btn btn-primary ${
+          className={`reg-btn btn btn-primary ${
             (password.length > 0) &&
             (email.length > 0) &&
             (username.length > 0) &&

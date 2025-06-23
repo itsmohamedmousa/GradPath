@@ -110,7 +110,7 @@ function Login() {
        
         <button
           type="submit"
-          className={`btn btn-primary ${
+          className={`login-btn btn btn-primary ${
             (password.length > 0) &&
             (username.length > 0) &&
             !loading

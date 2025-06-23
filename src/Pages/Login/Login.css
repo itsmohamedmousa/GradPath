@@ -16,7 +16,7 @@ input[type='password'] {
   border-radius: 4px;
 }
 
-button {
+.login-btn {
   background-color: var(--color-primary) !important;
   color: white;
   width: 100%;
@@ -27,7 +27,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.login-btn:hover {
   background-color: var(--primary-dark) !important;
   transition: background-color 0.3s ease;
 }

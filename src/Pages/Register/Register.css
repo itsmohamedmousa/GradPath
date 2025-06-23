@@ -27,7 +27,7 @@ input[type='password'] {
   border-radius: 4px;
 }
 
-button {
+.reg-btn {
   background-color: var(--color-primary) !important;
   color: white;
   width: 100%;
@@ -38,7 +38,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.reg-btn:hover {
   background-color: var(--primary-dark) !important;
   transition: background-color 0.3s ease;
 }
