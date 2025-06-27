@@ -68,7 +68,7 @@ const Sidebar = () => {
                 key={index}
                 to={item.href}
                 className={`
-                  flex items-center text-decoration-none justify-between p-3 rounded-lg transition-all duration-200 group 
+                  flex items-center no-underline justify-between p-3 rounded-lg transition-all duration-200 group 
                   ${
                     isActive
                       ? 'bg-blue-50 text-blue-700 border border-blue-200'

@@ -1,10 +1,11 @@
-// File location: src/Pages/Login/Login.js
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
+import useBootstrap from '../../hooks/useBootstrap';
 
 function Login() {
+  useBootstrap();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

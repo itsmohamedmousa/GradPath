@@ -10,9 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.10",
+    "@tailwindcss/vite": "^4.1.11",
     "bcryptjs": "^3.0.2",
-    "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.13.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -37,7 +36,7 @@
     "globals": "^16.0.0",
     "nodemon": "^3.1.10",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.10",
+    "tailwindcss": "^4.1.11",
     "vite": "^6.3.5"
   }
 }
