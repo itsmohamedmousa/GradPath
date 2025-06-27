@@ -35,7 +35,7 @@ const Sidebar = () => {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          className="fixed inset-0 z-30 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -67,8 +67,9 @@ const Sidebar = () => {
               <Link
                 key={index}
                 to={item.href}
+                onClick={() => setIsOpen(!isOpen)}
                 className={`
-                  flex items-center no-underline justify-between p-3 rounded-lg transition-all duration-200 group 
+                  flex items-center mt-4 mb-4 no-underline justify-between p-3 rounded-lg transition-all duration-200 group 
                   ${
                     isActive
                       ? 'bg-blue-50 text-blue-700 border border-blue-200'
