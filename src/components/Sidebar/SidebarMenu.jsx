@@ -33,12 +33,7 @@ const Sidebar = () => {
       </button>
 
       {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-30 lg:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
+      {isOpen && <div className="fixed inset-0 z-30 lg:hidden" onClick={() => setIsOpen(false)} />}
 
       {/* Sidebar */}
       <div
@@ -62,7 +57,8 @@ const Sidebar = () => {
         <nav className="p-4 space-y-2 flex flex-col overflow-y-auto">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
-            const isActive = location === item.href;
+            const isActive =
+              location === item.href || (location === '/' && item.href === '/dashboard');
             return (
               <Link
                 key={index}
