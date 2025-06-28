@@ -19,7 +19,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 700;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: pulse 2s infinite alternate-reverse;
@@ -28,8 +28,7 @@
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     width: auto;
     background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: pulse 2s infinite alternate-reverse;
+    color: black;
     border: 1px solid black;
     border-radius: 10px;
     padding: 1em 2em;
@@ -37,16 +36,14 @@
     cursor: pointer;
     transition: all 0.2s;
     &:hover {
-      -webkit-text-fill-color: black;
       transform: scale(1.1);
-      animation: paused;
     }
   }
 }
 
 @keyframes pulse {
   from {
-    opacity: 0.3;
+    opacity: 0.1;
   }
   to {
     opacity: 1;
