@@ -11,8 +11,8 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+function Sidebar({ isOpen, setIsOpen }) {
+  // const [isOpen, setIsOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([
     { icon: Home, label: 'Dashboard', href: '/dashboard' },
     { icon: BookOpen, label: 'Courses', href: '/courses' },
@@ -24,16 +24,8 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-6 left-1 z-50 p-2 w-15 h-15 rounded-full bg-transparent text-black lg:hidden transition-colors duration-200"
-      >
-        {isOpen ? <X size={35} /> : <Menu size={35} />}
-      </button>
-
       {/* Overlay for mobile */}
-      {isOpen && <div className="fixed inset-0 z-30 lg:hidden" onClick={() => setIsOpen(false)} />}
+      {isOpen && <div className="fixed inset-0 bg-black opacity-50 z-30 lg:hidden" onClick={() => setIsOpen(false)} />}
 
       {/* Sidebar */}
       <div
