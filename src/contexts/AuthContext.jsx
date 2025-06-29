@@ -46,7 +46,19 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuthStatus();
-  }, []);
+
+    const interval = setInterval(async () => {
+    if (token) {
+      const stillValid = await validateToken(token);
+      if (!stillValid) {
+        console.warn('Token expired or invalid — logging out.');
+        logout();
+      }
+    }
+  }, 60 * 1000);
+
+  return () => clearInterval(interval);
+  }, [token]);
 
   // Validate token with backend
   const validateToken = async (token) => {
