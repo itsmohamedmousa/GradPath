@@ -9,6 +9,7 @@ import {
   User,
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 function Sidebar({ isOpen, setIsOpen }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,32 +22,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     { icon: User, label: 'Profile', href: '/profile' },
   ]);
   const location = useLocation().pathname;
-
-  const handleLogout = async () => {
-    try {
-      const token = localStorage.getItem('token');
-
-      const response = await fetch('http://localhost:8000/src/backend/api/logout.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({}),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-      } else {
-        alert('Logout failed.');
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
+  const { logout } = useAuth();
 
   return (
     <>
@@ -205,7 +181,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                 <button
                   onClick={() => {
                     setShowConfirmModal(false);
-                    handleLogout();
+                    logout();
                   }}
                   className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
                 >
