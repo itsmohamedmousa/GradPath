@@ -10,8 +10,12 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useProfile } from '../../contexts/ProfileContext';
+import LoaderText from '../LoaderText';
 
 function Sidebar({ isOpen, setIsOpen }) {
+  const { data: profileData, loadingProfile, errorProfile } = useProfile();
+  const user = profileData.profile;
   const [menuOpen, setMenuOpen] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [menuItems] = useState([
@@ -104,30 +108,37 @@ function Sidebar({ isOpen, setIsOpen }) {
 
         {/* Footer */}
         <div className="absolute bottom-0 rounded-lg left-0 right-0 p-4 border-t border-gray-200">
-          <div className="relative">
-            <button
-              onClick={() => setMenuOpen((prev) => !prev)}
-              className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 w-full"
-            >
-              <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                <User size={16} className="text-gray-600" />
-              </div>
-              <div className="flex-1 min-w-0 text-left">
-                <p className="text-sm font-medium text-gray-900 truncate">John Doe</p>
-                <p className="text-xs text-gray-500 truncate">john@example.com</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <ChevronUp
-                  size={16}
-                  className={`transition-transform duration-200 opacity-100 group-hover:opacity-100 text-gray-400
+        {loadingProfile ? (
+          <LoaderText />
+        ) : (
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen((prev) => !prev)}
+                className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 w-full"
+              >
+                <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                  <User size={16} className="text-gray-600" />
+                </div>
+                <div className="flex-1 min-w-0 text-left">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {loadingProfile ? '' : user.username}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">
+                    {loadingProfile ? '' : user.email}
+                  </p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <ChevronUp
+                    size={16}
+                    className={`transition-transform duration-200 opacity-100 group-hover:opacity-100 text-gray-400
                     ${menuOpen ? 'transform rotate-180' : ''}`}
-                />
-              </div>
-            </button>
+                  />
+                </div>
+              </button>
 
-            {/* Drop-up Menu */}
-            <div
-              className={`
+              {/* Drop-up Menu */}
+              <div
+                className={`
                 absolute bottom-16 left-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50
                 transform transition-all duration-200 origin-bottom
                 ${
@@ -135,21 +146,22 @@ function Sidebar({ isOpen, setIsOpen }) {
                     ? 'opacity-100 scale-100 translate-y-0'
                     : 'opacity-0 scale-95 translate-y-2 pointer-events-none'
                 }`}
-            >
-              <Link
-                to="/profile"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
-                Edit Profile
-              </Link>
-              <button
-                onClick={() => setShowConfirmModal(true)}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-              >
-                Logout
-              </button>
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Edit Profile
+                </Link>
+                <button
+                  onClick={() => setShowConfirmModal(true)}
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                >
+                  Logout
+                </button>
+              </div>
             </div>
-          </div>
+        )}
         </div>
       </div>
       {showConfirmModal && (

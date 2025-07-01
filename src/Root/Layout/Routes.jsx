@@ -7,6 +7,7 @@ import Layout from './Layout';
 import Dashboard from '../../Pages/Dashboard/Dashboard';
 import NotFound from '../../Pages/NotFound/NotFound';
 import { CourseProvider } from '../../contexts/CourseContext';
+import { ProfileProvider } from '../../contexts/ProfileContext';
 
 const AppRoutes = () => {
   return (
@@ -22,7 +23,9 @@ const AppRoutes = () => {
             element={
               <CourseProvider>
                 <ProtectedRoute>
-                  <Layout />
+                  <ProfileProvider>
+                    <Layout />
+                  </ProfileProvider>
                 </ProtectedRoute>
               </CourseProvider>
             }
