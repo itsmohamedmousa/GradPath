@@ -6,6 +6,7 @@ import Register from '../../Pages/Register/Register';
 import Layout from './Layout';
 import Dashboard from '../../Pages/Dashboard/Dashboard';
 import NotFound from '../../Pages/NotFound/NotFound';
+import { CourseProvider } from '../../contexts/CourseContext';
 
 const AppRoutes = () => {
   return (
@@ -19,9 +20,11 @@ const AppRoutes = () => {
           {/* Protected routes with Layout */}
           <Route
             element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
+              <CourseProvider>
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              </CourseProvider>
             }
           >
             <Route index element={<Dashboard />} />
