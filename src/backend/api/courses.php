@@ -15,7 +15,7 @@ if ($method === 'OPTIONS') {
 }
 
 $user = requireAuth();
-$userId = $user->userId ?? "1";
+$userId = $user->userId;
 
 try {
     if (!$userId) {
