@@ -30,7 +30,7 @@ const useFetch = (endpoint, dependencies = [], action = null) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
 
@@ -46,7 +46,7 @@ const useFetch = (endpoint, dependencies = [], action = null) => {
       }
 
       const responseData = await response.json();
-      setData(responseData);
+      setData(responseData.data || responseData);
     } catch (err) {
       setError(`Failed to fetch ${endpoint}: ${err.message}`);
       console.error(`Error fetching ${endpoint}:`, err);
