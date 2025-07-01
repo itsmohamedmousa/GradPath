@@ -119,7 +119,8 @@ function Sidebar({ isOpen, setIsOpen }) {
               <div className="flex items-center space-x-2">
                 <ChevronUp
                   size={16}
-                  className={`transition-transform duration-200 opacity-100 group-hover:opacity-100 text-gray-400`}
+                  className={`transition-transform duration-200 opacity-100 group-hover:opacity-100 text-gray-400
+                    ${menuOpen ? 'transform rotate-180' : ''}`}
                 />
               </div>
             </button>
