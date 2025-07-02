@@ -8,6 +8,10 @@ import Dashboard from '../../Pages/Dashboard/Dashboard';
 import NotFound from '../../Pages/NotFound/NotFound';
 import { CourseProvider } from '../../contexts/CourseContext';
 import { ProfileProvider } from '../../contexts/ProfileContext';
+import Courses from '../../Pages/Courses/Courses';
+import Notes from '../../Pages/Notes/Notes';
+import Calendar from '../../Pages/Calendar/Calendar';
+import Profile from '../../Pages/Profile/Profile';
 
 const AppRoutes = () => {
   return (
@@ -32,13 +36,14 @@ const AppRoutes = () => {
           >
             <Route index element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            {/* Add more protected routes here as needed */}
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/notes" element={<Notes />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
 
-          {/* Redirect root to dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-          {/* 404 page */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
