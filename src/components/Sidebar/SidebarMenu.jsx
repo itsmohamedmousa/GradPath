@@ -204,7 +204,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             </div>
           </div>
 
-          <style jsx>{`
+          <style>{`
             @keyframes popUp {
               0% {
                 opacity: 0;
