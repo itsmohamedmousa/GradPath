@@ -1,9 +1,9 @@
 import Loader2 from '../../components/Loader2';
 import { useCourse } from '../../contexts/CourseContext';
+import { Link } from 'react-router-dom';
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -32,43 +32,71 @@ function Dashboard() {
   }
   const courseData = courses.map((course) => ({
     name: course.name,
+    shortName: course.name
+      .split(' ')
+      .map((word) => word[0])
+      .join(''),
     credits: course.credits,
     status: course.status,
     grade: course.final_grade,
   }));
+
+  function CustomTooltip({ active, payload }) {
+    if (active && payload && payload.length) {
+      const course = payload[0].payload;
+      return (
+        <div className="bg-white p-2 rounded shadow text-sm border border-gray-200">
+          <div>
+            <strong>{course.name}</strong>
+          </div>
+          <div>Grade: {course.grade}</div>
+          <div>Credits: {course.credits}</div>
+          <div>Status: {course.status}</div>
+        </div>
+      );
+    }
+    return null;
+  }
+
   return (
     <div>
       {courses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={350}>
             <BarChart
               data={courseData}
               margin={{
-                top: 5,
-                right: 30,
-                left: 20,
+                top: 40,
+                right: 50,
                 bottom: 40,
               }}
             >
+              <text
+                x="50%"
+                y={20}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                style={{ fontSize: '16px', fontWeight: 'bold' }}
+              >
+                Course Grades Overview
+              </text>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" interval={0} angle={-20} textAnchor="end" />
+              <XAxis dataKey="shortName" dy={10} />
               <YAxis domain={[0, 100]} />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="grade">
                 {courseData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.grade < 60 ? '#F43F5E' : '#3B82F6'}
-                  />
+                  <Cell key={`cell-${index}`} fill={entry.grade < 60 ? '#F43F5E' : '#3B82F6'} />
                 ))}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="text-center p-4">
+        <div className="text-center p-4 my-50">
           <h2 className="text-xl font-semibold">No Courses Available</h2>
-          <p className="text-gray-600">You have not added any courses yet.</p>
+          <p className="text-gray-600 mb-2">Please add courses to see your progress.</p>
+          <Link to="/courses/add" className="text-blue-600 p-1 hover:bg-blue-600 hover:text-white border-1 rounded-md transition-all duration-200">Add Course</Link>
         </div>
       )}
     </div>
