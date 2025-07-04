@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { X, Menu } from 'lucide-react';
 
-function Header({ toggleSidebar }) {
+function Header({ toggleSidebar, isOpen }) {
   const location = useLocation();
 
   const pageTitles = {
@@ -16,13 +16,13 @@ function Header({ toggleSidebar }) {
   const currentPage = pageTitles[location.pathname];
   return (
     <>
-      <header className="rounded-lg bg-blue-600 text-white text-xl font-bold p-4 shadow-md h-16 flex items-center justify-between w-full">
+      <header className="border border-gray-200 lg:h-20 h-16 rounded-md text-blue-600 bg-white lg:text-3xl text-xl shadow-sm font-bold p-4 flex items-center justify-between w-full">
         {currentPage}
         <button
           onClick={toggleSidebar}
-          className="p-2 w-15 h-15 rounded-full bg-transparent text-white lg:hidden transition-colors duration-200"
+          className="rounded-full bg-transparent text-blue-600 lg:hidden duration-200"
         >
-          <Menu size={35} />
+          {isOpen ? <X size={30} /> : <Menu size={30} />}
         </button>
       </header>
     </>
