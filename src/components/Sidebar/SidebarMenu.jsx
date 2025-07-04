@@ -47,7 +47,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-40 transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:z-auto
-        w-64 shadow-lg lg:shadow-none
+        w-64 shadow-xl
       `}
       >
         {/* Header */}
@@ -78,7 +78,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                   ${
                     isActive
                       ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600'
+                      : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
                   }
                 `}
               >
@@ -114,7 +114,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             <div className="relative">
               <button
                 onClick={() => setMenuOpen((prev) => !prev)}
-                className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 w-full"
+                className="flex items-center space-x-3 p-3 rounded-lg w-full"
               >
                 <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
                   <User size={16} className="text-gray-600" />
