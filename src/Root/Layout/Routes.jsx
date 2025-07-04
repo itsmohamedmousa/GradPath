@@ -12,6 +12,7 @@ import Courses from '../../Pages/Courses/Courses';
 import Notes from '../../Pages/Notes/Notes';
 import Calendar from '../../Pages/Calendar/Calendar';
 import Profile from '../../Pages/Profile/Profile';
+import { GpaProvider } from '../../contexts/GpaContext';
 
 const AppRoutes = () => {
   return (
@@ -28,7 +29,9 @@ const AppRoutes = () => {
               <CourseProvider>
                 <ProtectedRoute>
                   <ProfileProvider>
-                    <Layout />
+                    <GpaProvider>
+                      <Layout />
+                    </GpaProvider>
                   </ProfileProvider>
                 </ProtectedRoute>
               </CourseProvider>
