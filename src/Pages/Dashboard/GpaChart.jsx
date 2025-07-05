@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell } from 'recharts';
 
 function GpaChart() {
   const { data: gpaData } = useGpa();
-  const currentGpa = gpaData.gpa.current_gpa;
+  const cumulativeGpa = gpaData.gpa.cumulative_gpa;
 
   const gpaChartData = [
     { name: 'Failing', value: 2, color: '#ff4d4d' },
@@ -56,7 +56,7 @@ function GpaChart() {
           dominantBaseline="middle"
           style={{ fontSize: '16px', fontWeight: 'bold' }}
         >
-          Current GPA
+          Cumulative GPA
         </text>
         <Pie
           dataKey="value"
@@ -80,9 +80,9 @@ function GpaChart() {
           dominantBaseline="middle"
           style={{ fontSize: '20px' }}
         >
-          GPA: {currentGpa}
+          GPA: {cumulativeGpa}
         </text>
-        {needle(currentGpa, gpaChartData, cx, cy, iR, oR, '#000')}
+        {needle(cumulativeGpa, gpaChartData, cx, cy, iR, oR, '#000')}
       </PieChart>
     </div>
   );
