@@ -17,6 +17,7 @@ function Header({ toggleSidebar, isOpen }) {
   return (
     <>
       <header className="border border-gray-200 lg:h-20 h-16 rounded-md text-blue-600 bg-white lg:text-3xl text-xl shadow-sm font-bold p-4 flex items-center justify-between w-full">
+        <img src='/src/assets/Logo-mini-white-bg.png' alt="Logo" className="lg:hidden w-13 rounded-full" />
         {currentPage}
         <button
           onClick={toggleSidebar}
