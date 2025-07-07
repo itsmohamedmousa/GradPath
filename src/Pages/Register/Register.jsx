@@ -52,7 +52,7 @@ function Register() {
           email,
           password,
           university: university || null,
-          major: major || null
+          major: major || null,
         }),
       });
 
@@ -62,10 +62,10 @@ function Register() {
         // Store token in localStorage
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
-        
+
         // Show success message
         alert('Registration successful!');
-        
+
         navigate('/login');
       } else {
         setError(data.message || 'Registration failed');
@@ -120,6 +120,38 @@ function Register() {
             />
             <label htmlFor="email">Email</label>
           </div>
+          <div className="form-floating">
+            <input
+              type="password"
+              id="password"
+              className="form-control"
+              placeholder=""
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+              disabled={loading}
+            />
+            <label htmlFor="password">Password</label>
+          </div>
+
+          <div className="form-floating">
+            <input
+              type="password"
+              id="re-password"
+              className="form-control"
+              placeholder=""
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                checkPassword(e.target.value);
+              }}
+              required
+              disabled={loading}
+            />
+            <label htmlFor="re-password">Confirm Password</label>
+          </div>
 
           <div className="form-floating">
             <input
@@ -146,48 +178,15 @@ function Register() {
             />
             <label htmlFor="major">Major (Optional)</label>
           </div>
-
-          <div className="form-floating">
-            <input
-              type="password"
-              id="password"
-              className="form-control"
-              placeholder=""
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              required
-              disabled={loading}
-            />
-            <label htmlFor="password">Password</label>
-          </div>
-          
-          <div className="form-floating">
-            <input
-              type="password"
-              id="re-password"
-              className="form-control"
-              placeholder=""
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                checkPassword(e.target.value);
-              }}
-              required
-              disabled={loading}
-            />
-            <label htmlFor="re-password">Confirm Password</label>
-          </div>
         </div>
-        
+
         <button
           type="submit"
           className={`reg-btn btn btn-primary ${
-            (password.length > 0) &&
-            (email.length > 0) &&
-            (username.length > 0) &&
-            (password === confirmPassword) &&
+            password.length > 0 &&
+            email.length > 0 &&
+            username.length > 0 &&
+            password === confirmPassword &&
             !loading
               ? ''
               : 'disabled'
@@ -203,7 +202,7 @@ function Register() {
             'Register'
           )}
         </button>
-        
+
         <div className="register-footer text-center">
           <p>
             Already have an account? <Link to="/login">Login here</Link>
