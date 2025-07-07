@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Register.css';
 import useBootstrap from '../../hooks/useBootstrap';
+import { Eye, EyeOff } from 'lucide-react';
 
 function Register() {
   useBootstrap();
@@ -13,6 +14,7 @@ function Register() {
   const [major, setMajor] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [passwordHidden, setPasswordHidden] = useState(true);
   const navigate = useNavigate();
 
   const checkPassword = (pass) => {
@@ -21,6 +23,10 @@ function Register() {
     } else {
       document.getElementById('re-password').classList.remove('is-invalid');
     }
+  };
+
+  const hidePassword = () => {
+    setPasswordHidden(!passwordHidden);
   };
 
   const handleSubmit = async (e) => {
@@ -122,7 +128,7 @@ function Register() {
           </div>
           <div className="form-floating">
             <input
-              type="password"
+              type={passwordHidden ? 'password' : 'text'}
               id="password"
               className="form-control"
               placeholder=""
@@ -134,11 +140,16 @@ function Register() {
               disabled={loading}
             />
             <label htmlFor="password">Password</label>
+            {(password.length > 0 || confirmPassword.length > 0) && (
+              <div className="eye" onClick={hidePassword}>
+                {passwordHidden ? <EyeOff /> : <Eye />}
+              </div>
+            )}
           </div>
 
           <div className="form-floating">
             <input
-              type="password"
+              type={passwordHidden ? 'password' : 'text'}
               id="re-password"
               className="form-control"
               placeholder=""

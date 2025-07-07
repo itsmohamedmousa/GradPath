@@ -35,3 +35,11 @@ input[type='password'] {
 .bi-mortarboard {
   font-size: 50px;
 }
+
+.eye {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

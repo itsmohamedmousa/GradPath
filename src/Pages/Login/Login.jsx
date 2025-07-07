@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 import useBootstrap from '../../hooks/useBootstrap';
+import { Eye, EyeOff } from 'lucide-react';
 
 function Login() {
   useBootstrap();
@@ -10,10 +11,15 @@ function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+  const [passwordHidden, setPasswordHidden] = useState(true);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { login, isAuthenticated } = useAuth();
+
+  const hidePassword = () => {
+    setPasswordHidden(!passwordHidden);
+  };
 
   // Get the page user was trying to access before login
   const from = location.state?.from?.pathname || '/dashboard';
@@ -54,7 +60,7 @@ function Login() {
       if (data.success) {
         // Use the auth context login function
         login(data.data.user, data.data.token, data.data.sessionId);
-        
+
         // Redirect to the page they were trying to access, or dashboard
         navigate(from, { replace: true });
       } else {
@@ -96,7 +102,7 @@ function Login() {
           </div>
           <div className="form-floating">
             <input
-              type="password"
+              type={passwordHidden ? 'password' : 'text'}
               id="password"
               className="form-control"
               placeholder=""
@@ -106,17 +112,18 @@ function Login() {
               disabled={loading}
             />
             <label htmlFor="password">Password</label>
+            {password.length > 0 && (
+              <div className="eye" onClick={hidePassword}>
+                {passwordHidden ? <EyeOff /> : <Eye />}
+              </div>
+            )}
           </div>
         </div>
-       
+
         <button
           type="submit"
           className={`login-btn btn btn-primary ${
-            (password.length > 0) &&
-            (username.length > 0) &&
-            !loading
-              ? ''
-              : 'disabled'
+            password.length > 0 && username.length > 0 && !loading ? '' : 'disabled'
           }`}
           disabled={loading || !username || !password}
         >
@@ -129,7 +136,7 @@ function Login() {
             'Login'
           )}
         </button>
-       
+
         <div className="login-footer text-center">
           <p>
             Don't have an account? <Link to="/register">Register here</Link>
