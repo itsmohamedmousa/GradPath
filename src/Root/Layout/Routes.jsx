@@ -26,15 +26,15 @@ const AppRoutes = () => {
           {/* Protected routes with Layout */}
           <Route
             element={
-              <CourseProvider>
-                <ProtectedRoute>
+              <ProtectedRoute>
+                <CourseProvider>
                   <ProfileProvider>
                     <GpaProvider>
                       <Layout />
                     </GpaProvider>
                   </ProfileProvider>
-                </ProtectedRoute>
-              </CourseProvider>
+                </CourseProvider>
+              </ProtectedRoute>
             }
           >
             <Route index element={<Dashboard />} />
