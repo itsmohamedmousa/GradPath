@@ -4,6 +4,7 @@ import { useGpa } from '../../contexts/GpaContext';
 import { Link } from 'react-router-dom';
 import GpaChart from './GpaChart';
 import CoursesChart from './CoursesChart';
+import CompletedCreditsChart from './CompletedCreditsChart';
 
 function Dashboard() {
   const { data: courses, loadingCourses, errorCourses } = useCourse();
@@ -30,6 +31,7 @@ function Dashboard() {
     <div>
       {courses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <CompletedCreditsChart />
           <GpaChart />
           <CoursesChart />
         </div>
