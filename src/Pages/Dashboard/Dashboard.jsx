@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import GpaChart from './GpaChart';
 import CoursesChart from './CoursesChart';
 import CompletedCreditsChart from './CompletedCreditsChart';
+import LastModifiedNote from './LastModifiedNote';
 
 function Dashboard() {
   const { data: courses, loadingCourses, errorCourses } = useCourse();
@@ -34,6 +35,7 @@ function Dashboard() {
           <CompletedCreditsChart />
           <GpaChart />
           <CoursesChart />
+          <LastModifiedNote />
         </div>
       ) : (
         <div className="text-center p-4 my-50">
