@@ -1,4 +1,4 @@
-import Loader2 from '../../components/Loader2';
+import Loader2 from '../../components/Loader/Loader2';
 import { useCourse } from '../../contexts/CourseContext';
 import { useGpa } from '../../contexts/GpaContext';
 import { Link } from 'react-router-dom';

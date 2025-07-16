@@ -11,7 +11,7 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProfile } from '../../contexts/ProfileContext';
-import LoaderText from '../LoaderText';
+import LoaderText from '../Loader/LoaderText';
 
 function Sidebar({ isOpen, setIsOpen }) {
   const { data: profileData, loadingProfile, errorProfile } = useProfile();
