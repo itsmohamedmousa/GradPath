@@ -13,6 +13,7 @@ import Notes from '../../Pages/Notes/Notes';
 import Calendar from '../../Pages/Calendar/Calendar';
 import Profile from '../../Pages/Profile/Profile';
 import { GpaProvider } from '../../contexts/GpaContext';
+import { NotesProvider } from '../../contexts/NotesContext';
 
 const AppRoutes = () => {
   return (
@@ -30,7 +31,9 @@ const AppRoutes = () => {
                 <CourseProvider>
                   <ProfileProvider>
                     <GpaProvider>
-                      <Layout />
+                      <NotesProvider>
+                        <Layout />
+                      </NotesProvider>
                     </GpaProvider>
                   </ProfileProvider>
                 </CourseProvider>

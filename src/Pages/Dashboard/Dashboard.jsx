@@ -1,6 +1,7 @@
 import Loader2 from '../../components/Loader/Loader2';
 import { useCourse } from '../../contexts/CourseContext';
 import { useGpa } from '../../contexts/GpaContext';
+import { useNotes } from '../../contexts/NotesContext';
 import { Link } from 'react-router-dom';
 import GpaChart from './GpaChart';
 import CoursesChart from './CoursesChart';
@@ -10,17 +11,20 @@ import LastModifiedNote from './LastModifiedNote';
 function Dashboard() {
   const { data: courses, loadingCourses, errorCourses } = useCourse();
   const { loadingGpa, errorGpa } = useGpa();
+  const { loadingNotes, errorNotes } = useNotes();
 
-  if (errorCourses || errorGpa) {
+  if (errorCourses || errorGpa || errorNotes) {
     return (
       <div>
         Couldn't fetch data
         <br />
-        {errorCourses}
+        {errorCourses ? `Courses: ${errorCourses.message}` : ''}
+        {errorGpa ? `GPA: ${errorGpa.message}` : ''}
+        {errorNotes ? `Notes: ${errorNotes.message}` : ''}
       </div>
     );
   }
-  if (loadingCourses || loadingGpa) {
+  if (loadingCourses || loadingGpa || loadingNotes) {
     return (
       <div>
         <Loader2 />

@@ -16,7 +16,7 @@ const StyledWrapper = styled.div`
     position: relative;
     box-sizing: border-box;
     max-width: 100%;
-    max-height: 200px;
+    height: 220px;
     font-family: cursive;
     font-size: 20px;
     border-radius: 10px;
