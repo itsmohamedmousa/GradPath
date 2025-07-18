@@ -26,6 +26,10 @@ const StyledWrapper = styled.div`
     line-height: 1.2rem;
     padding: 1.4rem 0.5rem 0.3rem 4.5rem;
     overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .page:hover {
+    box-shadow: rgba(0,0,0,0.5) 0px 3px 20px;
   }
 
   .page::before,

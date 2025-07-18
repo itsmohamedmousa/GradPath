@@ -1,6 +1,7 @@
 import { ResponsiveContainer } from 'recharts';
 import NoteCard from '../../components/NoteCard';
 import { useNotes } from '../../contexts/NotesContext';
+import { Link } from 'react-router-dom';
 
 function LastModifiedNote() {
   const { data: notes } = useNotes();
@@ -17,12 +18,14 @@ function LastModifiedNote() {
   const noteTitle = lastModifiedNote?.title ? lastModifiedNote.title : 'No Title';
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg cursor-pointer">
+    <div className="bg-white p-4 rounded-lg shadow-lg">
       {lastModifiedNote ? (
         <ResponsiveContainer width="100%" height={300}>
           <div className="flex flex-col items-center justify-around">
             <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Last Modified Note</p>
-            <NoteCard text={lastModifiedNoteContent} />
+            <Link to={`/notes/${lastModifiedNote.title}`} className="cursor-pointer">
+              <NoteCard text={lastModifiedNoteContent} />
+            </Link>
             <p>{noteTitle}</p>
           </div>
         </ResponsiveContainer>
