@@ -16,7 +16,7 @@ function Header({ toggleSidebar, isOpen }) {
   const currentPage = pageTitles[location.pathname];
   return (
     <>
-      <header className="sticky top-0 z-10 border border-white/20 lg:h-20 h-13 rounded-xl text-blue-600 bg-white/10 backdrop-blur-md lg:text-3xl text-xl shadow-sm font-bold p-4 lg:mt-3 mt-2 flex items-center justify-between w-full font-[Playfair_Display]">
+      <header className="sticky top-0 z-10 border border-white/20 lg:h-20 h-13 rounded-xl text-blue-600 bg-white/10 backdrop-blur-sm lg:text-3xl text-xl shadow-md font-bold p-4 lg:mt-3 mt-2 flex items-center justify-between w-full font-[Playfair_Display]">
         <img
           src="/src/assets/Logo-mini-no-bg.png"
           alt="Logo"
