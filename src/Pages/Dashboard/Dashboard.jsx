@@ -7,6 +7,7 @@ import GpaChart from './GpaChart';
 import CoursesChart from './CoursesChart';
 import CompletedCreditsChart from './CompletedCreditsChart';
 import LastModifiedNote from './LastModifiedNote';
+import UpcomingEvent from './UpcomingEvent';
 
 function Dashboard() {
   const { data: courses, loadingCourses, errorCourses } = useCourse();
@@ -40,6 +41,7 @@ function Dashboard() {
           <GpaChart />
           <CoursesChart />
           <LastModifiedNote />
+          <UpcomingEvent />
         </div>
       ) : (
         <div className="text-center p-4 my-50">
