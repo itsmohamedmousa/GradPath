@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const EventCard = () => {
-  const isNight = true;
+  const isnight = true;
   return (
-    <StyledWrapper isNight={isNight}>
+    <StyledWrapper $isnight={isnight}>
       <div className="card">
         <p className="time-text">
           <span>11:11</span>
@@ -11,7 +11,7 @@ const EventCard = () => {
         </p>
         <p className="day-text">Wednesday, June 15th</p>
         <div>
-          {isNight ? (
+          {isnight ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
@@ -55,8 +55,8 @@ const StyledWrapper = styled.div`
     justify-content: center;
     position: relative;
     flex-direction: column;
-    background: ${({ isNight }) =>
-      isNight
+    background: ${({ $isnight }) =>
+      $isnight
         ? `linear-gradient(to right, rgb(20, 30, 48), rgba(57, 94, 136, 1))`
         : `linear-gradient(to right, #2563eb, #bfdbfe)`};
     cursor: pointer;
