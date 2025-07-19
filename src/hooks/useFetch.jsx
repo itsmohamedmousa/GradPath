@@ -15,8 +15,10 @@ const useFetch = (endpoint, dependencies = [], action = null) => {
   const [isLoading, setIsLoading] = useState(true);
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-  let url = `http://localhost:8000/src/backend/api/${endpoint}.php`;
+
+  let url = `${apiUrl}/${endpoint}.php`;
   if (action) {
     url += `?action=${action}`;
   }

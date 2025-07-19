@@ -16,6 +16,7 @@ function Register() {
   const [error, setError] = useState('');
   const [passwordHidden, setPasswordHidden] = useState(true);
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const checkPassword = (pass) => {
     if (password !== pass) {
@@ -48,7 +49,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/src/backend/api/register.php', {
+      const response = await fetch(`${apiUrl}/register.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

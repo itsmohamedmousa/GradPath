@@ -12,6 +12,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [passwordHidden, setPasswordHidden] = useState(true);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,7 +45,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/src/backend/api/login.php', {
+      const response = await fetch(`${apiUrl}/login.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

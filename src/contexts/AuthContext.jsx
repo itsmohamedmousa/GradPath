@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [sessionId, setSessionId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // Check if user is logged in on app start
   useEffect(() => {
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   // Validate token with backend
   const validateToken = async (token) => {
     try {
-      const response = await fetch('http://localhost:8000/src/backend/api/validate-token.php', {
+      const response = await fetch(`${apiUrl}/validate-token.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +100,7 @@ export const AuthProvider = ({ children }) => {
     try {
       // Call logout API to invalidate session
       if (token) {
-        await fetch('http://localhost:8000/src/backend/api/logout.php', {
+        await fetch(`${apiUrl}/logout.php`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
