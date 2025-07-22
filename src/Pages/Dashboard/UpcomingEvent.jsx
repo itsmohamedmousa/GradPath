@@ -29,14 +29,16 @@ function UpcomingEvent() {
     <div className="bg-white p-4 rounded-lg shadow-lg">
       {upcomingEvent ? (
         <ResponsiveContainer width="100%" height={300}>
-          <div className="flex flex-col justify-between items-center h-full">
+          <div className="w-full flex flex-col justify-between text-center h-full">
             <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Upcoming Event</p>
             <Link to={`/calendar/${upcomingEvent.title}`} className="cursor-pointer">
-              <EventCard
-                eventHours={useFormattedTime(upcomingEvent.event_time)}
-                eventDate={useFormattedDate(upcomingEvent.event_time)}
-                isnight={isnight}
-              />
+              <div className="text-left">
+                <EventCard
+                  eventHours={useFormattedTime(upcomingEvent.event_time)}
+                  eventDate={useFormattedDate(upcomingEvent.event_time)}
+                  isnight={isnight}
+                />
+              </div>
             </Link>
             <p>{eventTitle}</p>
           </div>

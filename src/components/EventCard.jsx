@@ -49,7 +49,7 @@ const EventCard = ({ eventHours, eventDate, isnight }) => {
 
 const StyledWrapper = styled.div`
   .card {
-    width: 280px;
+    min-width: 100%;
     height: 220px;
     border-radius: 10px;
     display: flex;
