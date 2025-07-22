@@ -36,6 +36,7 @@ function UpcomingEvent() {
                 <EventCard
                   eventHours={useFormattedTime(upcomingEvent.event_time)}
                   eventDate={useFormattedDate(upcomingEvent.event_time)}
+                  eventDesc={upcomingEvent.description}
                   isnight={isnight}
                 />
               </div>

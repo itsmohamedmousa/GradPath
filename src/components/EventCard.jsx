@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const EventCard = ({ eventHours, eventDate, isnight }) => {
+const EventCard = ({ eventHours, eventDate, eventDesc, isnight }) => {
   const ampm = eventHours?.substring(eventHours.length-2, eventHours.length);
   const time = eventHours?.substring(0, eventHours.length-3);
 
@@ -12,6 +12,7 @@ const EventCard = ({ eventHours, eventDate, isnight }) => {
           <span className="time-sub-text">{ampm}</span>
         </p>
         <p className="day-text">{eventDate}</p>
+        <p className="description">{eventDesc}</p>
         <div>
           {isnight ? (
             <svg
@@ -84,10 +85,19 @@ const StyledWrapper = styled.div`
   }
 
   .day-text {
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 0px;
     margin-left: 15px;
     font-weight: 500;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+  .description {
+    font-size: 14px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 15px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
 
