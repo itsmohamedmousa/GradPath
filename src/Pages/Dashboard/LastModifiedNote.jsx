@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 function LastModifiedNote() {
   const { data: notes } = useNotes();
-  console.log(notes);
   const lastModifiedNote =
     notes?.notes?.length > 0
       ? notes.notes.reduce((latest, current) => {
