@@ -8,13 +8,15 @@ import CoursesChart from './CoursesChart';
 import CompletedCreditsChart from './CompletedCreditsChart';
 import LastModifiedNote from './LastModifiedNote';
 import UpcomingEvent from './UpcomingEvent';
+import { useEvent } from '../../contexts/EventContext';
 
 function Dashboard() {
   const { data: courses, loadingCourses, errorCourses } = useCourse();
   const { loadingGpa, errorGpa } = useGpa();
   const { loadingNotes, errorNotes } = useNotes();
+  const { loadingEvent, errorEvent } = useEvent();
 
-  if (errorCourses || errorGpa || errorNotes) {
+  if (errorCourses || errorGpa || errorNotes || errorEvent) {
     return (
       <div>
         Couldn't fetch data
@@ -25,7 +27,7 @@ function Dashboard() {
       </div>
     );
   }
-  if (loadingCourses || loadingGpa || loadingNotes) {
+  if (loadingCourses || loadingGpa || loadingNotes || loadingEvent) {
     return (
       <div>
         <Loader2 />

@@ -14,6 +14,7 @@ import Calendar from '../../Pages/Calendar/Calendar';
 import Profile from '../../Pages/Profile/Profile';
 import { GpaProvider } from '../../contexts/GpaContext';
 import { NotesProvider } from '../../contexts/NotesContext';
+import { EventProvider } from '../../contexts/EventContext';
 
 const AppRoutes = () => {
   return (
@@ -32,7 +33,9 @@ const AppRoutes = () => {
                   <ProfileProvider>
                     <GpaProvider>
                       <NotesProvider>
-                        <Layout />
+                        <EventProvider>
+                          <Layout />
+                        </EventProvider>
                       </NotesProvider>
                     </GpaProvider>
                   </ProfileProvider>

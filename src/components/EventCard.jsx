@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
-const EventCard = () => {
-  const isnight = true;
+const EventCard = ({ eventHours, eventDate, isnight }) => {
+  const ampm = eventHours?.substring(eventHours.length-2, eventHours.length);
+  const time = eventHours?.substring(0, eventHours.length-3);
+
   return (
     <StyledWrapper $isnight={isnight}>
       <div className="card">
         <p className="time-text">
-          <span>11:11</span>
-          <span className="time-sub-text">PM</span>
+          <span>{time}</span>
+          <span className="time-sub-text">{ampm}</span>
         </p>
-        <p className="day-text">Wednesday, June 15th</p>
+        <p className="day-text">{eventDate}</p>
         <div>
           {isnight ? (
             <svg
