@@ -2,6 +2,8 @@
 
 A Smart Academic Planner for University Students
 
+---
+
 ## 🚀 Features
 
 - GPA and course tracking
@@ -26,14 +28,16 @@ A Smart Academic Planner for University Students
 ```bash
 # 1. Clone the repository
 git clone https://github.com/itsmohamedmousa/GradPath.git
-
-# 2. Navigate into the project directory
-cd GradPath
 ```
+
+---
 
 ## 📂 Backend Setup (PHP + MySQL)
 
 ```bash
+# 2. Navigate into the backend directory
+cd GradPath/Backend
+
 # 3. Install PHP dependencies
 composer install
 
@@ -53,11 +57,41 @@ EXIT;
 sudo mysql -u root GradPath < GradPath.sql
 ```
 
-## 🔐 Create Environment File
+---
 
-Create a .env file in the root directory (GradPath/.env) and add the following:
+## 🔙 Run the Backend Server
 
 ```bash
+# 6. Run the PHP server
+php -S localhost:8000
+```
+
+---
+
+## 💻 Frontend Setup (React)
+
+In a separate terminal:
+
+```bash
+# 7. Navigate to the frontend directory
+cd ../Frontend
+
+# 8. Install frontend dependencies
+npm install
+
+# 9. Start the REACT development server
+npm run dev
+```
+
+---
+
+## 🔐 Create Environment Files
+
+Create .env files inside Frontend and Backend directories and add the following:
+
+```bash
+### GradPath/Backend/.env
+
 DB_HOST=127.0.0.1
 DB_NAME=GradPath
 # Use your database's username and password
@@ -70,23 +104,16 @@ JWT_EXPIRES_IN=3600
 
 # Server Configuration
 FRONTEND_URL=http://localhost:5173
-VITE_API_URL=http://localhost:8000/src/backend/api
 ```
-
-## 💻 Frontend Setup (React)
 
 ```bash
-# 6. Install frontend dependencies
-npm install
+### GradPath/Frontend/.env
 
-# 7. Start the REACT development server
-npm run dev
+VITE_API_URL=http://localhost:8000/api
 ```
 
-## 🔙 Run the Backend Server
+---
 
-In a separate terminal:
+## ⚠️ Disclaimer
 
-```bash
-php -S localhost:8000
-```
+> **_The project will not work without the environment files_**
