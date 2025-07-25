@@ -7,12 +7,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
+Frontend/node_modules
+Frontend/dist
 dist-ssr
 *.local
-.env
-vendor
+Frontend/.env
+Backend/.env
+Backend/vendor
 
 # Editor directories and files
 .vscode/*
