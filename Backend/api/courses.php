@@ -141,7 +141,7 @@ function editCourse($pdo, $userId) {
 }
 
 function deleteCourse($pdo, $userId) {
-    parse_str(file_get_contents("php://input"), $data);
+    $data = getJSONInput();
     $id = $data['id'] ?? null;
     if (!$id) {
         http_response_code(400);
