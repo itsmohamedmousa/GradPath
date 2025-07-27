@@ -66,7 +66,7 @@ function CoursesChart() {
           <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="grade">
             {courseData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.grade < 60 ? '#F43F5E' : '#3B82F6'} />
+              <Cell key={`cell-${index}`} fill={entry.grade < 60 ? '#F43F5E' : entry.grade < 100 ? '#3B82F6' : '#3dd13dff'} />
             ))}
           </Bar>
         </BarChart>
