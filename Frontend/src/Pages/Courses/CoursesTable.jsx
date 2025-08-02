@@ -28,16 +28,40 @@ function CoursesTable() {
     }
   };
 
+  const editCourse = async (updatedCourse) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/courses.php?action=edit`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(updatedCourse),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        refreshCourses();
+      } else {
+        alert(result.message || 'Failed to update course.');
+      }
+    } catch (err) {
+      console.error('Edit error:', err);
+      alert('Something went wrong.');
+    }
+  };
+
   return (
     <>
       <div className="mt-4 bg-transparent">
-        <h1 className="text-2xl font-bold mb-4 ml-4 text-blue-700 font-[Playfair_Display]">
+        <h1 className="text-2xl font-bold mb-4 ml-4 font-[Playfair_Display]">
           Registered Courses
         </h1>
         <div className="overflow-x-auto rounded-xl">
-          <table className="min-w-full bg-gray-200 text-black rounded-lg shadow-md">
+          <table className="min-w-full bg-gray-100 text-black">
             <thead>
-              <tr className="bg-gray-400 rounded-lg text-white">
+              <tr className="bg-gray-200 text-blue-600">
                 <th className="px-4 py-2 text-left">Course Name</th>
                 <th className="px-4 py-2">Credits</th>
                 <th className="px-4 py-2">Grade</th>
@@ -49,7 +73,7 @@ function CoursesTable() {
               {courses.map((course) => (
                 <tr
                   key={course.id}
-                  className="border-b rounded-lg border-blue-300 hover:bg-gray-300 cursor-default"
+                  className="border-b border-blue-300 text-gray-600 hover:bg-gray-200 cursor-default"
                 >
                   <td className="px-4 py-2">{course.name}</td>
                   <td className="px-4 py-2 text-center">{course.credits || '-'}</td>
@@ -57,7 +81,21 @@ function CoursesTable() {
                   <td className="px-4 py-2 text-center">{course.status || '-'}</td>
                   <td className="px-4 py-2 flex gap-2 justify-center">
                     <button
-                      onClick={() => editCourse(course.id)}
+                      onClick={() => {
+                        const newName = prompt('Edit course name:', course.name);
+                        const newCredits = prompt('Edit credits:', course.credits);
+                        const newGrade = prompt('Edit grade:', course.final_grade);
+
+                        if (newName && newCredits && newGrade) {
+                          editCourse({
+                            id: course.id,
+                            name: newName,
+                            credits: parseInt(newCredits),
+                            grade: newGrade,
+                            status: newGrade == null ? 'Registered' : newGrade >= 60 ? 'Passed' : 'Failed',
+                          });
+                        }
+                      }}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
                       Edit

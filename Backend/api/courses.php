@@ -118,7 +118,7 @@ function editCourse($pdo, $userId) {
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         return;
     }
-    $sql = "UPDATE Course SET name = :name, credits = :credits, grade = :grade WHERE id = :id AND user_id = :user_id";
+    $sql = "UPDATE Course SET name = :name, credits = :credits, final_grade = :grade, status = :status WHERE id = :id AND user_id = :user_id";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -126,6 +126,7 @@ function editCourse($pdo, $userId) {
             ':credits' => $data['credits'],
             ':grade' => $data['grade'],
             ':id' => $data['id'],
+            ':status' => $data['status'],
             ':user_id' => $userId
         ]);
         if ($stmt->rowCount() === 0) {
@@ -136,7 +137,7 @@ function editCourse($pdo, $userId) {
         echo json_encode(['success' => true, 'message' => 'Course updated']);
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to update course']);
+        echo json_encode(['success' => false, 'message' => 'Failed to update course', 'error' => $e->getMessage()]);
     }
 }
 
