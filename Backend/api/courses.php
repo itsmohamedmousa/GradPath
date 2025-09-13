@@ -90,26 +90,60 @@ function getAllCourses($pdo, $userId) {
 
 function addCourse($pdo, $userId) {
     $data = getJSONInput();
-    if (!isset($data['name'], $data['credits'], $data['grade'])) {
+
+    if (!isset($data['name'], $data['credits'])) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         return;
     }
-    $sql = "INSERT INTO Course (name, credits, grade, user_id) VALUES (:name, :credits, :grade, :user_id)";
+
+    $pdo->beginTransaction();
     try {
+        // Insert course
+        $sql = "INSERT INTO Course (name, credits, final_grade, status, user_id) 
+                VALUES (:name, :credits, :final_grade, :status, :user_id)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':name' => $data['name'],
             ':credits' => $data['credits'],
-            ':grade' => $data['grade'],
+            ':final_grade' => $data['final_grade'] ?? 0,
+            ':status' => $data['status'],
             ':user_id' => $userId
         ]);
-        echo json_encode(['success' => true, 'message' => 'Course added']);
+
+        $courseId = $pdo->lastInsertId();
+
+        // Insert grade items if provided
+        if (!empty($data['gradeItems']) && is_array($data['gradeItems'])) {
+            $sqlItem = "INSERT INTO Grade_Item (course_id, title, score, weight, type) 
+                        VALUES (:course_id, :title, :score, :weight, :type)";
+            $stmtItem = $pdo->prepare($sqlItem);
+
+            foreach ($data['gradeItems'] as $item) {
+                $stmtItem->execute([
+                    ':course_id' => $courseId,
+                    ':title'     => $item['title'],
+                    ':score'     => $item['score'],
+                    ':weight'    => $item['weight'],
+                    ':type'      => $item['type'] ?? null
+                ]);
+            }
+        }
+
+        $pdo->commit();
+        echo json_encode(['success' => true, 'message' => 'Course and grade items added']);
+
     } catch (PDOException $e) {
+        $pdo->rollBack();
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to add course']);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to add course and grade items',
+            'error' => $e->getMessage() // useful while debugging, remove in production
+        ]);
     }
 }
+
 
 function editCourse($pdo, $userId) {
     $data = getJSONInput();
