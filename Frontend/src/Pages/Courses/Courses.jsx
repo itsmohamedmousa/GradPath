@@ -1,6 +1,7 @@
 import CoursesTable from './CoursesTable';
 import Loader2 from '../../components/Loader/Loader2';
 import { useCourse } from '../../contexts/CourseContext';
+import AddCourse from './AddCourse';
 
 function Courses() {
   const { loadingCourses, errorCourses } = useCourse();
@@ -18,7 +19,12 @@ function Courses() {
     );
   }
 
-  return <CoursesTable />;
+  return (
+    <>
+      <CoursesTable />
+      <AddCourse />
+    </>
+  );
 }
 
 export default Courses;

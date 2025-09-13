@@ -50,7 +50,7 @@ function Dashboard() {
           <h2 className="text-xl font-semibold">No Courses Available</h2>
           <p className="text-gray-600 mb-2">Please add courses to see your progress.</p>
           <Link
-            to="/courses/add"
+            to="/courses"
             className="text-blue-600 p-1 hover:bg-blue-600 hover:text-white border-1 rounded-md transition-all duration-200"
           >
             Add Course
