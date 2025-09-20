@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
           logout();
         }
       }
-    }, 60 * 1000);
+    }, 60 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, [token]);
