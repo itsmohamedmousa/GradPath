@@ -113,32 +113,36 @@ function addCourse($pdo, $userId) {
 
         $courseId = $pdo->lastInsertId();
 
-        // Insert grade items if provided
         if (!empty($data['gradeItems']) && is_array($data['gradeItems'])) {
             $sqlItem = "INSERT INTO Grade_Item (course_id, title, score, weight, type) 
                         VALUES (:course_id, :title, :score, :weight, :type)";
             $stmtItem = $pdo->prepare($sqlItem);
 
             foreach ($data['gradeItems'] as $item) {
+                $title = (isset($item['title']) && $item['title'] !== '') ? $item['title'] : 'Untitled';
+                $weight = (isset($item['weight']) && $item['weight'] !== '') ? $item['weight'] : 0;
+                $score = (isset($item['score']) && $item['score'] !== '') ? $item['score'] : null;
+                $type = (isset($item['type']) && $item['type'] !== '') ? $item['type'] : 'Other';
+
                 $stmtItem->execute([
                     ':course_id' => $courseId,
-                    ':title'     => $item['title'],
-                    ':score'     => $item['score'],
-                    ':weight'    => $item['weight'],
-                    ':type'      => $item['type'] ?? null
+                    ':title'     => $title,
+                    ':score'     => $score,
+                    ':weight'    => $weight,
+                    ':type'      => $type
                 ]);
             }
         }
 
         $pdo->commit();
-        echo json_encode(['success' => true, 'message' => 'Course and grade items added']);
+        echo json_encode(['success' => true, 'message' => 'Course Added Successfully']);
 
     } catch (PDOException $e) {
         $pdo->rollBack();
         http_response_code(500);
         echo json_encode([
             'success' => false,
-            'message' => 'Failed to add course and grade items',
+            'message' => 'Failed to Add Course',
             'error' => $e->getMessage() // useful while debugging, remove in production
         ]);
     }
@@ -163,11 +167,11 @@ function editCourse($pdo, $userId) {
             ':status' => $data['status'],
             ':user_id' => $userId
         ]);
-        if ($stmt->rowCount() === 0) {
-            http_response_code(404);
-            echo json_encode(['success' => false, 'message' => 'Course not found or not authorized']);
-            return;
-        }
+        // if ($stmt->rowCount() === 0) {
+        //     http_response_code(404);
+        //     echo json_encode(['success' => false, 'message' => 'Course not found or not authorized']);
+        //     return;
+        // }
         echo json_encode(['success' => true, 'message' => 'Course updated']);
     } catch (PDOException $e) {
         http_response_code(500);

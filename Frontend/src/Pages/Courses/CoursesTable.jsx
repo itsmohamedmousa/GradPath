@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
 
-function CoursesTable() {
+function CoursesTable({ setEditCourseVisible }) {
   const { data: courses, refreshCourses } = useCourse();
   const [showConfirmModal, setShowConfirmModal] = useState({ courseId: null, show: false });
   const deleteCourse = async (id) => {
@@ -46,6 +46,7 @@ function CoursesTable() {
       } else {
         alert(result.message || 'Failed to update course.');
       }
+      setEditCourseVisible(false);
     } catch (err) {
       console.error('Edit error:', err);
       alert('Something went wrong.');
@@ -55,11 +56,11 @@ function CoursesTable() {
   return (
     <>
       <div className="mt-4 bg-transparent">
-        <h1 className="text-2xl font-bold mb-4 ml-4 font-[Playfair_Display]">
+        <h1 className="text-xl font-bold mb-3 ml-3">
           Registered Courses
         </h1>
         <div className="overflow-x-auto rounded-xl">
-          <table className="min-w-full bg-gray-100 text-black">
+          <table className="min-w-full bg-gray-50 text-black">
             <thead>
               <tr className="bg-gray-200 text-blue-600">
                 <th className="px-4 py-2 text-left">Course Name</th>
@@ -85,6 +86,7 @@ function CoursesTable() {
                         const newName = prompt('Edit course name:', course.name);
                         const newCredits = prompt('Edit credits:', course.credits);
                         const newGrade = prompt('Edit grade:', course.final_grade);
+                        setEditCourseVisible(true);
 
                         if (newName && newCredits && newGrade) {
                           editCourse({
