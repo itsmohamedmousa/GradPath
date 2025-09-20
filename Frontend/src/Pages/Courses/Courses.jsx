@@ -7,9 +7,10 @@ import { useState } from 'react';
 
 function Courses() {
   const { loadingCourses, errorCourses, refreshCourses } = useCourse();
-  const [ editCourseVisible, setEditCourseVisible ] = useState(false);
+  const [courseToEdit, setCourseToEdit] = useState({ visible: false, id: null });
 
   const editCourse = async (updatedCourse) => {
+    console.log('Course to edit:', courseToEdit);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/courses.php?action=edit`, {
         method: 'PUT',
@@ -24,10 +25,15 @@ function Courses() {
 
       if (response.ok && result.success) {
         refreshCourses();
+        setCourseToEdit((prev) => ({
+          ...prev,
+          visible: false,
+          id: null,
+        }));
+        alert('Course updated successfully.');
       } else {
         alert(result.message || 'Failed to update course.');
       }
-      setEditCourseVisible(false);
     } catch (err) {
       console.error('Edit error:', err);
       alert('Something went wrong.');
@@ -49,11 +55,11 @@ function Courses() {
 
   return (
     <>
-      <CoursesTable editCourse={editCourse} setEditCourseVisible={setEditCourseVisible} />
+      <CoursesTable editCourse={editCourse} setCourseToEdit={setCourseToEdit} />
       <EditCourse
         editCourse={editCourse}
-        editCourseVisible={editCourseVisible}
-        setEditCourseVisible={setEditCourseVisible}
+        courseToEdit={courseToEdit}
+        setCourseToEdit={setCourseToEdit}
       />
       <AddCourse />
     </>

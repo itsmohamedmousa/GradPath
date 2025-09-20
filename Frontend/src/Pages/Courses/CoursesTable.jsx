@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
 
-function CoursesTable({ setEditCourseVisible }) {
+function CoursesTable({ setCourseToEdit }) {
   const { data: courses, refreshCourses } = useCourse();
   const [showConfirmModal, setShowConfirmModal] = useState({ courseId: null, show: false });
   const deleteCourse = async (id) => {
@@ -28,37 +28,10 @@ function CoursesTable({ setEditCourseVisible }) {
     }
   };
 
-  const editCourse = async (updatedCourse) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/courses.php?action=edit`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(updatedCourse),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        refreshCourses();
-      } else {
-        alert(result.message || 'Failed to update course.');
-      }
-      setEditCourseVisible(false);
-    } catch (err) {
-      console.error('Edit error:', err);
-      alert('Something went wrong.');
-    }
-  };
-
   return (
     <>
       <div className="mt-4 bg-transparent">
-        <h1 className="text-xl font-bold mb-3 ml-3">
-          Registered Courses
-        </h1>
+        <h1 className="text-xl font-bold mb-3 ml-3">Registered Courses</h1>
         <div className="overflow-x-auto rounded-xl">
           <table className="min-w-full bg-gray-50 text-black">
             <thead>
@@ -83,20 +56,11 @@ function CoursesTable({ setEditCourseVisible }) {
                   <td className="px-4 py-2 flex gap-2 justify-center">
                     <button
                       onClick={() => {
-                        const newName = prompt('Edit course name:', course.name);
-                        const newCredits = prompt('Edit credits:', course.credits);
-                        const newGrade = prompt('Edit grade:', course.final_grade);
-                        setEditCourseVisible(true);
-
-                        if (newName && newCredits && newGrade) {
-                          editCourse({
-                            id: course.id,
-                            name: newName,
-                            credits: parseInt(newCredits),
-                            grade: newGrade,
-                            status: newGrade == null ? 'Registered' : newGrade >= 60 ? 'Passed' : 'Failed',
-                          });
-                        }
+                        setCourseToEdit((prev) => ({
+                          ...prev,
+                          visible: true,
+                          id: course.id,
+                        }));
                       }}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >

@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
         if (storedToken && storedUser) {
           // Validate token with backend (optional but recommended)
           const isValid = await validateToken(storedToken);
-          
+
           if (isValid) {
             setToken(storedToken);
             setUser(JSON.parse(storedUser));
@@ -49,16 +49,16 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
 
     const interval = setInterval(async () => {
-    if (token) {
-      const stillValid = await validateToken(token);
-      if (!stillValid) {
-        console.warn('Token expired or invalid — logging out.');
-        logout();
+      if (token) {
+        const stillValid = await validateToken(token);
+        if (!stillValid) {
+          console.warn('Token expired or invalid — logging out.');
+          logout();
+        }
       }
-    }
-  }, 60 * 1000);
+    }, 60 * 1000);
 
-  return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, [token]);
 
   // Validate token with backend
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
     setToken(userToken);
     setSessionId(userSessionId);
-    
+
     // Store in localStorage
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', userToken);
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ sessionId }),
         });
@@ -142,9 +142,5 @@ export const AuthProvider = ({ children }) => {
     clearAuthData,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
