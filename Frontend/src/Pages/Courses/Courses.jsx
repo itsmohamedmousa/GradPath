@@ -55,7 +55,7 @@ function Courses() {
 
   return (
     <>
-      <CoursesTable editCourse={editCourse} setCourseToEdit={setCourseToEdit} />
+      <CoursesTable setCourseToEdit={setCourseToEdit} />
       <EditCourse
         editCourse={editCourse}
         courseToEdit={courseToEdit}
