@@ -19,8 +19,8 @@ function Courses() {
     const gpa = courses.reduce(
       (acc, item) => acc + parseFloat(item.final_grade) * parseFloat(item.credits),
       0,
-    );
-    setCurrentGpa((gpa / sumOfCredits / 25).toFixed(2));
+    ) / sumOfCredits / 25;
+    setCurrentGpa(gpa.toFixed(2));
   }
 
   const editCourse = async (updatedCourse) => {
