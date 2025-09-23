@@ -12,7 +12,10 @@ function Courses() {
   const [currentGpa, setCurrentGpa] = useState(null);
 
   function calcCurrentGpa() {
-    const sumOfCredits = 10;
+    const sumOfCredits = courses.reduce(
+      (acc, item) => acc + parseFloat(item.credits),
+      0,
+    );
     const gpa = courses.reduce(
       (acc, item) => acc + parseFloat(item.final_grade) * parseFloat(item.credits),
       0,
@@ -21,7 +24,6 @@ function Courses() {
   }
 
   const editCourse = async (updatedCourse) => {
-    console.log('Course to edit:', courseToEdit);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/courses.php?action=edit`, {
         method: 'PUT',

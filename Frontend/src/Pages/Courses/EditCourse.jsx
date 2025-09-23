@@ -13,7 +13,6 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
   
   useEffect(() => {
     if (courseData?.grade_items) {
-      console.log('Course data grade items:', courseData.grade_items);
       setCourseId(courseData.id);
       setCourseName(courseData.name);
       setCredits(courseData.credits);
