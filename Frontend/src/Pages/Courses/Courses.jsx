@@ -12,14 +12,14 @@ function Courses() {
   const [currentGpa, setCurrentGpa] = useState(null);
 
   function calcCurrentGpa() {
-    const sumOfCredits = courses.reduce(
-      (acc, item) => acc + parseFloat(item.credits),
-      0,
-    );
-    const gpa = courses.reduce(
-      (acc, item) => acc + parseFloat(item.final_grade) * parseFloat(item.credits),
-      0,
-    ) / sumOfCredits / 25;
+    const sumOfCredits = courses.reduce((acc, item) => acc + parseFloat(item.credits), 0);
+    const gpa =
+      courses.reduce(
+        (acc, item) => acc + parseFloat(item.final_grade) * parseFloat(item.credits),
+        0,
+      ) /
+      sumOfCredits /
+      25;
     setCurrentGpa(gpa.toFixed(2));
   }
 
@@ -74,7 +74,11 @@ function Courses() {
         courseToEdit={courseToEdit}
         setCourseToEdit={setCourseToEdit}
       />
-      <CurrentGpa calcCurrentGpa={calcCurrentGpa} currentGpa={currentGpa} />
+      {courses.length > 0 ? (
+        <CurrentGpa calcCurrentGpa={calcCurrentGpa} currentGpa={currentGpa} />
+      ) : (
+        <div></div>
+      )}
       <AddCourse />
     </>
   );
