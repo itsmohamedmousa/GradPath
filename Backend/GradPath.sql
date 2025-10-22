@@ -20,25 +20,40 @@ CREATE TABLE Session (
     FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
+CREATE TABLE Semester (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    name VARCHAR(100) NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+);
+
 CREATE TABLE GPA (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
+    semester_id INT,
     current_gpa FLOAT,
     cumulative_gpa FLOAT,
     completed_credits INT,
-    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+    FOREIGN KEY (semester_id) REFERENCES Semester(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Course (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
+    semester_id INT,
     name VARCHAR(255),
     credits INT,
     status VARCHAR(50),
     final_grade FLOAT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+    FOREIGN KEY (semester_id) REFERENCES Semester(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Grade_Item (
