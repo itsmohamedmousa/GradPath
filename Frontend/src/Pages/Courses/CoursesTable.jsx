@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function CoursesTable({ setCourseToEdit }) {
   const { data: courses, refreshCourses } = useCourse();
-  const [showConfirmModal, setShowConfirmModal] = useState({ courseId: null, show: false });
+  const [showConfirmModal, setShowConfirmModal] = useState({ courseId: null, visible: false });
+  const { show } = useToastContext();
   const deleteCourse = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/courses.php?action=delete`, {
@@ -18,13 +20,14 @@ function CoursesTable({ setCourseToEdit }) {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        show('Course deleted successfully.', 'success');
         refreshCourses();
       } else {
-        alert(result.message || 'Failed to delete course.');
+        show(result.message || 'Failed to delete course.', 'error');
       }
     } catch (err) {
       console.error('Delete error:', err);
-      alert('Something went wrong.');
+      show('Something went wront.', 'error');
     }
   };
 
@@ -67,7 +70,7 @@ function CoursesTable({ setCourseToEdit }) {
                       Edit
                     </button>
                     <button
-                      onClick={() => setShowConfirmModal({ courseId: course.id, show: true })}
+                      onClick={() => setShowConfirmModal({ courseId: course.id, visible: true })}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
                       Delete
@@ -86,7 +89,7 @@ function CoursesTable({ setCourseToEdit }) {
           </table>
         </div>
       </div>
-      {showConfirmModal.show && (
+      {showConfirmModal.visible && (
         <>
           {/* Backdrop */}
           <div className="fixed inset-0 bg-black opacity-50 z-50 transition-opacity duration-300"></div>
@@ -108,7 +111,7 @@ function CoursesTable({ setCourseToEdit }) {
               <div className="flex justify-between space-x-4">
                 <button
                   onClick={() => {
-                    setShowConfirmModal(false);
+                    setShowConfirmModal({ courseId: null, visible: false });
                   }}
                   className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
                 >
@@ -116,7 +119,7 @@ function CoursesTable({ setCourseToEdit }) {
                 </button>
                 <button
                   onClick={() => {
-                    setShowConfirmModal({ courseId: null, show: true });
+                    setShowConfirmModal({ courseId: null, visible: true });
                     deleteCourse(showConfirmModal.courseId);
                   }}
                   className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function AddCourse() {
   const [courseName, setCourseName] = useState('');
@@ -9,6 +10,7 @@ function AddCourse() {
   ]);
   const [grade, setGrade] = useState(null);
   const { refreshCourses } = useCourse();
+  const { show } = useToastContext();
 
   const handleGradeItemChange = (index, field, value) => {
     const updated = [...gradeItems];
@@ -43,7 +45,7 @@ function AddCourse() {
     if (gradeItems.length > 0) {
       const totalWeight = gradeItems.reduce((acc, item) => acc + (parseFloat(item.weight) || 0), 0);
       if (totalWeight !== 100) {
-        alert('Total weight of grade items must equal 100%.');
+        show('Total weight of grade items must equal 100%.', 'warning');
         return;
       }
     }
@@ -60,14 +62,14 @@ function AddCourse() {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        show(result.message || 'Course Added Successfully.', 'success');
         refreshCourses();
-        alert(result.message || 'Course Added Successfully.');
       } else {
-        alert(result.message || 'Failed to Add Course.');
+        show(result.message || 'Failed to Add Course.', 'error');
       }
     } catch (err) {
       console.error('Add error:', err);
-      alert('Something went wrong.');
+      show('Something went wront.', 'error');
     }
   };
 

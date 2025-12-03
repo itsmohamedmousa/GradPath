@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
 import { X } from 'lucide-react';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
   const { data: courses } = useCourse();
@@ -10,9 +11,10 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
   const [credits, setCredits] = useState('');
   const [grade, setGrade] = useState(null);
   const [gradeItems, setGradeItems] = useState([]);
-  
+  const { show } = useToastContext();
+
   useEffect(() => {
-    if (courseData?.grade_items) {
+    if (courseData) {
       setCourseId(courseData.id);
       setCourseName(courseData.name);
       setCredits(courseData.credits);
@@ -166,7 +168,17 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
         <button
           type="submit"
           onClick={() => {
-            editCourse(newCourse);
+            if (gradeItems.length > 0) {
+              const totalWeight = gradeItems.reduce(
+                (acc, item) => acc + (parseFloat(item.weight) || 0),
+                0,
+              );
+              if (totalWeight !== 100) {
+                show('Total weight of grade items must equal 100%.', 'warning');
+                return;
+              }
+              editCourse(newCourse);
+            }
           }}
           className="w-full bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold"
         >

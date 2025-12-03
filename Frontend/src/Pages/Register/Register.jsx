@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import './Register.css';
 import useBootstrap from '../../hooks/useBootstrap';
 import { Eye, EyeOff } from 'lucide-react';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function Register() {
   useBootstrap();
@@ -13,10 +14,10 @@ function Register() {
   const [university, setUniversity] = useState('');
   const [major, setMajor] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [passwordHidden, setPasswordHidden] = useState(true);
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
+  const { show } = useToastContext();
 
   const checkPassword = (pass) => {
     if (password !== pass) {
@@ -32,18 +33,17 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     // Frontend validation
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      show('Passwords do not match', 'error');
       setLoading(false);
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      show('Password must be at least 6 characters long', 'warning')
       setLoading(false);
       return;
     }
@@ -70,16 +70,15 @@ function Register() {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
 
-        // Show success message
-        alert('Registration successful!');
+        show('Registration successful', 'success');
 
         navigate('/login');
       } else {
-        setError(data.message || 'Registration failed');
+        show(data.message || 'Registration failed', 'error');
       }
     } catch (error) {
       console.error('Registration error:', error);
-      setError('Network error. Please check if your backend server is running.');
+      show('Network error. PLease check if your backend server is running.');
     } finally {
       setLoading(false);
     }
@@ -91,12 +90,6 @@ function Register() {
         <img className="logo" src="/src/assets/Logo-no-bg-landscape.png" alt="logo" />
       </div>
       <h2 className="register-title text-center">Register</h2>
-
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
 
       <form className="register-form" onSubmit={handleSubmit}>
         <div className="form-group mb-4">

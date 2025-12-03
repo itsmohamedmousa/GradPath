@@ -5,11 +5,13 @@ import AddCourse from './AddCourse';
 import EditCourse from './EditCourse';
 import { useState } from 'react';
 import CurrentGpa from './CurrentGpa';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function Courses() {
   const { data: courses, loadingCourses, errorCourses, refreshCourses } = useCourse();
   const [courseToEdit, setCourseToEdit] = useState({ visible: false, id: null });
   const [currentGpa, setCurrentGpa] = useState(null);
+  const { show } = useToastContext();
 
   function calcCurrentGpa() {
     const sumOfCredits = courses.reduce((acc, item) => acc + parseFloat(item.credits), 0);
@@ -37,19 +39,18 @@ function Courses() {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        show('Courese updated successfully.', 'success');
         refreshCourses();
         setCourseToEdit((prev) => ({
           ...prev,
           visible: false,
           id: null,
         }));
-        alert('Course updated successfully.');
       } else {
-        alert(result.message || 'Failed to update course.');
+        show(result.message || 'Failed to update course.', 'error');
       }
     } catch (err) {
-      console.error('Edit error:', err);
-      alert('Something went wrong.');
+      show('Something went wront.', 'error');
     }
   };
 
@@ -69,6 +70,7 @@ function Courses() {
   return (
     <>
       <CoursesTable setCourseToEdit={setCourseToEdit} />
+      <button onClick={()=>show('test')}>Test</button>
       <EditCourse
         editCourse={editCourse}
         courseToEdit={courseToEdit}

@@ -1,9 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --color-primary: #007BFF;
+  --color-primary: #007bff;
   --primary-dark: #0056b3;
-  --back-white: #F6F7F9;
+  --back-white: #f6f7f9;
 }
 
 * {
@@ -12,4 +12,18 @@
 
 body {
   background-color: white !important;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.25s ease;
 }

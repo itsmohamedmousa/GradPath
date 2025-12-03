@@ -4,15 +4,16 @@ import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 import useBootstrap from '../../hooks/useBootstrap';
 import { Eye, EyeOff } from 'lucide-react';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function Login() {
   useBootstrap();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [passwordHidden, setPasswordHidden] = useState(true);
   const apiUrl = import.meta.env.VITE_API_URL;
+  const { show } = useToastContext();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,12 +35,11 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     // Basic frontend validation
     if (!username || !password) {
-      setError('Username and password are required');
+      show('Username and password are required', 'error');
       setLoading(false);
       return;
     }
@@ -65,11 +65,10 @@ function Login() {
         // Redirect to the page they were trying to access, or dashboard
         navigate(from, { replace: true });
       } else {
-        setError(data.message || 'Login failed');
+        show(data.message, 'error');
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Network error. Please check if your backend server is running.');
+      show('Network error. Please check if your backend server is running.', 'error');
     } finally {
       setLoading(false);
     }
@@ -81,11 +80,6 @@ function Login() {
         <img className="logo" src="/src/assets/Logo-no-bg-landscape.png" alt="logo" />
       </div>
       <h2 className="login-title text-center">Login</h2>
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group mb-4">
           <div className="form-floating">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function MessageCard({ message, type, duration = 3000 }) {
+export default function MessageCard({ message, type }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -8,10 +8,10 @@ export default function MessageCard({ message, type, duration = 3000 }) {
 
     const timer = setTimeout(() => {
       setVisible(false);
-    }, duration);
+    }, 5000);
 
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, [5000]);
 
   const colors = {
     success:
@@ -41,7 +41,7 @@ export default function MessageCard({ message, type, duration = 3000 }) {
       className={`p-2 rounded-lg flex items-center transform transition-all duration-300 ease-in-out
         ${color} 
         ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'}
-      `}
+      `}  
     >
       <svg
         stroke="currentColor"
@@ -57,9 +57,7 @@ export default function MessageCard({ message, type, duration = 3000 }) {
           strokeLinejoin="round"
         />
       </svg>
-      <p className="text-xs font-semibold">
-        {type.charAt(0).toUpperCase() + type.slice(1)} - {message}
-      </p>
+      <p className="text-xs font-semibold">{message}</p>
     </div>
   );
 }
