@@ -154,7 +154,7 @@ export default function UserProfile() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-6">
         <GpaChart />
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
