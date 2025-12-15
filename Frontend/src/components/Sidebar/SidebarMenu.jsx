@@ -108,9 +108,9 @@ function Sidebar({ isOpen, setIsOpen }) {
 
         {/* Footer */}
         <div className="absolute bottom-0 rounded-lg left-0 right-0 p-4 border-t border-gray-200">
-        {loadingProfile ? (
-          <LoaderText />
-        ) : (
+          {loadingProfile ? (
+            <LoaderText />
+          ) : (
             <div className="relative">
               <button
                 onClick={() => setMenuOpen((prev) => !prev)}
@@ -147,21 +147,21 @@ function Sidebar({ isOpen, setIsOpen }) {
                     : 'opacity-0 scale-95 translate-y-2 pointer-events-none'
                 }`}
               >
-                <Link
-                  to="/profile"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Edit Profile
+                <Link to="/" onClick={() => setMenuOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Change Password
                 </Link>
                 <button
-                  onClick={() => setShowConfirmModal(true)}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setShowConfirmModal(true);
+                  }}
                   className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                 >
                   Logout
                 </button>
               </div>
             </div>
-        )}
+          )}
         </div>
       </div>
       {showConfirmModal && (

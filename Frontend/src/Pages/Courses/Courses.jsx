@@ -70,7 +70,6 @@ function Courses() {
   return (
     <>
       <CoursesTable setCourseToEdit={setCourseToEdit} />
-      <button onClick={()=>show('test')}>Test</button>
       <EditCourse
         editCourse={editCourse}
         courseToEdit={courseToEdit}
