@@ -6,7 +6,7 @@ CREATE TABLE User (
     profile_pic VARCHAR(255),
     university VARCHAR(255),
     major VARCHAR(255),
-    total_credits INT DEFAULT 0,
+    total_credits INT DEFAULT 0, -- for profile display only
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -22,24 +22,27 @@ CREATE TABLE Session (
 
 CREATE TABLE Semester (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    name VARCHAR(100) NOT NULL,
-    start_date DATE,
-    end_date DATE,
+    user_id INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE DEFAULT NULL,
+    status ENUM('active', 'ended') DEFAULT 'active',
+    semester_gpa DECIMAL(3,2) DEFAULT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id)
+        REFERENCES User(id)
+        ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX uq_user_semester_name ON Semester(user_id, name);
 
 CREATE TABLE GPA (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    semester_id INT,
-    current_gpa FLOAT,
-    cumulative_gpa FLOAT,
-    completed_credits INT,
-    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
-    FOREIGN KEY (semester_id) REFERENCES Semester(id) ON DELETE CASCADE
+    user_id INT NOT NULL UNIQUE,
+    cumulative_gpa DECIMAL(3,2) DEFAULT 0.00,
+    completed_credits INT DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Course (

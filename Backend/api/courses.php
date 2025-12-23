@@ -17,13 +17,9 @@ if ($method === 'OPTIONS') {
 $user = requireAuth();
 $userId = $user->userId;
 
-try {
-    if (!$userId) {
-        throw new Exception('User ID missing in token');
-    }
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Invalid or expired token']);
+if (!$userId) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'User ID missing in token']);
     exit;
 }
 
@@ -34,41 +30,92 @@ function getJSONInput()
     return json_decode(file_get_contents("php://input"), true);
 }
 
+function getCurrentSemesterName()
+{
+    $month = (int) date('n');
+    $year = date('Y');
+    if ($month >= 1 && $month <= 5)
+        return "Spring $year";
+    if ($month >= 6 && $month <= 8)
+        return "Summer $year";
+    return "Fall $year";
+}
+
+function getOrCreateActiveSemester($pdo, $userId)
+{
+    $stmt = $pdo->prepare("
+        SELECT id
+        FROM Semester
+        WHERE user_id = ? AND status = 'active'
+        LIMIT 1
+    ");
+    $stmt->execute([$userId]);
+    $semester = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($semester) {
+        return $semester['id'];
+    }
+
+    $name = getCurrentSemesterName();
+
+    $stmt = $pdo->prepare("
+        SELECT id
+        FROM Semester
+        WHERE user_id = ? AND name = ?
+        LIMIT 1
+    ");
+    $stmt->execute([$userId, $name]);
+    $existingSemester = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($existingSemester) {
+        $stmt = $pdo->prepare("
+            UPDATE Semester
+            SET status = 'active'
+            WHERE id = ?
+        ");
+        $stmt->execute([$existingSemester['id']]);
+
+        return $existingSemester['id'];
+    }
+
+    $stmt = $pdo->prepare("
+        INSERT INTO Semester (user_id, name, start_date, status)
+        VALUES (?, ?, CURDATE(), 'active')
+    ");
+    $stmt->execute([$userId, $name]);
+
+    return $pdo->lastInsertId();
+}
+
+
+/* ------------------- CRUD ------------------- */
 switch ($method) {
     case 'GET':
-        if ($action === 'allCourses') {
+        if ($action === 'allCourses')
             getAllCourses($GLOBALS['pdo'], $userId);
-        } else {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Invalid GET action']);
-        }
+        else
+            http_response_code(400) && exit(json_encode(['success' => false, 'message' => 'Invalid GET action']));
         break;
 
     case 'POST':
-        if ($action === 'add') {
+        if ($action === 'add')
             addCourse($GLOBALS['pdo'], $userId);
-        } else {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Invalid POST action']);
-        }
+        else
+            http_response_code(400) && exit(json_encode(['success' => false, 'message' => 'Invalid POST action']));
         break;
 
     case 'PUT':
-        if ($action === 'edit') {
+        if ($action === 'edit')
             editCourse($GLOBALS['pdo'], $userId);
-        } else {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Invalid PUT action']);
-        }
+        else
+            http_response_code(400) && exit(json_encode(['success' => false, 'message' => 'Invalid PUT action']));
         break;
 
     case 'DELETE':
-        if ($action === 'delete') {
+        if ($action === 'delete')
             deleteCourse($GLOBALS['pdo'], $userId);
-        } else {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Invalid DELETE action']);
-        }
+        else
+            http_response_code(400) && exit(json_encode(['success' => false, 'message' => 'Invalid DELETE action']));
         break;
 
     default:
@@ -77,10 +124,11 @@ switch ($method) {
         break;
 }
 
+/* ------------------- FUNCTIONS ------------------- */
 function getAllCourses($pdo, $userId)
 {
     try {
-        $stmt = $pdo->prepare("SELECT * FROM Course WHERE user_id = :user_id");
+        $stmt = $pdo->prepare("SELECT c.* FROM Course c JOIN Semester s ON c.semester_id = s.id WHERE c.user_id = :user_id AND s.status = 'active'");
         $stmt->execute([':user_id' => $userId]);
         $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -92,28 +140,22 @@ function getAllCourses($pdo, $userId)
             $gradeItems = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($courses as &$course) {
-                // force reindex so it's always a clean array
                 $course['grade_items'] = array_values(
                     array_filter($gradeItems, fn($g) => $g['course_id'] == $course['id'])
                 );
             }
-        } else {
-            // if no courses, just return empty array
-            $courses = [];
         }
 
         echo json_encode(['success' => true, 'data' => $courses]);
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to fetch courses']);
+        echo json_encode(['success' => false, 'message' => 'Failed to fetch courses', 'error' => $e->getMessage()]);
     }
 }
-
 
 function addCourse($pdo, $userId)
 {
     $data = getJSONInput();
-
     if (!isset($data['name'], $data['credits'])) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
@@ -122,60 +164,44 @@ function addCourse($pdo, $userId)
 
     $pdo->beginTransaction();
     try {
-        // Insert course
-        $sql = "INSERT INTO Course (name, credits, final_grade, status, user_id) 
-                VALUES (:name, :credits, :final_grade, :status, :user_id)";
-        $stmt = $pdo->prepare($sql);
+        $semesterId = getOrCreateActiveSemester($pdo, $userId);
+        $stmt = $pdo->prepare("INSERT INTO Course (name, credits, final_grade, status, user_id, semester_id) 
+                               VALUES (:name, :credits, :final_grade, :status, :user_id, :semester_id)");
         $stmt->execute([
             ':name' => $data['name'],
             ':credits' => $data['credits'],
             ':final_grade' => $data['final_grade'] ?? 0,
-            ':status' => $data['status'],
-            ':user_id' => $userId
+            ':status' => $data['status'] ?? 'in_progress',
+            ':user_id' => $userId,
+            ':semester_id' => $semesterId
         ]);
-
         $courseId = $pdo->lastInsertId();
 
         if (!empty($data['gradeItems']) && is_array($data['gradeItems'])) {
-            $sqlItem = "INSERT INTO Grade_Item (course_id, title, score, weight, type) 
-                        VALUES (:course_id, :title, :score, :weight, :type)";
-            $stmtItem = $pdo->prepare($sqlItem);
-
+            $stmtItem = $pdo->prepare("INSERT INTO Grade_Item (course_id, title, score, weight, type) VALUES (:course_id, :title, :score, :weight, :type)");
             foreach ($data['gradeItems'] as $item) {
-                $title = (isset($item['title']) && $item['title'] !== '') ? $item['title'] : 'Untitled';
-                $weight = (isset($item['weight']) && $item['weight'] !== '') ? $item['weight'] : 0;
-                $score = (isset($item['score']) && $item['score'] !== '') ? $item['score'] : null;
-                $type = (isset($item['type']) && $item['type'] !== '') ? $item['type'] : 'Other';
-
                 $stmtItem->execute([
                     ':course_id' => $courseId,
-                    ':title' => $title,
-                    ':score' => $score,
-                    ':weight' => $weight,
-                    ':type' => $type
+                    ':title' => $item['title'] ?? 'Untitled',
+                    ':score' => $item['score'] ?? null,
+                    ':weight' => $item['weight'] ?? 0,
+                    ':type' => $item['type'] ?? 'Other'
                 ]);
             }
         }
 
         $pdo->commit();
         echo json_encode(['success' => true, 'message' => 'Course Added Successfully']);
-
     } catch (PDOException $e) {
         $pdo->rollBack();
         http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to Add Course',
-            'error' => $e->getMessage() // useful while debugging, remove in production
-        ]);
+        echo json_encode(['success' => false, 'message' => 'Failed to Add Course', 'error' => $e->getMessage()]);
     }
 }
-
 
 function editCourse($pdo, $userId)
 {
     $data = getJSONInput();
-
     if (!isset($data['id'], $data['name'], $data['credits'])) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
@@ -184,16 +210,14 @@ function editCourse($pdo, $userId)
 
     $pdo->beginTransaction();
     try {
-        // 1. Update the course
-        $sql = "UPDATE Course 
-                SET name = :name, credits = :credits, final_grade = :final_grade, status = :status 
-                WHERE id = :id AND user_id = :user_id";
-        $stmt = $pdo->prepare($sql);
+        $stmt = $pdo->prepare("UPDATE Course 
+                               SET name = :name, credits = :credits, final_grade = :final_grade, status = :status
+                               WHERE id = :id AND user_id = :user_id AND semester_id IN (SELECT id FROM Semester WHERE user_id = :user_id AND status = 'active')");
         $stmt->execute([
             ':name' => $data['name'],
             ':credits' => $data['credits'],
             ':final_grade' => $data['final_grade'] ?? 0,
-            ':status' => $data['status'],
+            ':status' => $data['status'] ?? 'in_progress',
             ':id' => $data['id'],
             ':user_id' => $userId
         ]);
@@ -205,28 +229,18 @@ function editCourse($pdo, $userId)
             return;
         }
 
-        // 2. Update grade items: simple approach is to delete existing and re-insert
-        $sqlDelete = "DELETE FROM Grade_Item WHERE course_id = :course_id";
-        $stmtDelete = $pdo->prepare($sqlDelete);
+        $stmtDelete = $pdo->prepare("DELETE FROM Grade_Item WHERE course_id = :course_id");
         $stmtDelete->execute([':course_id' => $data['id']]);
 
         if (!empty($data['gradeItems']) && is_array($data['gradeItems'])) {
-            $sqlInsert = "INSERT INTO Grade_Item (course_id, title, score, weight, type) 
-                          VALUES (:course_id, :title, :score, :weight, :type)";
-            $stmtInsert = $pdo->prepare($sqlInsert);
-
+            $stmtInsert = $pdo->prepare("INSERT INTO Grade_Item (course_id, title, score, weight, type) VALUES (:course_id, :title, :score, :weight, :type)");
             foreach ($data['gradeItems'] as $item) {
-                $title = (isset($item['title']) && $item['title'] !== '') ? $item['title'] : 'Untitled';
-                $weight = (isset($item['weight']) && $item['weight'] !== '') ? $item['weight'] : 0;
-                $score = (isset($item['score']) && $item['score'] !== '') ? $item['score'] : null;
-                $type = (isset($item['type']) && $item['type'] !== '') ? $item['type'] : 'Other';
-
                 $stmtInsert->execute([
                     ':course_id' => $data['id'],
-                    ':title' => $title,
-                    ':score' => $score,
-                    ':weight' => $weight,
-                    ':type' => $type
+                    ':title' => $item['title'] ?? 'Untitled',
+                    ':score' => $item['score'] ?? null,
+                    ':weight' => $item['weight'] ?? 0,
+                    ':type' => $item['type'] ?? 'Other'
                 ]);
             }
         }
@@ -236,11 +250,7 @@ function editCourse($pdo, $userId)
     } catch (PDOException $e) {
         $pdo->rollBack();
         http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to update course',
-            'error' => $e->getMessage()
-        ]);
+        echo json_encode(['success' => false, 'message' => 'Failed to update course', 'error' => $e->getMessage()]);
     }
 }
 
@@ -253,17 +263,20 @@ function deleteCourse($pdo, $userId)
         echo json_encode(['success' => false, 'message' => 'Missing course ID']);
         return;
     }
+
     try {
-        $stmt = $pdo->prepare("DELETE FROM Course WHERE id = :id AND user_id = :user_id");
+        $stmt = $pdo->prepare("DELETE FROM Course WHERE id = :id AND user_id = :user_id AND semester_id IN (SELECT id FROM Semester WHERE user_id = :user_id AND status = 'active')");
         $stmt->execute([':id' => $id, ':user_id' => $userId]);
+
         if ($stmt->rowCount() === 0) {
             http_response_code(404);
             echo json_encode(['success' => false, 'message' => 'Course not found or not authorized']);
             return;
         }
+
         echo json_encode(['success' => true, 'message' => 'Course deleted']);
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to delete course']);
+        echo json_encode(['success' => false, 'message' => 'Failed to delete course', 'error' => $e->getMessage()]);
     }
 }

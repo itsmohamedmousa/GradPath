@@ -18,7 +18,7 @@ $user = requireAuth();
 $userId = $user->userId;
 
 try {
-  $stmt = $pdo->prepare("SELECT user_id, current_gpa, cumulative_gpa, completed_credits FROM GPA WHERE user_id = ?");
+  $stmt = $pdo->prepare("SELECT user_id, cumulative_gpa, completed_credits FROM GPA WHERE user_id = ?");
   $stmt->execute([$userId]);
   $gpa = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (Exception $e) {

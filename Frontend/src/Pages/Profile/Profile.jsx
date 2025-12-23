@@ -5,10 +5,12 @@ import GpaChart from '../Dashboard/GpaChart';
 import { useProfile } from '../../contexts/ProfileContext';
 import { useGpa } from '../../contexts/GpaContext';
 import Loader2 from '../../components/Loader/Loader2';
+import { useCourse } from '../../contexts/CourseContext';
 
 export default function UserProfile() {
   const { data: profileData, loadingProfile, errorProfile, refreshProfile } = useProfile();
-  const { loadingGpa, errorGpa } = useGpa();
+  const { loadingGpa, errorGpa, refreshGpa } = useGpa();
+  const { refreshCourses } = useCourse();
   const { show } = useToastContext();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -20,7 +22,6 @@ export default function UserProfile() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const fileInputRef = useRef(null);
-  const [uploading, setUploading] = useState(false);
   const [editForm, setEditForm] = useState({
     username: username,
     email: email,
@@ -69,9 +70,33 @@ export default function UserProfile() {
     }
   }, [profileData]);
 
-  const confirmEndSemester = () => {
-    show('Semester ended successfully! GPA and credits updated.', 'success');
-    setShowConfirmModal(false);
+  const confirmEndSemester = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/semester.php`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        show(data.message, 'error');
+        return;
+      }
+
+      show(
+        `Semester ended! GPA: ${data.current_semester_gpa}, Cumulative: ${data.cumulative_gpa}`,
+        'success',
+      );
+
+      refreshProfile(); 
+      refreshGpa();
+      refreshCourses();
+    } catch (err) {
+      show('Failed to end semester', 'error');
+    }
   };
 
   const handleEditProfile = () => {
@@ -151,7 +176,7 @@ export default function UserProfile() {
           <img
             src={profilePic}
             alt="Profile"
-            className="w-24 h-24 rounded-full border-4 border-gray-100"
+            className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
           />
           <div className="flex-1 text-center sm:text-left">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">{username}</h2>
