@@ -117,7 +117,11 @@ function Sidebar({ isOpen, setIsOpen }) {
                 className="flex items-center space-x-3 p-3 rounded-lg w-full"
               >
                 <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                  <User size={16} className="text-gray-600" />
+                  {user.profile_pic === '' ? (
+                    <User size={16} className="text-gray-600" />
+                  ) : (
+                    <img src={user.profile_pic} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0 text-left">
                   <p className="text-sm font-medium text-gray-900 truncate">

@@ -14,6 +14,7 @@ dist-ssr
 Frontend/.env
 Backend/.env
 Backend/vendor
+Backend/api/public
 
 # Editor directories and files
 .vscode/*

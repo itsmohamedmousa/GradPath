@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Mail, GraduationCap, Building2, Award, Edit2, Camera } from 'lucide-react';
 import { useToastContext } from '../../contexts/ToastContext';
 import GpaChart from '../Dashboard/GpaChart';
@@ -19,6 +19,8 @@ export default function UserProfile() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const fileInputRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
   const [editForm, setEditForm] = useState({
     username: username,
     email: email,
@@ -27,6 +29,33 @@ export default function UserProfile() {
     totalCredits: totalCredits,
     profilePic: profilePic,
   });
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/upload.php`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Upload failed');
+
+      setEditForm((prev) => ({
+        ...prev,
+        profilePic: data.imageUrl,
+      }));
+    } catch (err) {
+      console.error(err);
+      show(err.message || 'Image upload failed', 'error');
+    }
+  };
 
   useEffect(() => {
     if (profileData && profileData.profile) {
@@ -78,6 +107,7 @@ export default function UserProfile() {
       const result = await response.json();
 
       if (result.success) {
+        setProfilePic(editForm.profilePic);
         refreshProfile();
         setShowEditModal(false);
         show('Profile updated successfully!', 'success');
@@ -158,7 +188,7 @@ export default function UserProfile() {
         <GpaChart />
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Semester Actions</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">Actions</h3>
           <div className="space-y-4">
             <button
               onClick={() => setShowConfirmModal(true)}
@@ -166,6 +196,9 @@ export default function UserProfile() {
             >
               End Semester
             </button>
+            <p className="text-sm text-gray-600">
+              Click this button to finalize your semester grades and update your cumulative GPA.
+            </p>
 
             <button
               onClick={() => setShowDeleteModal(true)}
@@ -173,10 +206,6 @@ export default function UserProfile() {
             >
               Delete Account
             </button>
-
-            <p className="text-sm text-gray-600">
-              Click this button to finalize your semester grades and update your cumulative GPA.
-            </p>
           </div>
         </div>
       </div>
@@ -207,10 +236,20 @@ export default function UserProfile() {
                     alt="Profile"
                     className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-gray-100 object-cover"
                   />
-                  <button className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                  <button
+                    onClick={() => fileInputRef.current.click()}
+                    className="cursor-pointer text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                  >
                     <Camera className="w-4 h-4" />
                     Change Photo
                   </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
                 </div>
 
                 {/* Form Fields */}
