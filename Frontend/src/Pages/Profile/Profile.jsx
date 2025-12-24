@@ -87,7 +87,7 @@ export default function UserProfile() {
         show(data.message, 'error');
         return;
       }
-      console.log('End Semester Response:', data);
+
       show(
         `Semester ended! GPA: ${data.semester_gpa}, Cumulative: ${data.cumulative_gpa}`,
         'success',
