@@ -17,7 +17,7 @@ export default function UserProfile() {
   const [major, setMajor] = useState('');
   const [university, setUniversity] = useState('');
   const [totalCredits, setTotalCredits] = useState(0);
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState('https://api.dicebear.com/7.x/avataaars/svg?seed=John');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
