@@ -12,12 +12,16 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProfile } from '../../contexts/ProfileContext';
 import LoaderText from '../Loader/LoaderText';
+import ChangePasswordModal from './ChangePasswordModal';
+import { useToastContext } from '../../contexts/ToastContext';
 
 function Sidebar({ isOpen, setIsOpen }) {
   const { data: profileData, loadingProfile, errorProfile } = useProfile();
   const user = profileData.profile;
+  const { show } = useToastContext();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [PasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [menuItems] = useState([
     { icon: Home, label: 'Dashboard', href: '/dashboard' },
     { icon: BookOpen, label: 'Courses', href: '/courses' },
@@ -27,6 +31,28 @@ function Sidebar({ isOpen, setIsOpen }) {
   ]);
   const location = useLocation().pathname;
   const { logout } = useAuth();
+
+  const handleChangePassword = async ({ currentPassword, newPassword }) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/change-password.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || 'Password change failed');
+
+      setPasswordModalOpen(false);
+
+      show(data.message || 'Password changed successfully', "success");
+    } catch (error) {
+      show(error.message || 'Error changing password', 'error');}
+  };
 
   return (
     <>
@@ -120,7 +146,11 @@ function Sidebar({ isOpen, setIsOpen }) {
                   {user.profile_pic === null ? (
                     <User size={16} className="text-gray-600" />
                   ) : (
-                    <img src={user.profile_pic} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
+                    <img
+                      src={user.profile_pic}
+                      alt="Profile"
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
                   )}
                 </div>
                 <div className="flex-1 min-w-0 text-left">
@@ -151,9 +181,15 @@ function Sidebar({ isOpen, setIsOpen }) {
                     : 'opacity-0 scale-95 translate-y-2 pointer-events-none'
                 }`}
               >
-                <Link to="/" onClick={() => setMenuOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setPasswordModalOpen(true);
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                >
                   Change Password
-                </Link>
+                </button>
                 <button
                   onClick={() => {
                     setMenuOpen(false);
@@ -168,6 +204,12 @@ function Sidebar({ isOpen, setIsOpen }) {
           )}
         </div>
       </div>
+      {PasswordModalOpen && (
+        <ChangePasswordModal
+          onClose={() => setPasswordModalOpen(false)}
+          onSubmit={handleChangePassword}
+        />
+      )}
       {showConfirmModal && (
         <>
           {/* Backdrop */}
