@@ -6,11 +6,13 @@ import { useProfile } from '../../contexts/ProfileContext';
 import { useGpa } from '../../contexts/GpaContext';
 import Loader2 from '../../components/Loader/Loader2';
 import { useCourse } from '../../contexts/CourseContext';
+import { useSemester } from '../../contexts/SemesterContext';
 
 export default function UserProfile() {
   const { data: profileData, loadingProfile, errorProfile, refreshProfile } = useProfile();
   const { loadingGpa, errorGpa, refreshGpa } = useGpa();
   const { refreshCourses } = useCourse();
+  const { currentSemester, refreshSemester } = useSemester();
   const { show } = useToastContext();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -85,15 +87,16 @@ export default function UserProfile() {
         show(data.message, 'error');
         return;
       }
-
+      console.log('End Semester Response:', data);
       show(
-        `Semester ended! GPA: ${data.current_semester_gpa}, Cumulative: ${data.cumulative_gpa}`,
+        `Semester ended! GPA: ${data.semester_gpa}, Cumulative: ${data.cumulative_gpa}`,
         'success',
       );
 
       refreshProfile(); 
       refreshGpa();
       refreshCourses();
+      refreshSemester();
     } catch (err) {
       show('Failed to end semester', 'error');
     }

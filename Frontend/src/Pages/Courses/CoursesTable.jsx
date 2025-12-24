@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
 import { useToastContext } from '../../contexts/ToastContext';
+import { useSemester } from '../../contexts/SemesterContext';
 
 function CoursesTable({ setCourseToEdit }) {
   const { data: courses, refreshCourses } = useCourse();
+  const { currentSemester } = useSemester();
+  const [semesterName, setSemesterName] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState({ courseId: null, visible: false });
   const { show } = useToastContext();
+
+  useEffect(() => {
+    if (currentSemester && currentSemester.name) {
+      setSemesterName(currentSemester.name);
+    }
+  }, []);
+
   const deleteCourse = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/courses.php?action=delete`, {
@@ -34,7 +44,9 @@ function CoursesTable({ setCourseToEdit }) {
   return (
     <>
       <div className="mt-4 bg-transparent">
-        <h1 className="text-xl font-bold mb-3 ml-3">Registered Courses</h1>
+        <h1 className="text-xl font-bold mb-3 ml-3">
+          Registered Courses {semesterName ? ` - ${semesterName}` : ''}
+        </h1>
         <div className="overflow-x-auto rounded-xl">
           <table className="min-w-full bg-gray-50 text-black">
             <thead>

@@ -1,10 +1,16 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
+import { useSemester } from '../../contexts/SemesterContext';
 
 function CurrentGpa({ calcCurrentGpa, currentGpa }) {
+  const {currentSemester} = useSemester();
+  const [semesterName, setSemesterName] = useState('');
 
   useEffect(() => {
     calcCurrentGpa();
+    if (currentSemester && currentSemester.name) {
+      setSemesterName(currentSemester.name);
+    }
   }, []);
 
   const gpaChartData = [
@@ -58,7 +64,8 @@ function CurrentGpa({ calcCurrentGpa, currentGpa }) {
           dominantBaseline="middle"
           style={{ fontSize: '16px', fontWeight: 'bold' }}
         >
-          Current GPA
+          Current Semester GPA
+          {semesterName ? ` - ${semesterName}` : ''}
         </text>
         <Pie
           dataKey="value"

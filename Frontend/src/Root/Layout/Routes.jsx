@@ -17,6 +17,7 @@ import { NotesProvider } from '../../contexts/NotesContext';
 import { EventProvider } from '../../contexts/EventContext';
 import { ToastProvider, useToastContext } from '../../contexts/ToastContext';
 import MessageCard from '../../components/Cards/MessageCard';
+import { SemesterProvider } from '../../contexts/SemesterContext';
 
 function ToastOutlet() {
   const { toasts } = useToastContext();
@@ -50,7 +51,9 @@ const AppRoutes = () => {
                       <GpaProvider>
                         <NotesProvider>
                           <EventProvider>
+                            <SemesterProvider>
                             <Layout />
+                            </SemesterProvider>
                           </EventProvider>
                         </NotesProvider>
                       </GpaProvider>
