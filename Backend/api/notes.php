@@ -224,6 +224,58 @@ if ($method === 'DELETE') {
   exit;
 }
 
+// POST - Create a new note
+if ($method === 'POST') {
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  if (!isset($data['title']) || !isset($data['content'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Title and content are required']);
+    exit;
+  }
+
+  try {
+    // Start transaction
+    $pdo->beginTransaction();
+
+    // Insert note
+    $stmt = $pdo->prepare("INSERT INTO Notes (user_id, title, content, subject) VALUES (?, ?, ?, ?)");
+    $stmt->execute([
+      $userId,
+      $data['title'],
+      $data['content'],
+      $data['subject'] ?? null
+    ]);
+
+    $noteId = $pdo->lastInsertId();
+
+    // Add tags if provided
+    if (isset($data['tags']) && is_array($data['tags'])) {
+      updateNoteTags($pdo, $noteId, $data['tags']);
+    }
+
+    // Commit transaction
+    $pdo->commit();
+
+    // Fetch and return the created note with tags
+    $stmt = $pdo->prepare("SELECT id, user_id, title, content, subject, created_at, updated_at FROM Notes WHERE id = ?");
+    $stmt->execute([$noteId]);
+    $createdNote = $stmt->fetch(PDO::FETCH_ASSOC);
+    $createdNote['tags'] = getNoteTags($pdo, $noteId);
+
+    echo json_encode([
+      'success' => true,
+      'message' => 'Note created successfully',
+      'note' => $createdNote
+    ]);
+  } catch (Exception $e) {
+    $pdo->rollBack();
+    http_response_code(500);
+    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+  }
+  exit;
+}
+
 // If method is not supported
 http_response_code(405);
 echo json_encode(['error' => 'Method not allowed']);

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, Calendar, BookOpen, SortAsc, SortDesc, Tag } from 'lucide-react';
+import { Search, Calendar, BookOpen, SortAsc, SortDesc, Tag, Plus } from 'lucide-react';
 import NoteCard from '../../components/NoteCard';
 import { useNotes } from '../../contexts/NotesContext';
 import Loader2 from '../../components/Loader/Loader2';
@@ -93,11 +93,20 @@ function Notes() {
     <div className="min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">My Notes</h1>
-          <p className="text-gray-600">
-            {filteredNotes.length} {filteredNotes.length === 1 ? 'note' : 'notes'} found
-          </p>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">My Notes</h1>
+            <p className="text-gray-600">
+              {filteredNotes.length} {filteredNotes.length === 1 ? 'note' : 'notes'} found
+            </p>
+          </div>
+          <button
+            onClick={() => navigate('/notes/create')}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center sm:justify-start"
+          >
+            <Plus className="w-5 h-5" />
+            Create Note
+          </button>
         </div>
 
         {/* Filters Section */}
