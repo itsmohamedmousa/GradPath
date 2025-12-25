@@ -18,6 +18,7 @@ import { EventProvider } from '../../contexts/EventContext';
 import { ToastProvider, useToastContext } from '../../contexts/ToastContext';
 import MessageCard from '../../components/Cards/MessageCard';
 import { SemesterProvider } from '../../contexts/SemesterContext';
+import NotePage from '../../Pages/Notes/NotePage';
 
 function ToastOutlet() {
   const { toasts } = useToastContext();
@@ -66,6 +67,7 @@ const AppRoutes = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/notes" element={<Notes />} />
+              <Route path="/notes/:noteTitle" element={<NotePage />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
