@@ -11,15 +11,27 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
   const { show } = useToastContext();
 
   const handleSubmit = (e) => {
-    if (confirmPassword !== newPassword) {
-      show('New password and confirmation do not match', 'warning');
-      return;
-    }else if (newPassword.length < 6) {
-      show('New password must be at least 6 characters long', 'warning');
+    e.preventDefault();
+
+    const error = getErrorMessage();
+    if (error) {
+      show(error, 'warning');
       return;
     }
-    e.preventDefault();
+
     onSubmit({ currentPassword, newPassword });
+  };
+
+  const isInvalid =
+    (newPassword.length > 0 && newPassword.length < 6) ||
+    (confirmPassword.length > 0 && newPassword !== confirmPassword);
+
+  const getErrorMessage = () => {
+    if (!currentPassword) return 'Current password is required';
+    if (!newPassword) return 'New password is required';
+    if (newPassword !== confirmPassword) return 'New password and confirmation do not match';
+    if (newPassword.length < 6) return 'Password must be at least 6 characters long';
+    return null;
   };
 
   return (
@@ -28,93 +40,100 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
       <div className="fixed inset-0 bg-black opacity-50 z-50" onClick={onClose} />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
         <div
-          className="bg-white rounded-lg shadow-xl p-6 w-80 text-center"
-          style={{
-            animation: 'popUp 0.3s ease forwards',
-          }}
+          className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center"
+          style={{ animation: 'popUp 0.25s ease forwards' }}
         >
-          <h2 className="text-lg font-semibold mb-4">Change Password</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-5">Change Password</h2>
 
           {/* Current Password */}
-          <div className="flex flex-col text-left relative">
+          <div className="relative mb-4">
             <input
               type={currentHidden ? 'password' : 'text'}
               placeholder="Current password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded text-sm"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                         transition"
             />
             <div
-              className="absolute right-2 inset-y-0 flex items-center cursor-pointer text-gray-500"
+              className="absolute right-3 inset-y-0 flex items-center cursor-pointer text-gray-400 hover:text-gray-600 transition"
               onClick={() => setCurrentHidden(!currentHidden)}
             >
-              {currentHidden ? <EyeOff /> : <Eye />}
+              {currentHidden ? <EyeOff size={18} /> : <Eye size={18} />}
             </div>
           </div>
 
           {/* New Password */}
-          <div className="flex flex-col text-left relative">
+          <div className="relative mb-4">
             <input
               type={newHidden ? 'password' : 'text'}
               placeholder="New password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className={`w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 ${
-                newPassword.length < 6 ||
-                (newPassword && confirmPassword && newPassword !== confirmPassword)
-                  ? 'border-red-500 ring-red-500'
-                  : 'border-gray-300 focus:ring-blue-500'
-              }`}
+              className={`w-full px-3 py-2.5 border rounded-md text-sm
+                          focus:outline-none focus:ring-2 transition
+                ${
+                  newPassword.length > 0 && isInvalid
+                    ? 'border-red-400 focus:ring-red-400'
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                }`}
             />
             <div
-              className="absolute right-2 inset-y-0 flex items-center cursor-pointer text-gray-500"
+              className="absolute right-3 inset-y-0 flex items-center cursor-pointer text-gray-400 hover:text-gray-600 transition"
               onClick={() => setNewHidden(!newHidden)}
             >
-              {newHidden ? <EyeOff /> : <Eye />}
+              {newHidden ? <EyeOff size={18} /> : <Eye size={18} />}
             </div>
           </div>
 
           {/* Confirm New Password */}
-          <div className="flex flex-col text-left relative">
+          <div className="relative mb-6">
             <input
-              type={newHidden ? 'password' : 'text'} // same as newPassword
+              type={newHidden ? 'password' : 'text'}
               placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 ${
-                newPassword.length < 6 ||
-                (newPassword && confirmPassword && newPassword !== confirmPassword)
-                  ? 'border-red-500 ring-red-500'
-                  : 'border-gray-300 focus:ring-blue-500'
-              }`}
+              className={`w-full px-3 py-2.5 border rounded-md text-sm
+                          focus:outline-none focus:ring-2 transition
+                ${
+                  confirmPassword.length > 0 && isInvalid
+                    ? 'border-red-400 focus:ring-red-400'
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                }`}
             />
           </div>
 
-          <div className="flex justify-between space-x-4">
+          <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+              className="flex-1 py-2.5 text-sm rounded-md
+                         bg-gray-100 hover:bg-gray-200
+                         text-gray-700 transition"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
-              className={`flex-1 py-2 text-sm rounded bg-blue-600 hover:bg-blue-700 text-white ${
-                !currentPassword ||
-                !newPassword ||
-                newPassword !== confirmPassword ||
-                newPassword.length <= 6
-                  ? 'opacity-50 cursor-not-allowed disabled'
-                  : ''
-              }`}
-            //   disabled={
-            //     !currentPassword ||
-            //     !newPassword ||
-            //     newPassword !== confirmPassword ||
-            //     newPassword.length <= 6
-            //   }
+              className={`flex-1 py-2.5 text-sm rounded-md font-medium transition
+                          ${
+                            getErrorMessage()
+                              ? `
+                                bg-blue-600/50
+                                text-white
+                                cursor-not-allowed
+                                pointer-events-auto
+                              `
+                              : `
+                                bg-blue-600
+                                hover:bg-blue-700
+                                text-white
+                                cursor-pointer
+                              `
+                          }
+                        `}
             >
               Confirm
             </button>
@@ -127,11 +146,11 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
         @keyframes popUp {
           0% {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(30px) scale(0.98);
           }
           100% {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
         }
       `}</style>
