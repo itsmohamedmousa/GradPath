@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useToastContext } from './ToastContext';
 
 const AuthContext = createContext();
 
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [sessionId, setSessionId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { show } = useToastContext();
   const apiUrl = import.meta.env.VITE_API_URL;
 
   // Check if user is logged in on app start
@@ -54,11 +56,44 @@ export const AuthProvider = ({ children }) => {
         if (!stillValid) {
           console.warn('Token expired or invalid — logging out.');
           logout();
+          show('Session expired. Please log in again.', 'warning');
         }
       }
     }, 60 * 60 * 1000);
 
     return () => clearInterval(interval);
+  }, [token]);
+
+  // Global activity listener to validate session
+  useEffect(() => {
+    if (!token) return;
+
+    let lastCheck = Date.now();
+    const CHECK_INTERVAL = 5 * 60 * 1000; // Check every 5 minutes after activity
+
+    const handleActivity = async () => {
+      const now = Date.now();
+
+      // Only check if enough time has passed since last check
+      if (now - lastCheck > CHECK_INTERVAL) {
+        lastCheck = now;
+        const stillValid = await validateToken(token);
+        if (!stillValid) {
+          console.warn('Token expired or invalid — logging out.');
+          logout();
+          show('Session expired. Please log in again.', 'warning');
+        }
+      }
+    };
+
+    // Listen to keypress and click events
+    window.addEventListener('keydown', handleActivity);
+    window.addEventListener('click', handleActivity);
+
+    return () => {
+      window.removeEventListener('keydown', handleActivity);
+      window.removeEventListener('click', handleActivity);
+    };
   }, [token]);
 
   // Validate token with backend
@@ -79,6 +114,7 @@ export const AuthProvider = ({ children }) => {
       return false;
     } catch (error) {
       console.error('Token validation error:', error);
+      show('Error validating session. Please log in again.', 'error');
       return false;
     }
   };

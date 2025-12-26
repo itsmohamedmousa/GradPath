@@ -35,9 +35,9 @@ function ToastOutlet() {
 
 const AppRoutes = () => {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <ToastOutlet/>
+    <ToastProvider>
+      <ToastOutlet />
+      <AuthProvider>
         <BrowserRouter>
           <Routes>
             {/* Public routes */}
@@ -54,7 +54,7 @@ const AppRoutes = () => {
                         <NotesProvider>
                           <EventProvider>
                             <SemesterProvider>
-                            <Layout />
+                              <Layout />
                             </SemesterProvider>
                           </EventProvider>
                         </NotesProvider>
@@ -79,8 +79,8 @@ const AppRoutes = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </ToastProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 };
 
