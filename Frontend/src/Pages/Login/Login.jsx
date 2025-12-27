@@ -82,7 +82,7 @@ function Login() {
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6">Login</h2>
 
           {/* Form */}
-          <div className="space-y-4">
+          <form className="space-y-4">
             {/* Username Input */}
             <div className="relative">
               <input
@@ -165,7 +165,7 @@ function Login() {
                 </Link>
               </p>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

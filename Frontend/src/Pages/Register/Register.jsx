@@ -150,7 +150,7 @@ function Register() {
           </div>
 
           {/* Form */}
-          <div className="space-y-6">
+          <form className="space-y-6">
             {/* Account Information Section */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 pb-2 border-b border-gray-200">
@@ -416,7 +416,7 @@ function Register() {
                 </Link>
               </p>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
