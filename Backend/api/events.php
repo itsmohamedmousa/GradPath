@@ -97,7 +97,7 @@ if ($method === 'PUT') {
     // Update event
     $stmt = $pdo->prepare("
       UPDATE Calendar_Event 
-      SET title = ?, description = ?, type = ?, event_time = ?, reminder_time = ?
+      SET title = ?, description = ?, type = ?, event_time = ?, reminder_time = ?, reminder_sent = 0
       WHERE id = ? AND user_id = ?
     ");
 
