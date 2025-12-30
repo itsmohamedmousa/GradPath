@@ -9,18 +9,18 @@ function sendReminderEmail($to, $title, $eventTime, $description) {
 
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = $_ENV['MAIL_HOST'];
         $mail->SMTPAuth   = true;
-        $mail->Username   = '522499hm@gmail.com';
-        $mail->Password   = 'ibxd mjkw qbgw dyql';
+        $mail->Username   = $_ENV['MAIL_ADDRESS'];
+        $mail->Password   = $_ENV['MAIL_PASSWORD'];
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
-        $mail->setFrom('522499hm@gmail.com', 'GradPath Reminders');
+        $mail->setFrom($_ENV['MAIL_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
         $mail->addAddress($to);
 
         $mail->isHTML(true);
-        $mail->Subject = "⏰ Reminder: $title";
+        $mail->Subject = "Reminder: $title";
 
         $mail->Body = "
             <h3>Upcoming Event Reminder</h3>
