@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Clock, Calendar, Trash2, Edit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Clock, Calendar, Trash2, Edit, List } from 'lucide-react';
 import { useEvent } from '../../contexts/EventContext';
 import EventModal from './EventModal';
 import Loader2 from '../../components/Loader/Loader2';
@@ -16,6 +16,7 @@ function CalendarPage() {
   const [editingEvent, setEditingEvent] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
+  const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
   const { show } = useToastContext();
 
   const today = new Date();
@@ -48,6 +49,16 @@ function CalendarPage() {
     });
   };
 
+  // Get events for current month (for list view)
+  const getEventsForMonth = () => {
+    return events
+      .filter((event) => {
+        const eventDate = new Date(event.event_time);
+        return eventDate.getMonth() === month && eventDate.getFullYear() === year;
+      })
+      .sort((a, b) => new Date(a.event_time) - new Date(b.event_time));
+  };
+
   // Navigate months
   const goToPreviousMonth = () => {
     setCurrentDate(new Date(year, month - 1, 1));
@@ -70,15 +81,13 @@ function CalendarPage() {
     }
   };
 
-  // Handle create/edit event
+  // Handle save event
   const handleSaveEvent = async (eventData) => {
     let result;
 
     if (eventData.id) {
-      // Update existing event
       result = await updateEvent(eventData);
     } else {
-      // Create new event
       result = await createEvent(eventData);
     }
 
@@ -119,11 +128,9 @@ function CalendarPage() {
 
   // Generate calendar days
   const calendarDays = [];
-
   for (let i = 0; i < firstDayOfMonth; i++) {
     calendarDays.push(null);
   }
-
   for (let day = 1; day <= daysInMonth; day++) {
     calendarDays.push(day);
   }
@@ -151,6 +158,15 @@ function CalendarPage() {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
+    });
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
     });
   };
 
@@ -182,13 +198,37 @@ function CalendarPage() {
               {events.length} {events.length === 1 ? 'event' : 'events'} scheduled
             </p>
           </div>
-          <button
-            onClick={goToToday}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center sm:justify-start"
-          >
-            <Calendar className="w-5 h-5" />
-            Today
-          </button>
+          <div className="flex gap-2">
+            {/* View Toggle */}
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('calendar')}
+                className={`px-3 py-2 rounded-md transition flex items-center gap-1 ${
+                  viewMode === 'calendar' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600'
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                <span className="text-sm">Grid</span>
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`px-3 py-2 rounded-md transition flex items-center gap-1 ${
+                  viewMode === 'list' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600'
+                }`}
+              >
+                <List className="w-4 h-4" />
+                <span className="text-sm">List</span>
+              </button>
+            </div>
+
+            <button
+              onClick={goToToday}
+              className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center"
+            >
+              <Calendar className="w-4 sm:w-5 h-4 sm:h-5" />
+              <span className="text-sm sm:text-base">Today</span>
+            </button>
+          </div>
         </div>
 
         {/* Calendar Container */}
@@ -203,7 +243,7 @@ function CalendarPage() {
                 <ChevronLeft className="w-6 h-6" />
               </button>
 
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                 {monthNames[month]} {year}
               </h2>
 
@@ -216,88 +256,175 @@ function CalendarPage() {
             </div>
           </div>
 
-          {/* Calendar Grid */}
-          <div className="flex-1 p-4 sm:p-6 overflow-auto">
-            <div className="h-full flex flex-col">
-              {/* Day Names */}
-              <div className="grid grid-cols-7 gap-2 mb-2">
-                {dayNames.map((day) => (
-                  <div key={day} className="text-center font-semibold text-gray-600 text-sm py-2">
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              {/* Calendar Days */}
-              <div className="grid grid-cols-7 gap-2 flex-1">
-                {calendarDays.map((day, index) => {
-                  if (day === null) {
-                    return <div key={`empty-${index}`} className="aspect-square" />;
-                  }
-
-                  const date = new Date(year, month, day);
-                  const isPast = date < today;
-                  const isToday = date.getTime() === today.getTime();
-                  const dayEvents = getEventsForDate(date);
-                  const hasEvents = dayEvents.length > 0;
-
-                  return (
+          {/* Calendar Grid View */}
+          {viewMode === 'calendar' && (
+            <div className="flex-1 p-2 sm:p-6 overflow-auto">
+              <div className="h-full flex flex-col">
+                {/* Day Names */}
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-1 sm:mb-2">
+                  {dayNames.map((day) => (
                     <div
                       key={day}
-                      onClick={() => handleDateClick(day)}
-                      className={`
-                        aspect-square border rounded-lg p-2 flex flex-col
-                        transition-all duration-200
-                        ${
-                          isPast
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                            : 'bg-white hover:bg-blue-50 hover:border-blue-300 cursor-pointer'
-                        }
-                        ${isToday ? 'border-blue-500 border-2 bg-blue-50' : 'border-gray-200'}
-                        ${hasEvents && !isPast ? 'ring-2 ring-purple-200' : ''}
-                      `}
+                      className="text-center font-semibold text-gray-600 text-xs sm:text-sm py-2"
                     >
-                      <div
-                        className={`
-                        text-sm font-semibold mb-1
-                        ${isToday ? 'text-blue-600' : ''}
-                      `}
-                      >
-                        {day}
-                      </div>
+                      <span className="hidden sm:inline">{day}</span>
+                      <span className="sm:hidden">{day.slice(0, 1)}</span>
+                    </div>
+                  ))}
+                </div>
 
-                      {hasEvents && (
-                        <div className="flex-1 flex flex-col gap-1 overflow-hidden">
-                          {dayEvents.slice(0, 2).map((event) => (
-                            <div
-                              key={event.id}
-                              className={`text-xs px-1 py-0.5 rounded truncate ${getTypeColor(
-                                event.type,
-                              )}`}
-                              title={event.title}
-                            >
-                              {event.title}
-                            </div>
-                          ))}
-                          {dayEvents.length > 2 && (
-                            <div className="text-xs text-gray-500">
-                              +{dayEvents.length - 2} more
-                            </div>
+                {/* Calendar Days */}
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 flex-1">
+                  {calendarDays.map((day, index) => {
+                    if (day === null) {
+                      return <div key={`empty-${index}`} className="aspect-square" />;
+                    }
+
+                    const date = new Date(year, month, day);
+                    const isPast = date < today;
+                    const isToday = date.getTime() === today.getTime();
+                    const dayEvents = getEventsForDate(date);
+                    const hasEvents = dayEvents.length > 0;
+
+                    return (
+                      <div
+                        key={day}
+                        onClick={() => handleDateClick(day)}
+                        className={`
+                          aspect-square border rounded-lg p-1 sm:p-2 flex flex-col
+                          transition-all duration-200
+                          ${
+                            isPast
+                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                              : 'bg-white hover:bg-blue-50 hover:border-blue-300 cursor-pointer'
+                          }
+                          ${isToday ? 'border-blue-500 border-2 bg-blue-50' : 'border-gray-200'}
+                          ${hasEvents && !isPast ? 'ring-1 sm:ring-2 ring-purple-200' : ''}
+                        `}
+                      >
+                        <div
+                          className={`
+                            text-xs sm:text-sm font-semibold mb-0.5 sm:mb-1
+                            ${isToday ? 'text-blue-600' : ''}
+                          `}
+                        >
+                          {day}
+                        </div>
+
+                        {/* Mobile: Show dot indicator */}
+                        <div className="flex-1 flex flex-col items-center justify-center sm:items-start sm:justify-start gap-0.5 sm:gap-1">
+                          {hasEvents && (
+                            <>
+                              {/* Mobile: dots */}
+                              <div className="sm:hidden flex gap-1">
+                                {dayEvents.slice(0, 3).map((event, i) => (
+                                  <div
+                                    key={i}
+                                    className="w-1.5 h-1.5 rounded-full"
+                                    style={{
+                                      backgroundColor:
+                                        event.type === 'exam'
+                                          ? '#f97316'
+                                          : event.type === 'deadline'
+                                          ? '#ef4444'
+                                          : event.type === 'meeting'
+                                          ? '#10b981'
+                                          : '#3b82f6',
+                                    }}
+                                  />
+                                ))}
+                              </div>
+
+                              {/* Desktop: event titles */}
+                              <div className="hidden sm:flex flex-col gap-1 w-full overflow-hidden">
+                                {dayEvents.slice(0, 2).map((event) => (
+                                  <div
+                                    key={event.id}
+                                    className={`text-xs px-1 py-0.5 rounded truncate ${getTypeColor(
+                                      event.type,
+                                    )}`}
+                                    title={event.title}
+                                  >
+                                    {event.title}
+                                  </div>
+                                ))}
+                                {dayEvents.length > 2 && (
+                                  <div className="text-xs text-gray-500">
+                                    +{dayEvents.length - 2}
+                                  </div>
+                                )}
+                              </div>
+                            </>
                           )}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {/* List View (Mobile) */}
+          {viewMode === 'list' && (
+            <div className="flex-1 p-4 overflow-auto">
+              {getEventsForMonth().length > 0 ? (
+                <div className="space-y-3">
+                  {getEventsForMonth().map((event) => (
+                    <div
+                      key={event.id}
+                      className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1">
+                          <h5 className="font-semibold text-gray-900 mb-1">{event.title}</h5>
+                          <div className="text-sm text-gray-600 mb-2">
+                            {formatDate(event.event_time)} • {formatTime(event.event_time)}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 ml-2">
+                          <span className={`text-xs px-2 py-1 rounded ${getTypeColor(event.type)}`}>
+                            {event.type}
+                          </span>
+                        </div>
+                      </div>
+                      {event.description && (
+                        <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                      )}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEditEvent(event)}
+                          className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1"
+                        >
+                          <Edit className="w-4 h-4" />
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteEvent(event.id)}
+                          className="flex-1 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-1"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <div className="text-center text-gray-500">
+                    <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                    <p>No events this month</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Day Detail Modal */}
         {showDayModal && selectedDate && (
           <>
-            {/* Backdrop */}
             <div className="fixed inset-0 bg-black opacity-50 z-50" />
             <div
               className="fixed inset-0 flex items-center justify-center p-4 z-50"
@@ -309,7 +436,7 @@ function CalendarPage() {
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-2xl font-bold text-gray-900">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                       {selectedDate.toLocaleDateString('en-US', {
                         weekday: 'long',
                         year: 'numeric',
@@ -325,7 +452,6 @@ function CalendarPage() {
                     </button>
                   </div>
 
-                  {/* Events List */}
                   <div className="mb-6">
                     <h4 className="font-semibold text-gray-700 mb-3">Events</h4>
                     {getEventsForDate(selectedDate).length > 0 ? (
@@ -369,12 +495,6 @@ function CalendarPage() {
                                 <Clock className="w-4 h-4" />
                                 {formatTime(event.event_time)}
                               </div>
-                              {event.reminder_time && (
-                                <div className="flex items-center gap-1 text-yellow-600">
-                                  <Clock className="w-4 h-4" />
-                                  Reminder: {formatTime(event.reminder_time)}
-                                </div>
-                              )}
                             </div>
                           </div>
                         ))}
@@ -384,7 +504,6 @@ function CalendarPage() {
                     )}
                   </div>
 
-                  {/* Add Event Button */}
                   <button
                     className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center"
                     onClick={() => {
@@ -401,7 +520,7 @@ function CalendarPage() {
           </>
         )}
 
-        {/* Event Creation/Edit Modal */}
+        {/* Event Modal */}
         <EventModal
           isOpen={showEventModal}
           onClose={() => {
@@ -417,52 +536,29 @@ function CalendarPage() {
       {/* Confirm Delete Modal */}
       {showConfirmModal && (
         <>
-          {/* Backdrop */}
-          <div className="fixed inset-0 bg-black opacity-50 z-50 transition-opacity duration-300"></div>
-
-          {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div
-              className="bg-white rounded-lg shadow-xl p-6 w-80 text-center
-                   transform transition-all duration-300 ease-out
-                   opacity-100 translate-y-0"
-              style={{
-                animation: 'popUp 0.3s ease forwards',
-              }}
-            >
+          <div className="fixed inset-0 bg-black opacity-50 z-50" />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-sm">
               <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
               <p className="text-sm text-gray-600 mb-6">
                 Are you sure you want to delete this event? This action cannot be undone.
               </p>
-              <div className="flex justify-between space-x-4">
+              <div className="flex gap-3">
                 <button
                   onClick={() => setShowConfirmModal(false)}
-                  className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  className="flex-1 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmDelete}
-                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 py-2 text-sm rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium"
                 >
                   Delete
                 </button>
               </div>
             </div>
           </div>
-
-          <style>{`
-            @keyframes popUp {
-              0% {
-                opacity: 0;
-                transform: translateY(50px);
-              }
-              100% {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-          `}</style>
         </>
       )}
     </div>
