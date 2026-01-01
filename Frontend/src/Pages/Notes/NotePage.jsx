@@ -141,7 +141,7 @@ function NotePage() {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
-    show('Download started', 'success');
+    show('Download started', 'info');
   };
 
   // If note not found
