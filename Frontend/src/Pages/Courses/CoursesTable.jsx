@@ -184,8 +184,8 @@ function CoursesTable({ setCourseToEdit }) {
                 </button>
                 <button
                   onClick={() => {
+                    deleteCourse(showConfirmModal.courseId);
                     setShowConfirmModal({ courseId: null, visible: false });
-                    handleDelete();
                   }}
                   className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
                 >
