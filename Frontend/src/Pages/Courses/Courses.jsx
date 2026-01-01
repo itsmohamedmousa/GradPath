@@ -6,6 +6,7 @@ import EditCourse from './EditCourse';
 import { useState } from 'react';
 import CurrentGpa from './CurrentGpa';
 import { useToastContext } from '../../contexts/ToastContext';
+import GradeCalculator from './GradeCalculator';
 
 function Courses() {
   const { data: courses, loadingCourses, errorCourses, refreshCourses } = useCourse();
@@ -51,7 +52,7 @@ function Courses() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        show('Courese updated successfully.', 'success');
+        show('Course updated successfully.', 'success');
         refreshCourses();
         setCourseToEdit((prev) => ({
           ...prev,
@@ -62,7 +63,7 @@ function Courses() {
         show(result.message || 'Failed to update course.', 'error');
       }
     } catch (err) {
-      show('Something went wront.', 'error');
+      show('Something went wrong.', 'error');
     }
   };
 
@@ -72,28 +73,45 @@ function Courses() {
 
   if (errorCourses) {
     return (
-      <div className="p-6 text-red-500">
-        <h1 className="text-2xl font-bold">Error loading courses</h1>
-        <p>{errorCourses.message}</p>
+      <div className="min-h-screen bg-white p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+            <h1 className="text-xl font-bold text-red-900 mb-2">Error loading courses</h1>
+            <p className="text-red-700">{errorCourses.message}</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <>
-      <CoursesTable setCourseToEdit={setCourseToEdit} />
-      <EditCourse
-        editCourse={editCourse}
-        courseToEdit={courseToEdit}
-        setCourseToEdit={setCourseToEdit}
-      />
-      {courses.length > 0 ? (
-        <CurrentGpa calcCurrentGpa={calcCurrentGpa} currentGpa={currentGpa} />
-      ) : (
-        <div></div>
-      )}
-      <AddCourse />
-    </>
+    <div className="min-h-screen bg-white p-2">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">My Courses</h1>
+          <p className="text-gray-600">Manage your courses and track your academic progress</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <CoursesTable setCourseToEdit={setCourseToEdit} />
+            <EditCourse
+              editCourse={editCourse}
+              courseToEdit={courseToEdit}
+              setCourseToEdit={setCourseToEdit}
+            />
+            <AddCourse />
+            <GradeCalculator />
+          </div>
+
+          <div>
+            {courses.length > 0 && (
+              <CurrentGpa calcCurrentGpa={calcCurrentGpa} currentGpa={currentGpa} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

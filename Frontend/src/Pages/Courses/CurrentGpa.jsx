@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 import { useSemester } from '../../contexts/SemesterContext';
+import { TrendingUp, RefreshCw } from 'lucide-react';
 
 function CurrentGpa({ calcCurrentGpa, currentGpa }) {
-  const {currentSemester} = useSemester();
+  const { currentSemester } = useSemester();
   const [semesterName, setSemesterName] = useState('');
 
   useEffect(() => {
@@ -14,9 +15,9 @@ function CurrentGpa({ calcCurrentGpa, currentGpa }) {
   }, []);
 
   const gpaChartData = [
-    { name: 'Failing', value: 2, color: '#ff4d4d' },
-    { name: 'Average', value: 1.6, color: '#ffd11a' },
-    { name: 'Excellent', value: 0.4, color: '#4dff4d' },
+    { name: 'Failing', value: 2, color: '#ef4444' },
+    { name: 'Average', value: 1.6, color: '#f59e0b' },
+    { name: 'Excellent', value: 0.4, color: '#10b981' },
   ];
 
   const cx = 150;
@@ -24,6 +25,7 @@ function CurrentGpa({ calcCurrentGpa, currentGpa }) {
   const iR = 50;
   const oR = 100;
   const RADIAN = Math.PI / 180;
+
   const needle = (value, data, cx, cy, iR, oR, color) => {
     let total = 0;
     data.forEach((v) => {
@@ -55,46 +57,64 @@ function CurrentGpa({ calcCurrentGpa, currentGpa }) {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg shadow-sm flex justify-center items-center mt-7 border border-blue-100 hover:bg-gray-100">
-      <PieChart width={300} height={300}>
-        <text
-          x="50%"
-          y={24}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          style={{ fontSize: '16px', fontWeight: 'bold' }}
-        >
-          Current Semester GPA
-          {semesterName ? ` - ${semesterName}` : ''}
-        </text>
-        <Pie
-          dataKey="value"
-          startAngle={180}
-          endAngle={0}
-          data={gpaChartData}
-          cx={cx}
-          cy={cy}
-          innerRadius={iR}
-          outerRadius={oR}
-          stroke="none"
-        >
-          {gpaChartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
-          ))}
-        </Pie>
-        <text
-          x="50%"
-          y={270}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          style={{ fontSize: '20px' }}
-        >
-          GPA: {currentGpa}
-        </text>
-        {needle(currentGpa, gpaChartData, cx, cy, iR, oR, '#000')}
-      </PieChart>
+    <div className="bg-white rounded-xl shadow-md p-6 sticky top-6">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-blue-100 rounded-lg">
+            <TrendingUp className="w-5 h-5 text-blue-600" />
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-900">Current GPA</h3>
+            {semesterName && <p className="text-xs text-gray-500">{semesterName}</p>}
+          </div>
+        </div>
+      </div>
 
-      {/* <button onClick={() => calcCurrentGpa()}>Refresh GPA</button> */}
+      <div className="flex justify-center items-center">
+        <PieChart width={300} height={300}>
+          <Pie
+            dataKey="value"
+            startAngle={180}
+            endAngle={0}
+            data={gpaChartData}
+            cx={cx}
+            cy={cy}
+            innerRadius={iR}
+            outerRadius={oR}
+            stroke="none"
+          >
+            {gpaChartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <text
+            x="50%"
+            y={270}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="font-bold text-2xl"
+            fill="#111827"
+          >
+            {currentGpa || '0.00'}
+          </text>
+          {needle(currentGpa, gpaChartData, cx, cy, iR, oR, '#1f2937')}
+        </PieChart>
+      </div>
+
+      <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+        <div>
+          <div className="w-3 h-3 bg-red-500 rounded-full mx-auto mb-1"></div>
+          <span className="text-gray-600">0-2.0</span>
+        </div>
+        <div>
+          <div className="w-3 h-3 bg-amber-500 rounded-full mx-auto mb-1"></div>
+          <span className="text-gray-600">2.0-3.5</span>
+        </div>
+        <div>
+          <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-1"></div>
+          <span className="text-gray-600">3.5-4.0</span>
+        </div>
+      </div>
     </div>
   );
 }

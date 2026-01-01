@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCourse } from '../../contexts/CourseContext';
 import { useToastContext } from '../../contexts/ToastContext';
 import { useSemester } from '../../contexts/SemesterContext';
+import { BookOpen } from 'lucide-react';
 
 function CoursesTable({ setCourseToEdit }) {
   const { data: courses, refreshCourses } = useCourse();
@@ -14,7 +15,7 @@ function CoursesTable({ setCourseToEdit }) {
     if (currentSemester && currentSemester.name) {
       setSemesterName(currentSemester.name);
     }
-  }, []);
+  }, [currentSemester]);
 
   const deleteCourse = async (id) => {
     try {
@@ -32,68 +33,121 @@ function CoursesTable({ setCourseToEdit }) {
       if (response.ok && result.success) {
         show('Course deleted successfully.', 'success');
         refreshCourses();
+        setShowConfirmModal({ courseId: null, visible: false });
       } else {
         show(result.message || 'Failed to delete course.', 'error');
       }
     } catch (err) {
       console.error('Delete error:', err);
-      show('Something went wront.', 'error');
+      show('Something went wrong.', 'error');
     }
   };
 
   return (
     <>
-      <div className="mt-4 bg-transparent">
-        <h1 className="text-xl font-bold mb-3 ml-3">
-          Registered Courses {semesterName ? ` - ${semesterName}` : ''}
-        </h1>
-        <div className="overflow-x-auto rounded-xl">
-          <table className="min-w-full bg-gray-50 text-black">
+      <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900">
+            Registered Courses
+            {semesterName && (
+              <span className="text-gray-500 font-normal ml-2">— {semesterName}</span>
+            )}
+          </h2>
+          <span className="text-sm text-gray-600">
+            {courses.length} {courses.length === 1 ? 'course' : 'courses'}
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full">
             <thead>
-              <tr className="bg-gray-200 text-blue-600">
-                <th className="px-4 py-2 text-left">Course Name</th>
-                <th className="px-4 py-2">Credits</th>
-                <th className="px-4 py-2">Grade</th>
-                <th className="px-4 py-2">Status</th>
-                <th className="px-4 py-2">Actions</th>
+              <tr className="border-b border-gray-200">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Course Name
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                  Credits
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Grade</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {courses.map((course) => (
                 <tr
                   key={course.id}
-                  className="border-b border-blue-300 text-gray-600 hover:bg-gray-200 cursor-default"
+                  className="border-b border-gray-100 hover:bg-gray-50 transition"
                 >
-                  <td className="px-4 py-2">{course.name}</td>
-                  <td className="px-4 py-2 text-center">{course.credits || '-'}</td>
-                  <td className="px-4 py-2 text-center">{course.final_grade ?? '-'}</td>
-                  <td className="px-4 py-2 text-center">{course.status || '-'}</td>
-                  <td className="px-4 py-2 flex gap-2 justify-center">
-                    <button
-                      onClick={() => {
-                        setCourseToEdit((prev) => ({
-                          ...prev,
-                          visible: true,
-                          id: course.id,
-                        }));
-                      }}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                  <td className="px-4 py-4 text-gray-900">{course.name}</td>
+                  <td className="px-4 py-4 text-center text-gray-600">{course.credits || '-'}</td>
+                  <td className="px-4 py-4 text-center">
+                    {course.final_grade !== null && course.final_grade !== undefined ? (
+                      <span
+                        className={`font-semibold ${
+                          course.final_grade >= 90
+                            ? 'text-green-600'
+                            : course.final_grade >= 80
+                            ? 'text-blue-600'
+                            : course.final_grade >= 70
+                            ? 'text-yellow-600'
+                            : course.final_grade >= 60
+                            ? 'text-orange-600'
+                            : 'text-red-600'
+                        }`}
+                      >
+                        {course.final_grade}
+                      </span>
+                    ) : (
+                      <span className="text-gray-400">-</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span
+                      className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
+                        course.status === 'Passed'
+                          ? 'bg-green-100 text-green-700'
+                          : course.status === 'Failed'
+                          ? 'bg-red-100 text-red-700'
+                          : 'bg-blue-100 text-blue-700'
+                      }`}
                     >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setShowConfirmModal({ courseId: course.id, visible: true })}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
+                      {course.status || '-'}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() => {
+                          setCourseToEdit((prev) => ({
+                            ...prev,
+                            visible: true,
+                            id: course.id,
+                          }));
+                        }}
+                        className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => setShowConfirmModal({ courseId: course.id, visible: true })}
+                        className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
               {courses.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="text-center py-4 text-gray-400">
-                    No courses found.
+                  <td colSpan="5" className="text-center py-12">
+                    <BookOpen className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+                    <p className="text-gray-500">No courses found</p>
                   </td>
                 </tr>
               )}
@@ -101,7 +155,9 @@ function CoursesTable({ setCourseToEdit }) {
           </table>
         </div>
       </div>
-      {showConfirmModal.visible && (
+
+      {/* Confirm Delete Modal */}
+      {showConfirmModal && (
         <>
           {/* Backdrop */}
           <div className="fixed inset-0 bg-black opacity-50 z-50 transition-opacity duration-300"></div>
@@ -118,25 +174,23 @@ function CoursesTable({ setCourseToEdit }) {
             >
               <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
               <p className="text-sm text-gray-600 mb-6">
-                Are you sure you want to delete the course?
+                Are you sure you want to delete this course? This action cannot be undone.
               </p>
               <div className="flex justify-between space-x-4">
                 <button
-                  onClick={() => {
-                    setShowConfirmModal({ courseId: null, visible: false });
-                  }}
+                  onClick={() => setShowConfirmModal(false)}
                   className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => {
-                    setShowConfirmModal({ courseId: null, visible: true });
-                    deleteCourse(showConfirmModal.courseId);
+                    setShowConfirmModal(false);
+                    handleDelete();
                   }}
                   className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
                 >
-                  Confirm
+                  Delete
                 </button>
               </div>
             </div>
