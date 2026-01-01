@@ -16,21 +16,24 @@ function AddCourse() {
     const updated = [...gradeItems];
     updated[index][field] = value;
     setGradeItems(updated);
+
     const allScoresPresent = updated.every(
       (item) => item.score !== undefined && item.score !== null && item.score !== '',
     );
 
     if (allScoresPresent) {
-      const grade = updated.reduce(
+      const calculatedGrade = updated.reduce(
         (acc, item) => acc + (parseFloat(item.score) * parseFloat(item.weight || 0)) / 100,
         0,
       );
-      setGrade(grade);
+      setGrade(calculatedGrade);
+    } else {
+      setGrade(null);
     }
   };
 
   const addGradeItem = () => {
-    setGradeItems([...gradeItems, { title: '', weight: '', score: '', type: 'Exam' }]);
+    setGradeItems([...gradeItems, { title: '', weight: '', score: null, type: 'Exam' }]);
   };
 
   const newCourse = {
@@ -38,7 +41,8 @@ function AddCourse() {
     credits: parseInt(credits, 10),
     final_grade: grade,
     gradeItems: gradeItems,
-    status: grade == null ? 'Registered' : grade >= 60 ? 'Passed' : 'Failed',
+    status:
+      grade === null || grade === undefined ? 'Registered' : grade >= 60 ? 'Passed' : 'Failed',
   };
 
   const addCourse = async (newCourse) => {

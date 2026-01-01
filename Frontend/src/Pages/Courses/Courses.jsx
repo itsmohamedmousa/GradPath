@@ -14,14 +14,26 @@ function Courses() {
   const { show } = useToastContext();
 
   function calcCurrentGpa() {
-    const sumOfCredits = courses.reduce((acc, item) => acc + parseFloat(item.credits), 0);
-    const gpa =
-      courses.reduce(
-        (acc, item) => acc + parseFloat(item.final_grade) * parseFloat(item.credits),
-        0,
-      ) /
-      sumOfCredits /
-      25;
+    const gradedCourses = courses.filter(
+      (item) => item.final_grade !== null && item.final_grade !== '' && !isNaN(item.final_grade),
+    );
+    if (gradedCourses.length === 0) {
+      setCurrentGpa('0.00');
+      return;
+    }
+    const sumOfCredits = gradedCourses.reduce(
+      (acc, item) => acc + parseFloat(item.credits || 0),
+      0,
+    );
+    const totalPoints = gradedCourses.reduce(
+      (acc, item) => acc + parseFloat(item.final_grade) * parseFloat(item.credits || 0),
+      0,
+    );
+    if (sumOfCredits === 0) {
+      setCurrentGpa('0.00');
+      return;
+    }
+    const gpa = totalPoints / sumOfCredits / 25;
     setCurrentGpa(gpa.toFixed(2));
   }
 

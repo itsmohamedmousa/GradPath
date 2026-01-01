@@ -20,7 +20,7 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
       setCredits(courseData.credits);
       setGradeItems(courseData.grade_items);
     } else {
-      setGradeItems([{ title: '', weight: '', score: '', type: 'Exam' }]);
+      setGradeItems([{ title: '', weight: '', score: null, type: 'Exam' }]);
     }
   }, [courseData]);
 
@@ -28,21 +28,24 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
     const updated = [...gradeItems];
     updated[index][field] = value;
     setGradeItems(updated);
+
     const allScoresPresent = updated.every(
       (item) => item.score !== undefined && item.score !== null && item.score !== '',
     );
 
     if (allScoresPresent) {
-      const grade = updated.reduce(
+      const calculatedGrade = updated.reduce(
         (acc, item) => acc + (parseFloat(item.score) * parseFloat(item.weight || 0)) / 100,
         0,
       );
-      setGrade(grade);
+      setGrade(calculatedGrade);
+    } else {
+      setGrade(null);
     }
   };
 
   const addGradeItem = () => {
-    setGradeItems([...gradeItems, { title: '', weight: '', score: NaN, type: 'Exam' }]);
+    setGradeItems([...gradeItems, { title: '', weight: '', score: null, type: 'Exam' }]);
   };
 
   const newCourse = {
@@ -51,7 +54,8 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
     credits: parseInt(credits, 10),
     final_grade: grade,
     gradeItems: gradeItems,
-    status: grade == null ? 'Registered' : grade >= 60 ? 'Passed' : 'Failed',
+    status:
+      grade === null || grade === undefined ? 'Registered' : grade >= 60 ? 'Passed' : 'Failed',
   };
 
   if (!courseToEdit.visible) {
@@ -129,7 +133,7 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
                 <input
                   type="number"
                   placeholder="Grade"
-                  value={item.score || ''}
+                  value={item.score || null}
                   min={0}
                   max={100}
                   onChange={(e) => handleGradeItemChange(index, 'score', e.target.value)}

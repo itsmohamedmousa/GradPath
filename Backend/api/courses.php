@@ -170,8 +170,8 @@ function addCourse($pdo, $userId)
         $stmt->execute([
             ':name' => $data['name'],
             ':credits' => $data['credits'],
-            ':final_grade' => $data['final_grade'] ?? 0,
-            ':status' => $data['status'] ?? 'in_progress',
+            ':final_grade' => $data['final_grade'] ?? null,
+            ':status' => $data['status'] ?? 'Registered',
             ':user_id' => $userId,
             ':semester_id' => $semesterId
         ]);
@@ -211,34 +211,36 @@ function editCourse($pdo, $userId)
     $pdo->beginTransaction();
     try {
         $stmt = $pdo->prepare("UPDATE Course 
-                               SET name = :name, credits = :credits, final_grade = :final_grade, status = :status
-                               WHERE id = :id AND user_id = :user_id AND semester_id IN (SELECT id FROM Semester WHERE user_id = :user_id AND status = 'active')");
+                               SET name = :name, 
+                                   credits = :credits, 
+                                   final_grade = :final_grade, 
+                                   status = :status
+                               WHERE id = :id 
+                               AND user_id = :user_id 
+                               AND semester_id IN (SELECT id FROM Semester WHERE user_id = :user_id AND status = 'active')");
+
         $stmt->execute([
             ':name' => $data['name'],
             ':credits' => $data['credits'],
-            ':final_grade' => $data['final_grade'] ?? 0,
-            ':status' => $data['status'] ?? 'in_progress',
+            ':final_grade' => isset($data['final_grade']) ? $data['final_grade'] : null,
+            ':status' => $data['status'] ?? 'Registered',
             ':id' => $data['id'],
             ':user_id' => $userId
         ]);
-
-        if ($stmt->rowCount() === 0) {
-            $pdo->rollBack();
-            http_response_code(404);
-            echo json_encode(['success' => false, 'message' => 'Course not found or not authorized']);
-            return;
-        }
 
         $stmtDelete = $pdo->prepare("DELETE FROM Grade_Item WHERE course_id = :course_id");
         $stmtDelete->execute([':course_id' => $data['id']]);
 
         if (!empty($data['gradeItems']) && is_array($data['gradeItems'])) {
-            $stmtInsert = $pdo->prepare("INSERT INTO Grade_Item (course_id, title, score, weight, type) VALUES (:course_id, :title, :score, :weight, :type)");
+            $stmtInsert = $pdo->prepare("INSERT INTO Grade_Item (course_id, title, score, weight, type) 
+                                         VALUES (:course_id, :title, :score, :weight, :type)");
             foreach ($data['gradeItems'] as $item) {
+                $score = ($item['score'] === '' || $item['score'] === null) ? null : $item['score'];
+
                 $stmtInsert->execute([
                     ':course_id' => $data['id'],
                     ':title' => $item['title'] ?? 'Untitled',
-                    ':score' => $item['score'] ?? null,
+                    ':score' => $score,
                     ':weight' => $item['weight'] ?? 0,
                     ':type' => $item['type'] ?? 'Other'
                 ]);
@@ -247,10 +249,15 @@ function editCourse($pdo, $userId)
 
         $pdo->commit();
         echo json_encode(['success' => true, 'message' => 'Course updated successfully']);
+
     } catch (PDOException $e) {
         $pdo->rollBack();
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to update course', 'error' => $e->getMessage()]);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to update course',
+            'error' => $e->getMessage()
+        ]);
     }
 }
 
