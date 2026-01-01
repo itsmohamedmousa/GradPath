@@ -104,12 +104,36 @@ JWT_EXPIRES_IN=3600
 
 # Server Configuration
 FRONTEND_URL=http://localhost:5173
+
+# Mail
+MAIL_HOST=smtp.gmail.com 
+MAIL_PORT=587
+MAIL_ADDRESS="your_email_address" 
+MAIL_PASSWORD="your_app_password"
+MAIL_FROM_NAME="GradPath"
 ```
 
 ```bash
 ### GradPath/Frontend/.env
 
 VITE_API_URL=http://localhost:8000/api
+VITE_ASSETS_URL=http://localhost:8000/api/public/uploads
+```
+
+---
+
+## ⏰ Cron Job
+
+run this to edit your crontab:
+
+```bash
+crontab -e
+```
+
+then add this to the end of the file and save it:
+
+```bash
+* * * * * /usr/bin/php /FULL/PATH/TO/PROJECT/GradPath/Backend/send_reminders.php >> /tmp/reminders.log 2>&1 
 ```
 
 ---
