@@ -135,7 +135,7 @@ function EditCourse({ editCourse, courseToEdit, setCourseToEdit }) {
                   <input
                     type="number"
                     placeholder="Grade"
-                    value={item.score || ''}
+                    value={item.score}
                     min={0}
                     max={100}
                     onChange={(e) => handleGradeItemChange(index, 'score', e.target.value)}
