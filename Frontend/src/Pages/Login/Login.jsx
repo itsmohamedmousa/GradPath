@@ -165,6 +165,15 @@ function Login() {
                 </Link>
               </p>
             </div>
+            {/* Forgot Password Feature */}
+            <p className="text-sm text-gray-600 mt-2 text-center">
+              <Link
+                to="/forgot-password"
+                className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+              >
+                Forgot Password?
+              </Link>
+            </p>
           </form>
         </div>
       </div>

@@ -20,6 +20,8 @@ import MessageCard from '../../components/Cards/MessageCard';
 import { SemesterProvider } from '../../contexts/SemesterContext';
 import NotePage from '../../Pages/Notes/NotePage';
 import CreateNote from '../../Pages/Notes/CreateNote';
+import ForgotPassword from '../../Pages/Login/ForgotPassword';
+import ResetPassword from '../../Pages/Login/ResetPassword';
 
 function ToastOutlet() {
   const { toasts } = useToastContext();
@@ -42,6 +44,8 @@ const AppRoutes = () => {
           <Routes>
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
 
             {/* Protected routes with Layout */}
