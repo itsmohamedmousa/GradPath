@@ -157,7 +157,7 @@ function CoursesTable({ setCourseToEdit }) {
       </div>
 
       {/* Confirm Delete Modal */}
-      {showConfirmModal && (
+      {showConfirmModal.visible && (
         <>
           {/* Backdrop */}
           <div className="fixed inset-0 bg-black opacity-50 z-50 transition-opacity duration-300"></div>
@@ -178,14 +178,14 @@ function CoursesTable({ setCourseToEdit }) {
               </p>
               <div className="flex justify-between space-x-4">
                 <button
-                  onClick={() => setShowConfirmModal(false)}
+                  onClick={() => setShowConfirmModal({ courseId: null, visible: false })}
                   className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => {
-                    setShowConfirmModal(false);
+                    setShowConfirmModal({ courseId: null, visible: false });
                     handleDelete();
                   }}
                   className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
