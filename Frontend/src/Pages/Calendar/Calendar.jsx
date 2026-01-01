@@ -16,7 +16,8 @@ function CalendarPage() {
   const [editingEvent, setEditingEvent] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
-  const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
+  const [viewMode, setViewMode] = useState('calendar');
+  const [hideHeader, setHideHeader] = useState(false);
   const { show } = useToastContext();
 
   const today = new Date();
@@ -98,6 +99,10 @@ function CalendarPage() {
     } else {
       show(result.error || 'Failed to save event', 'error');
     }
+  };
+
+  const getAllEvents = () => {
+    return events.sort((a, b) => new Date(a.event_time) - new Date(b.event_time));
   };
 
   // Handle delete event
@@ -198,43 +203,72 @@ function CalendarPage() {
               {events.length} {events.length === 1 ? 'event' : 'events'} scheduled
             </p>
           </div>
-          <div className="flex gap-2">
-            {/* View Toggle */}
-            <div className="flex bg-gray-100 rounded-lg p-1">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* View Toggle Group */}
+            <div className="flex bg-gray-100 rounded-lg p-1 w-full sm:w-auto">
               <button
-                onClick={() => setViewMode('calendar')}
-                className={`px-3 py-2 rounded-md transition flex items-center gap-1 ${
-                  viewMode === 'calendar' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600'
+                onClick={() => {
+                  setViewMode('calendar');
+                  setHideHeader(false);
+                }}
+                className={`flex-1 sm:flex-none px-3 py-2 rounded-md transition flex items-center justify-center gap-1.5 ${
+                  viewMode === 'calendar'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <Calendar className="w-4 h-4" />
-                <span className="text-sm">Grid</span>
+                <span className="text-sm font-medium">Grid</span>
               </button>
+
               <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-2 rounded-md transition flex items-center gap-1 ${
-                  viewMode === 'list' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600'
+                onClick={() => {
+                  setViewMode('list');
+                  setHideHeader(false);
+                }}
+                className={`flex-1 sm:flex-none px-3 py-2 rounded-md transition flex items-center justify-center gap-1.5 ${
+                  viewMode === 'list'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <List className="w-4 h-4" />
-                <span className="text-sm">List</span>
+                <span className="text-sm font-medium">List</span>
               </button>
             </div>
 
-            <button
-              onClick={goToToday}
-              className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center"
-            >
-              <Calendar className="w-4 sm:w-5 h-4 sm:h-5" />
-              <span className="text-sm sm:text-base">Today</span>
-            </button>
+            {/* "All" and "Today" Buttons Container */}
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <button
+                onClick={() => {
+                  setViewMode('all');
+                  setHideHeader(true);
+                }}
+                className={`flex-1 sm:flex-none px-4 py-2 rounded-lg border transition flex items-center justify-center gap-1.5 ${
+                  viewMode === 'all'
+                    ? 'bg-blue-50 border-blue-200 text-blue-600'
+                    : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                <List className="w-4 h-4" />
+                <span className="text-sm font-medium">All</span>
+              </button>
+
+              <button
+                onClick={goToToday}
+                className="flex-[2] sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2 shadow-sm active:scale-95"
+              >
+                <Calendar className="w-4 h-4" />
+                <span className="text-sm font-medium">Today</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Calendar Container */}
         <div className="bg-white rounded-xl shadow-md flex-1 flex flex-col overflow-hidden">
           {/* Calendar Header */}
-          <div className="p-4 sm:p-6 border-b border-gray-200">
+          <div className={`p-4 sm:p-6 border-b border-gray-200 ${hideHeader ? 'hidden' : ''}`}>
             <div className="flex items-center justify-between">
               <button
                 onClick={goToPreviousMonth}
@@ -421,6 +455,70 @@ function CalendarPage() {
             </div>
           )}
         </div>
+
+        {/* All Events View */}
+        {viewMode === 'all' && (
+          <div className="flex-1 p-4 overflow-auto">
+            {getAllEvents().length > 0 ? (
+              <div className="space-y-3">
+                {getAllEvents().map((event) => {
+                  const eventDate = new Date(event.event_time);
+                  const isPast = eventDate < today;
+
+                  return (
+                    <div
+                      key={event.id}
+                      className={`border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition ${
+                        isPast ? 'opacity-60' : ''
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1">
+                          <h5 className="font-semibold text-gray-900 mb-1">{event.title}</h5>
+                          <div className="text-sm text-gray-600 mb-2">
+                            {formatDate(event.event_time)} • {formatTime(event.event_time)}
+                            {isPast && <span className="ml-2 text-xs text-gray-500">(Past)</span>}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 ml-2">
+                          <span className={`text-xs px-2 py-1 rounded ${getTypeColor(event.type)}`}>
+                            {event.type}
+                          </span>
+                        </div>
+                      </div>
+                      {event.description && (
+                        <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                      )}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEditEvent(event)}
+                          className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1"
+                        >
+                          <Edit className="w-4 h-4" />
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteEvent(event.id)}
+                          className="flex-1 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-1"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <div className="text-center text-gray-500">
+                  <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                  <p>No events scheduled</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Day Detail Modal */}
         {showDayModal && selectedDate && (
