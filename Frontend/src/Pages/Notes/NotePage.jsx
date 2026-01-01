@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Edit, Trash2, Calendar, BookOpen, Tag, X } from 'lucide-react';
+import { ArrowLeft, Edit, Trash2, Calendar, BookOpen, Tag, X, Download } from 'lucide-react';
 import { useNotes } from '../../contexts/NotesContext';
 import { useToastContext } from '../../contexts/ToastContext';
 import { useState } from 'react';
@@ -123,6 +123,27 @@ function NotePage() {
     return <Loader2 />;
   }
 
+  const handleDownload = () => {
+    // Create a blob with the markdown content
+    const blob = new Blob([note.content], { type: 'text/markdown' });
+
+    // Create a temporary link element
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    // Set the filename (replaces spaces with underscores for better compatibility)
+    link.href = url;
+    link.download = `${note.title.replace(/\s+/g, '_')}.md`;
+
+    // Append to body, click, and cleanup
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    show('Download started', 'success');
+  };
+
   // If note not found
   if (!note) {
     return (
@@ -183,6 +204,13 @@ function NotePage() {
 
               {!isEditing && (
                 <div className="flex gap-2">
+                  <button
+                    onClick={handleDownload}
+                    className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
+                    title="Download as Markdown"
+                  >
+                    <Download className="w-5 h-5" />
+                  </button>
                   <button
                     onClick={handleEditClick}
                     className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
