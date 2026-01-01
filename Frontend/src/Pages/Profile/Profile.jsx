@@ -19,7 +19,9 @@ export default function UserProfile() {
   const [major, setMajor] = useState('');
   const [university, setUniversity] = useState('');
   const [totalCredits, setTotalCredits] = useState(0);
-  const [profilePic, setProfilePic] = useState('https://api.dicebear.com/7.x/avataaars/svg?seed=John');
+  const [profilePic, setProfilePic] = useState(
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+  );
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -33,6 +35,11 @@ export default function UserProfile() {
     profilePic: profilePic,
   });
 
+  const getImageUrl = (fileName) => {
+    if (!fileName) return 'https://api.dicebear.com/7.x/avataaars/svg?seed=John';
+    return `${import.meta.env.VITE_ASSETS_URL}/${fileName}`;
+  };
+
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -45,18 +52,13 @@ export default function UserProfile() {
         method: 'POST',
         body: formData,
       });
-
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || 'Upload failed');
-
-      setEditForm((prev) => ({
-        ...prev,
-        profilePic: data.imageUrl,
-      }));
+      if (data.success) {
+        setEditForm((prev) => ({ ...prev, profilePic: data.filename }));
+      }
     } catch (err) {
-      console.error(err);
-      show(err.message || 'Image upload failed', 'error');
+      show('Upload failed', 'error');
     }
   };
 
@@ -93,7 +95,7 @@ export default function UserProfile() {
         'success',
       );
 
-      refreshProfile(); 
+      refreshProfile();
       refreshGpa();
       refreshCourses();
       refreshSemester();
@@ -177,7 +179,7 @@ export default function UserProfile() {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           <img
-            src={profilePic}
+            src={getImageUrl(profilePic)}
             alt="Profile"
             className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
           />
@@ -260,7 +262,7 @@ export default function UserProfile() {
                 {/* Profile Picture */}
                 <div className="flex flex-col items-center gap-2">
                   <img
-                    src={editForm.profilePic}
+                    src={getImageUrl(editForm.profilePic)}
                     alt="Profile"
                     className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-gray-100 object-cover"
                   />

@@ -32,6 +32,12 @@ function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation().pathname;
   const { logout } = useAuth();
 
+  const getImageUrl = (fileName) => {
+    if (!fileName) return 'https://api.dicebear.com/7.x/avataaars/svg?seed=John';
+    if (fileName.startsWith('http')) return fileName;
+    return `${import.meta.env.VITE_ASSETS_URL}/${fileName}`;
+  };
+
   const handleChangePassword = async ({ currentPassword, newPassword }) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/change-password.php`, {
@@ -49,9 +55,10 @@ function Sidebar({ isOpen, setIsOpen }) {
 
       setPasswordModalOpen(false);
 
-      show(data.message || 'Password changed successfully', "success");
+      show(data.message || 'Password changed successfully', 'success');
     } catch (error) {
-      show(error.message || 'Error changing password', 'error');}
+      show(error.message || 'Error changing password', 'error');
+    }
   };
 
   return (
@@ -143,11 +150,11 @@ function Sidebar({ isOpen, setIsOpen }) {
                 className="flex items-center space-x-3 p-3 rounded-lg w-full"
               >
                 <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                  {user.profile_pic === null ? (
+                  {!user.profile_pic ? (
                     <User size={16} className="text-gray-600" />
                   ) : (
                     <img
-                      src={user.profile_pic}
+                      src={getImageUrl(user.profile_pic)}
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover"
                     />

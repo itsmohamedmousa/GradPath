@@ -34,9 +34,7 @@ if (!move_uploaded_file($file["tmp_name"], $targetPath)) {
     exit;
 }
 
-$imageUrl = "http://localhost:8000/api/public/uploads/" . $filename;
-
 echo json_encode([
     "success" => true,
-    "imageUrl" => $imageUrl
+    "filename" => $filename
 ]);
