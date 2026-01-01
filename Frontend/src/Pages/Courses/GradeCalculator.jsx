@@ -10,7 +10,7 @@ function GradeCalculator() {
   const [targetGrade, setTargetGrade] = useState('');
   const [results, setResults] = useState([]);
   const [currentGrade, setCurrentGrade] = useState(0);
-  const registeredCourses = courses.filter(course => course.status === 'Registered')
+  const registeredCourses = courses.filter((course) => course.status === 'Registered');
 
   const calculateRequiredGrades = () => {
     setResults([]);
@@ -32,70 +32,50 @@ function GradeCalculator() {
       return;
     }
 
-    // Calculate current weighted grade from completed items
     let completedWeight = 0;
     let currentWeightedScore = 0;
+
+    const incompleteItems = [];
 
     course.grade_items.forEach((item) => {
       const weight = parseFloat(item.weight) || 0;
       const score = parseFloat(item.score);
 
-      if (!isNaN(score) && score !== null && score !== '') {
+      if (!isNaN(score)) {
         completedWeight += weight;
         currentWeightedScore += (score * weight) / 100;
+      } else {
+        incompleteItems.push(item);
       }
     });
 
-    setCurrentGrade(completedWeight > 0 ? currentWeightedScore : 0);
-
-    // Calculate required grades for incomplete items
-    const incompleteItems = course.grade_items.filter((item) => {
-      const score = parseFloat(item.score);
-      return isNaN(score) || score === null || score === '';
-    });
+    setCurrentGrade(currentWeightedScore);
 
     if (incompleteItems.length === 0) {
       show('All grade items have been completed for this course.', 'info');
       return;
     }
 
-    const remainingWeight = 100 - completedWeight;
+    const remainingWeight = incompleteItems.reduce(
+      (sum, item) => sum + (parseFloat(item.weight) || 0),
+      0,
+    );
 
     if (remainingWeight <= 0) {
-      show('All grade items have been completed.', 'info');
+      show('Remaining grade items have invalid weights.', 'warning');
       return;
     }
 
-    // Calculate what's needed on remaining items
     const pointsNeeded = target - currentWeightedScore;
-    const calculatedResults = [];
 
-    // For each incomplete item, calculate what's needed if only that item remains
-    incompleteItems.forEach((item) => {
-      const weight = parseFloat(item.weight) || 0;
+    const requiredScore = (pointsNeeded * 100) / remainingWeight;
 
-      // Calculate required score if this is the only remaining item
-      const requiredScore = (pointsNeeded * 100) / weight;
-
-      calculatedResults.push({
-        title: item.title || 'Untitled',
-        weight: weight,
-        requiredScore: requiredScore,
-        type: item.type || 'Assessment',
-      });
-    });
-
-    // Also calculate average needed across all remaining items
-    if (incompleteItems.length > 0) {
-      const averageRequired = (pointsNeeded * 100) / remainingWeight;
-      calculatedResults.push({
-        title: 'Average across all remaining items',
-        weight: remainingWeight,
-        requiredScore: averageRequired,
-        type: 'Average',
-        isAverage: true,
-      });
-    }
+    const calculatedResults = incompleteItems.map((item) => ({
+      title: item.title || 'Untitled',
+      weight: parseFloat(item.weight) || 0,
+      requiredScore,
+      type: item.type || 'Assessment',
+    }));
 
     setResults(calculatedResults);
   };
