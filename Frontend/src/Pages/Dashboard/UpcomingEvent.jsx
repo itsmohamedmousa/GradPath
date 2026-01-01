@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 function UpcomingEvent() {
   const { data: eventData } = useEvent();
-  console.log('Event data in UpcomingEvent:', eventData);
 
   function getUpcomingEvent(events) {
     if (!Array.isArray(events) || events.length === 0) return null;
