@@ -38,7 +38,6 @@ function CoursesTable({ setCourseToEdit }) {
         show(result.message || 'Failed to delete course.', 'error');
       }
     } catch (err) {
-      console.error('Delete error:', err);
       show('Something went wrong.', 'error');
     }
   };
