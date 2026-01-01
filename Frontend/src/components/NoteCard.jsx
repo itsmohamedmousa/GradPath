@@ -1,11 +1,14 @@
 import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 
 function NoteCard({ text }) {
   return (
     <StyledWrapper>
       <div className="page">
         <div className="margin" />
-        <p>{text}</p>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>{text}</ReactMarkdown>
       </div>
     </StyledWrapper>
   );

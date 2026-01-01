@@ -4,6 +4,9 @@ import { useNotes } from '../../contexts/NotesContext';
 import { useToastContext } from '../../contexts/ToastContext';
 import { useState } from 'react';
 import Loader2 from '../../components/Loader/Loader2';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 
 function NotePage() {
   const { noteTitle } = useParams();
@@ -306,10 +309,10 @@ function NotePage() {
                 placeholder="Note content..."
               />
             ) : (
-              <div className="prose max-w-none">
-                <pre className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+              <div className="prose max-w-none prose-slate">
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
                   {note.content || 'No content'}
-                </pre>
+                </ReactMarkdown>
               </div>
             )}
           </div>
