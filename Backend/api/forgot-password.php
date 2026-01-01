@@ -95,50 +95,53 @@ try {
         $mail->Port = $_ENV['MAIL_PORT'];
 
         // Recipients
-        $mail->setFrom($_ENV['MAIL_ADDRESS'], $_ENV['MAIL_NAME']);
+        $mail->setFrom($_ENV['MAIL_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
         $mail->addAddress($email, $user['username']);
 
         // Content
         $resetLink = $_ENV['FRONTEND_URL'] . "/reset-password?token=" . urlencode($token);
 
         $mail->isHTML(true);
-        $mail->Subject = 'Password Reset Request';
+        $mail->Subject = 'Password Reset Request - GradPath';
         $mail->Body = "
-            <html>
-            <head>
-                <style>
-                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                    .button { 
-                        display: inline-block; 
-                        padding: 12px 24px; 
-                        background-color: #2563eb; 
-                        color: white; 
-                        text-decoration: none; 
-                        border-radius: 5px; 
-                        margin: 20px 0;
-                    }
-                    .footer { margin-top: 30px; font-size: 12px; color: #666; }
-                </style>
-            </head>
-            <body>
-                <div class='container'>
-                    <h2>Password Reset Request</h2>
-                    <p>Hello {$user['username']},</p>
-                    <p>We received a request to reset your password. Click the button below to reset it:</p>
-                    <a href='{$resetLink}' class='button'>Reset Password</a>
-                    <p>Or copy and paste this link into your browser:</p>
-                    <p style='word-break: break-all; font-size: 12px;'>{$resetLink}</p>
-                    <p>This link will expire in 1 hour.</p>
-                    <p>If you didn't request a password reset, please ignore this email.</p>
-                    <div class='footer'>
-                        <p>This is an automated email, please do not reply.</p>
-                    </div>
+            <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);'>
+                
+                <div style='background-color: #007bff; padding: 25px; text-align: center;'>
+                    <h2 style='color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 0.5px;'>Security Notification</h2>
                 </div>
-            </body>
-            </html>
+                
+                <div style='padding: 30px; background-color: #ffffff;'>
+                    <p style='font-size: 16px; color: #555;'>Hello <strong>{$user['username']}</strong>,</p>
+                    <p style='font-size: 16px; color: #555;'>We received a request to reset your password for your account. Click the button below to proceed:</p>
+                    
+                    <div style='text-align: center; margin: 30px 0;'>
+                        <a href='{$resetLink}' 
+                        style='background-color: #007bff; color: #ffffff; padding: 14px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                        Reset Password
+                        </a>
+                    </div>
+                    
+                    <div style='background-color: #fff9e6; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0;'>
+                        <p style='margin: 0; font-size: 14px; color: #856404;'>
+                            <strong>Security Notice:</strong> This link will expire in 1 hour. If you did not request this, please ignore this email; your account remains secure.
+                        </p>
+                    </div>
+                    
+                    <p style='margin-top: 25px; font-size: 13px; color: #888;'>
+                        If the button above doesn't work, copy and paste this link into your browser:
+                        <br>
+                        <span style='color: #007bff; word-break: break-all;'>{$resetLink}</span>
+                    </p>
+                </div>
+                
+                <div style='background-color: #f4f4f4; padding: 20px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #eee;'>
+                    <p style='margin: 0 0 10px 0;'>This is an automated message, please do not reply.</p>
+                    <p style='margin: 0;'>&copy; " . date('Y') . " " . $_ENV['MAIL_FROM_NAME'] . ". All rights reserved.</p>
+                </div>
+            </div>
         ";
-        $mail->AltBody = "Hello {$user['username']},\n\nWe received a request to reset your password.\n\nClick this link to reset it: {$resetLink}\n\nThis link will expire in 1 hour.\n\nIf you didn't request a password reset, please ignore this email.";
+
+        $mail->AltBody = "Hello {$user['username']},\n\nWe received a request to reset your password. Use the link below to reset it:\n\n{$resetLink}\n\nThis link will expire in 1 hour.\n\n© " . date('Y') . " " . $_ENV['MAIL_FROM_NAME'];
 
         $mail->send();
 
