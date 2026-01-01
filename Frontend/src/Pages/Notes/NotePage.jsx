@@ -184,43 +184,55 @@ function NotePage() {
         </button>
 
         {/* Note Content */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
           {/* Header */}
-          <div className="border-b border-gray-200 p-6">
-            <div className="flex items-start justify-between mb-4">
+          <div className="border-b border-gray-200 p-4 md:p-6">
+            {/* Title and Actions Row: Column on mobile, Row on md+ */}
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
               {isEditing ? (
                 <input
                   type="text"
                   value={editedTitle}
                   onChange={(e) => setEditedTitle(e.target.value)}
-                  className="text-3xl font-bold text-gray-900 border-b-2 border-blue-500 focus:outline-none flex-1 mr-4"
+                  className="text-2xl md:text-3xl font-bold text-gray-900 border-b-2 border-blue-500 focus:outline-none w-full md:flex-1"
                   placeholder="Note title..."
                 />
               ) : (
-                <h1 className="text-3xl font-bold text-gray-900 flex-1">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex-1 break-words">
                   {note.title || 'Untitled'}
                 </h1>
               )}
 
               {!isEditing && (
-                <div className="flex gap-2">
+                <div className="flex w-full md:w-auto items-center gap-2 sm:gap-3">
+                  {/* Download Button */}
                   <button
                     onClick={handleDownload}
-                    className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
+                    className="flex flex-1 md:flex-none items-center justify-center gap-2 p-2.5 md:p-2 
+                       text-green-600 hover:bg-green-50 rounded-lg border border-green-100 
+                       md:border-none transition-all active:scale-95"
                     title="Download as Markdown"
                   >
                     <Download className="w-5 h-5" />
                   </button>
+
+                  {/* Edit Button */}
                   <button
                     onClick={handleEditClick}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                    className="flex flex-1 md:flex-none items-center justify-center gap-2 p-2.5 md:p-2 
+                       text-blue-600 hover:bg-blue-50 rounded-lg border border-blue-100 
+                       md:border-none transition-all active:scale-95"
                     title="Edit note"
                   >
                     <Edit className="w-5 h-5" />
                   </button>
+
+                  {/* Delete Button */}
                   <button
                     onClick={() => setShowConfirmModal(true)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                    className="flex flex-1 md:flex-none items-center justify-center gap-2 p-2.5 md:p-2 
+                       text-red-600 hover:bg-red-50 rounded-lg border border-red-100 
+                       md:border-none transition-all active:scale-95"
                     title="Delete note"
                   >
                     <Trash2 className="w-5 h-5" />
@@ -229,10 +241,10 @@ function NotePage() {
               )}
             </div>
 
-            {/* Metadata */}
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
+            {/* Metadata Row: flex-wrap ensures it flows nicely on narrow screens */}
+            <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-600 mb-6">
               <div className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4" />
+                <BookOpen className="w-4 h-4 shrink-0 text-gray-400" />
                 {isEditing ? (
                   <input
                     type="text"
@@ -242,26 +254,30 @@ function NotePage() {
                     placeholder="Subject..."
                   />
                 ) : (
-                  <span>{note.subject || 'No subject'}</span>
+                  <span className="font-medium">{note.subject || 'No subject'}</span>
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Updated: {formatDate(note.updated_at)}</span>
+                <Calendar className="w-4 h-4 shrink-0 text-gray-400" />
+                <span>
+                  Updated: <span className="font-medium">{formatDate(note.updated_at)}</span>
+                </span>
               </div>
             </div>
 
             {/* Tags Section */}
-            <div className="mt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Tag className="w-4 h-4 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">Tags</span>
+            <div className="pt-2 border-t border-gray-50 md:border-none">
+              <div className="flex items-center gap-2 mb-3">
+                <Tag className="w-4 h-4 text-gray-500" />
+                <span className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  Tags
+                </span>
               </div>
 
               {isEditing ? (
-                <div>
-                  {/* Tag Input */}
-                  <div className="flex flex-col sm:flex-row items-center gap-2 mb-3 min-w-0">
+                <div className="space-y-3">
+                  {/* Tag Input: Column on tiny mobile, Row on SM+ */}
+                  <div className="flex flex-col sm:flex-row items-stretch gap-2 min-w-0">
                     <input
                       type="text"
                       value={tagInput}
@@ -271,41 +287,32 @@ function NotePage() {
                         border border-gray-300 rounded-lg
                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
                         outline-none transition"
-                      placeholder="Add a tag (press Enter)"
+                      placeholder="Add a tag..."
                     />
-
                     <button
                       onClick={handleAddTag}
-                      className="h-10 px-4 text-sm
-                        bg-blue-600 text-white rounded-lg
-                        hover:bg-blue-700 transition
-                        whitespace-nowrap shrink-0
-                        flex items-center justify-center"
+                      className="h-10 px-6 bg-blue-600 text-white rounded-lg
+                        hover:bg-blue-700 transition font-medium text-sm shrink-0"
                     >
                       Add
                     </button>
                   </div>
 
-                  {/* Editable Tags */}
                   <div className="flex flex-wrap gap-2">
-                    {editedTags.length > 0 ? (
-                      editedTags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-700"
+                    {editedTags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-purple-50 text-purple-700 border border-purple-100"
+                      >
+                        {tag}
+                        <button
+                          onClick={() => handleRemoveTag(tag)}
+                          className="hover:bg-purple-200 rounded-full p-0.5 transition-colors"
                         >
-                          {tag}
-                          <button
-                            onClick={() => handleRemoveTag(tag)}
-                            className="hover:bg-purple-200 rounded-full p-0.5"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </span>
-                      ))
-                    ) : (
-                      <span className="text-sm text-gray-400">No tags yet</span>
-                    )}
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
+                    ))}
                   </div>
                 </div>
               ) : (
@@ -314,30 +321,35 @@ function NotePage() {
                     note.tags.map((tag) => (
                       <span
                         key={tag.id}
-                        className="inline-block px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-700"
+                        className="px-3 py-1 rounded-full text-sm bg-purple-50 text-purple-700 border border-purple-100 font-medium"
                       >
                         {tag.name}
                       </span>
                     ))
                   ) : (
-                    <span className="text-sm text-gray-400">No tags</span>
+                    <span className="text-sm text-gray-400 italic">No tags associated</span>
                   )}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Content */}
-          <div className="p-6">
+          {/* Content Area */}
+          <div className="p-4 md:p-8">
             {isEditing ? (
               <textarea
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
-                className="w-full min-h-[400px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-y"
-                placeholder="Note content..."
+                className="w-full min-h-[400px] p-4 text-gray-800 border border-gray-300 rounded-lg 
+                  focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-y"
+                placeholder="Start writing your note..."
               />
             ) : (
-              <div className="prose max-w-none prose-slate">
+              <div
+                className="prose prose-slate max-w-none 
+                    prose-headings:font-bold prose-a:text-blue-600 
+                    prose-img:rounded-xl prose-code:text-blue-500"
+              >
                 <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
                   {note.content || 'No content'}
                 </ReactMarkdown>
@@ -345,28 +357,26 @@ function NotePage() {
             )}
           </div>
 
-          {/* Edit Actions */}
-          {isEditing && (
-            <div className="border-t border-gray-200 p-6 flex justify-end gap-3">
+          {/* Footer Actions / Info */}
+          {isEditing ? (
+            <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex flex-col sm:flex-row justify-end gap-3">
               <button
                 onClick={handleCancel}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition font-medium order-2 sm:order-1"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition font-medium order-1 sm:order-2"
               >
                 Save Changes
               </button>
             </div>
-          )}
-
-          {/* Footer Info */}
-          {!isEditing && (
-            <div className="border-t border-gray-200 p-6 bg-gray-50 text-sm text-gray-600">
-              <p>Created: {formatDate(note.created_at)}</p>
+          ) : (
+            <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 text-xs md:text-sm text-gray-500 flex justify-between items-center">
+              <span>Created: {formatDate(note.created_at)}</span>
+              <span className="hidden sm:inline">ID: {note.id}</span>
             </div>
           )}
         </div>
