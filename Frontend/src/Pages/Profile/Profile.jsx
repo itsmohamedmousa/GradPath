@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Mail, GraduationCap, Building2, Award, Edit2, Camera } from 'lucide-react';
+import { Mail, GraduationCap, Building2, Award, Edit2, Camera, User } from 'lucide-react';
 import { useToastContext } from '../../contexts/ToastContext';
 import GpaChart from '../Dashboard/GpaChart';
 import { useProfile } from '../../contexts/ProfileContext';
@@ -36,7 +36,6 @@ export default function UserProfile() {
   });
 
   const getImageUrl = (fileName) => {
-    if (!fileName) return 'https://api.dicebear.com/7.x/avataaars/svg?seed=John';
     return `${import.meta.env.VITE_ASSETS_URL}/${fileName}`;
   };
 
@@ -70,7 +69,7 @@ export default function UserProfile() {
       setMajor(user.major || '');
       setUniversity(user.university || '');
       setTotalCredits(user.total_credits || 0);
-      setProfilePic(user.profile_pic || 'https://api.dicebear.com/7.x/avataaars/svg?seed=John');
+      setProfilePic(user.profile_pic);
     }
   }, [profileData]);
 
@@ -178,11 +177,17 @@ export default function UserProfile() {
       {/* Profile Header Card */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <img
-            src={getImageUrl(profilePic)}
-            alt="Profile"
-            className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
-          />
+          {profilePic ? (
+            <img
+              src={getImageUrl(profilePic)}
+              alt="Profile"
+              className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-full border-4 border-gray-100 flex items-center justify-center bg-gray-100">
+              <User className="w-15 h-15 text-gray-300" />
+            </div>
+          )}
           <div className="flex-1 text-center sm:text-left">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">{username}</h2>
             <div className="space-y-1 text-gray-600">
@@ -261,11 +266,17 @@ export default function UserProfile() {
               <div className="space-y-6">
                 {/* Profile Picture */}
                 <div className="flex flex-col items-center gap-2">
-                  <img
-                    src={getImageUrl(editForm.profilePic)}
-                    alt="Profile"
-                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-gray-100 object-cover"
-                  />
+                  {editForm.profilePic ? (
+                    <img
+                      src={getImageUrl(editForm.profilePic)}
+                      alt="Profile"
+                      className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full border-4 border-gray-100 flex items-center justify-center bg-gray-100">
+                      <User className="w-15 h-15 text-gray-300" />
+                    </div>
+                  )}
                   <button
                     onClick={() => fileInputRef.current.click()}
                     className="cursor-pointer text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
