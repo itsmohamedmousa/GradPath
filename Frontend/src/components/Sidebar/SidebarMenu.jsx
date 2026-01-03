@@ -14,6 +14,7 @@ import { useProfile } from '../../contexts/ProfileContext';
 import LoaderText from '../Loader/LoaderText';
 import ChangePasswordModal from './ChangePasswordModal';
 import { useToastContext } from '../../contexts/ToastContext';
+import ThemeModal from './ThemeModal';
 
 function Sidebar({ isOpen, setIsOpen }) {
   const { data: profileData, loadingProfile, errorProfile } = useProfile();
@@ -22,6 +23,7 @@ function Sidebar({ isOpen, setIsOpen }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [PasswordModalOpen, setPasswordModalOpen] = useState(false);
+  const [themeModalOpen, setThemeModalOpen] = useState(false);
   const [menuItems] = useState([
     { icon: Home, label: 'Dashboard', href: '/dashboard' },
     { icon: BookOpen, label: 'Courses', href: '/courses' },
@@ -191,6 +193,15 @@ function Sidebar({ isOpen, setIsOpen }) {
                 <button
                   onClick={() => {
                     setMenuOpen(false);
+                    setThemeModalOpen(true);
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                >
+                  Switch Theme
+                </button>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
                     setPasswordModalOpen(true);
                   }}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
@@ -217,6 +228,7 @@ function Sidebar({ isOpen, setIsOpen }) {
           onSubmit={handleChangePassword}
         />
       )}
+      {themeModalOpen && <ThemeModal open={() => setThemeModalOpen(true)} onClose={() => setThemeModalOpen(false)} />}
       {showConfirmModal && (
         <>
           {/* Backdrop */}
