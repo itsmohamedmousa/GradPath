@@ -41,8 +41,8 @@ function CoursesChart() {
     if (active && payload && payload.length) {
       const course = payload[0].payload;
       return (
-        <div className="bg-gray-900 bg-opacity-95 p-3 rounded-lg shadow-xl border border-gray-700">
-          <div className="text-white">
+        <div className="bg-[rgb(var(--card))] bg-opacity-95 p-3 rounded-lg shadow-xl border border-[rgb(var(--border))]">
+          <div className="text-[rgb(var(--text))]">
             <p className="font-bold mb-2">{course.name}</p>
             <div className="space-y-1 text-sm">
               <p>
@@ -68,7 +68,7 @@ function CoursesChart() {
       : 0;
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -76,13 +76,13 @@ function CoursesChart() {
             <BarChart3 className="w-5 h-5 text-indigo-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">Course Grades</h3>
-            <p className="text-xs text-gray-600">Performance Overview</p>
+            <h3 className="font-bold text-[rgb(var(--text))]">Course Grades</h3>
+            <p className="text-xs text-[rgb(var(--text-secondary))]">Performance Overview</p>
           </div>
         </div>
         {courseData.length > 0 && (
           <div className="text-right">
-            <p className="text-xs text-gray-600">Average</p>
+            <p className="text-xs text-[rgb(var(--text-secondary))]">Average</p>
             <p className="text-lg font-bold text-indigo-600">{averageGrade}%</p>
           </div>
         )}
@@ -126,9 +126,9 @@ function CoursesChart() {
           </BarChart>
         </ResponsiveContainer>
       ) : (
-        <div className="h-64 flex items-center justify-center text-gray-500">
+        <div className="h-64 flex items-center justify-center text-[rgb(var(--text-secondary))]">
           <div className="text-center">
-            <BarChart3 className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+            <BarChart3 className="w-12 h-12 mx-auto mb-2 text-[rgb(var(--text-secondary))]" />
             <p className="text-sm">No graded courses yet</p>
           </div>
         </div>
@@ -140,23 +140,23 @@ function CoursesChart() {
           <div className="grid grid-cols-5 gap-2 text-xs text-center">
             <div>
               <div className="w-3 h-3 bg-green-500 rounded mx-auto mb-1"></div>
-              <span className="text-gray-600">90-100</span>
+              <span className="text-[rgb(var(--text-secondary))]">90-100</span>
             </div>
             <div>
               <div className="w-3 h-3 bg-blue-500 rounded mx-auto mb-1"></div>
-              <span className="text-gray-600">80-89</span>
+              <span className="text-[rgb(var(--text-secondary))]">80-89</span>
             </div>
             <div>
               <div className="w-3 h-3 bg-amber-500 rounded mx-auto mb-1"></div>
-              <span className="text-gray-600">70-79</span>
+              <span className="text-[rgb(var(--text-secondary))]">70-79</span>
             </div>
             <div>
               <div className="w-3 h-3 bg-orange-500 rounded mx-auto mb-1"></div>
-              <span className="text-gray-600">60-69</span>
+              <span className="text-[rgb(var(--text-secondary))]">60-69</span>
             </div>
             <div>
               <div className="w-3 h-3 bg-red-500 rounded mx-auto mb-1"></div>
-              <span className="text-gray-600">&lt;60</span>
+              <span className="text-[rgb(var(--text-secondary))]">&lt;60</span>
             </div>
           </div>
         </div>

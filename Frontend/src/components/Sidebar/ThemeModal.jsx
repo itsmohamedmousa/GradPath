@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useToastContext } from '../../contexts/ToastContext';
 
 export default function ThemeModal({ open, onClose }) {
-  // Initialize state from localStorage immediately
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme === 'dark';
@@ -22,7 +21,6 @@ export default function ThemeModal({ open, onClose }) {
     const root = document.documentElement;
     root.classList.remove('dark');
     if (isDark) root.classList.add('dark');
-    // Save to localStorage whenever theme changes
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
@@ -35,11 +33,11 @@ export default function ThemeModal({ open, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40" />
 
       {/* Modal */}
       <div className="relative w-full max-w-sm rounded-xl bg-[rgb(var(--card))] p-6 shadow-lg">
-        <h2 className="mb-6 text-lg font-semibold text-gray-900 dark:text-white text-center">
+        <h2 className="mb-6 text-lg font-semibold text-[rgb(var(--text))] text-center">
           Choose Theme
         </h2>
 
@@ -72,7 +70,7 @@ export default function ThemeModal({ open, onClose }) {
             onClose();
             show('Theme changed to ' + (isDark ? 'Dark' : 'Light'), 'info');
           }}
-          className="mt-6 w-full rounded-lg bg-blue-500 hover:bg-blue-600 px-4 py-2 text-white font-medium transition-colors"
+          className="mt-6 w-full rounded-lg bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] px-4 py-2 text-[rgb(var(--text))] font-medium transition-colors"
         >
           Done
         </button>

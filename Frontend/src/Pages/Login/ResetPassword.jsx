@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle } from 'lucide-react';
+import Loader from '../../components/Loader/Loader';
 import { useToastContext } from '../../contexts/ToastContext';
 
 function ResetPassword() {
@@ -110,20 +111,15 @@ function ResetPassword() {
 
   if (validatingToken) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600">Validating reset token...</p>
-        </div>
-      </div>
+          <Loader />
     );
   }
 
   if (!tokenValid) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-8 text-center">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
               <svg
                 className="h-8 w-8 text-red-600"
@@ -139,8 +135,8 @@ function ResetPassword() {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Invalid Reset Link</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">Invalid Reset Link</h2>
+            <p className="text-[rgb(var(--text-secondary))] mb-6">
               This password reset link is invalid or has expired. Please request a new one.
             </p>
             <Link
@@ -157,14 +153,14 @@ function ResetPassword() {
 
   if (resetSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-8 text-center">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Password Reset Successfully!</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">Password Reset Successfully!</h2>
+            <p className="text-[rgb(var(--text-secondary))] mb-6">
               Your password has been reset. Redirecting to login...
             </p>
             <Link
@@ -180,9 +176,9 @@ function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+        <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-6 sm:p-8">
           {/* Logo Container */}
           <div className="flex justify-center mb-6">
             <img
@@ -193,10 +189,10 @@ function ResetPassword() {
           </div>
 
           {/* Title */}
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-[rgb(var(--text))] mb-2">
             Reset Password
           </h2>
-          <p className="text-center text-gray-600 mb-6 text-sm">Enter your new password below</p>
+          <p className="text-center text-[rgb(var(--text-secondary))] mb-6 text-sm">Enter your new password below</p>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -205,7 +201,7 @@ function ResetPassword() {
               <input
                 type={passwordHidden ? 'password' : 'text'}
                 id="password"
-                className="peer w-full px-4 py-3 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="peer w-full px-4 py-3 pr-12 border border-[rgb(var(--border))] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed"
                 placeholder="New Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -215,7 +211,7 @@ function ResetPassword() {
               />
               <label
                 htmlFor="password"
-                className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
               >
                 New Password
               </label>
@@ -236,7 +232,7 @@ function ResetPassword() {
               <input
                 type={confirmPasswordHidden ? 'password' : 'text'}
                 id="confirmPassword"
-                className="peer w-full px-4 py-3 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="peer w-full px-4 py-3 pr-12 border border-[rgb(var(--border))] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed"
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -246,7 +242,7 @@ function ResetPassword() {
               />
               <label
                 htmlFor="confirmPassword"
-                className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
               >
                 Confirm Password
               </label>
@@ -267,7 +263,7 @@ function ResetPassword() {
             </div>
 
             {/* Password Requirements */}
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-[rgb(var(--text-secondary))]">
               <p>Password must be at least 6 characters long</p>
             </div>
 
@@ -275,11 +271,11 @@ function ResetPassword() {
             <button
               type="submit"
               className={`w-full py-3 px-4 rounded-md font-medium text-white transition-colors duration-200 flex items-center justify-center gap-2 ${
-                password.length >= 6 && confirmPassword.length >= 6 && !loading
-                  ? 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
-                  : 'bg-gray-300 cursor-not-allowed'
+                password.length >= 6 && confirmPassword.length >= 6 && !loading && password === confirmPassword
+                  ? 'bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] cursor-pointer'
+                  : 'bg-[rgb(var(--hover))] cursor-not-allowed'
               }`}
-              disabled={loading || password.length < 6 || confirmPassword.length < 6}
+              disabled={loading || password !== confirmPassword || password.length < 6 || confirmPassword.length < 6}
             >
               {loading ? (
                 <>

@@ -131,9 +131,9 @@ function Register() {
     !loading;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-4xl">
-        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10">
+        <div className="bg-[rgb(var(--card))] rounded-xl shadow-lg p-6 sm:p-8 lg:p-10">
           {/* Logo Container */}
           <div className="flex justify-center mb-6">
             <img
@@ -145,15 +145,15 @@ function Register() {
 
           {/* Title */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Create Account</h2>
-            <p className="text-gray-600">Join us to track your academic journey</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[rgb(var(--text))] mb-2">Create Account</h2>
+            <p className="text-[rgb(var(--text-secondary))]">Join us to track your academic journey</p>
           </div>
 
           {/* Form */}
           <form className="space-y-6">
             {/* Account Information Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 pb-2 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-[rgb(var(--text))] flex items-center gap-2 pb-2 border-b border-[rgb(var(--border))]">
                 <User className="w-5 h-5 text-blue-600" />
                 Account Information
               </h3>
@@ -164,7 +164,7 @@ function Register() {
                   <input
                     type="text"
                     id="username"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Username"
                     value={formData.username}
                     onChange={(e) => handleChange('username', e.target.value)}
@@ -173,7 +173,7 @@ function Register() {
                   />
                   <label
                     htmlFor="username"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Username *
                   </label>
@@ -184,7 +184,7 @@ function Register() {
                   <input
                     type="email"
                     id="email"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Email"
                     value={formData.email}
                     onChange={(e) => handleChange('email', e.target.value)}
@@ -193,7 +193,7 @@ function Register() {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Email *
                   </label>
@@ -204,7 +204,7 @@ function Register() {
                   <input
                     type={passwordHidden ? 'password' : 'text'}
                     id="password"
-                    className="peer w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 pr-12 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Password"
                     value={formData.password}
                     onChange={(e) => handleChange('password', e.target.value)}
@@ -213,7 +213,7 @@ function Register() {
                   />
                   <label
                     htmlFor="password"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Password *
                   </label>
@@ -238,10 +238,10 @@ function Register() {
                   <input
                     type={passwordHidden ? 'password' : 'text'}
                     id="confirmPassword"
-                    className={`peer w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all ${
+                    className={`peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all ${
                       !passwordsMatch && formData.confirmPassword.length > 0
                         ? 'border-red-500 focus:ring-red-500'
-                        : 'border-gray-300 focus:ring-blue-500'
+                        : 'border-[rgb(var(--border))] focus:ring-blue-500'
                     }`}
                     placeholder="Confirm Password"
                     value={formData.confirmPassword}
@@ -251,10 +251,10 @@ function Register() {
                   />
                   <label
                     htmlFor="confirmPassword"
-                    className={`absolute left-4 -top-2.5 bg-white px-1 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm ${
+                    className={`absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm ${
                       !passwordsMatch && formData.confirmPassword.length > 0
                         ? 'text-red-600 peer-placeholder-shown:text-red-400 peer-focus:text-red-600'
-                        : 'text-gray-600 peer-placeholder-shown:text-gray-400 peer-focus:text-blue-600'
+                        : 'text-[rgb(var(--text-secondary))] peer-placeholder-shown:text-gray-400 peer-focus:text-blue-600'
                     }`}
                   >
                     Confirm Password *
@@ -268,7 +268,7 @@ function Register() {
 
             {/* Academic Information Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 pb-2 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-[rgb(var(--text))] flex items-center gap-2 pb-2 border-b border-[rgb(var(--border))]">
                 <GraduationCap className="w-5 h-5 text-purple-600" />
                 Academic Information
               </h3>
@@ -279,7 +279,7 @@ function Register() {
                   <input
                     type="text"
                     id="university"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="University"
                     value={formData.university}
                     onChange={(e) => handleChange('university', e.target.value)}
@@ -287,7 +287,7 @@ function Register() {
                   />
                   <label
                     htmlFor="university"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     University (Optional)
                   </label>
@@ -298,7 +298,7 @@ function Register() {
                   <input
                     type="text"
                     id="major"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Major"
                     value={formData.major}
                     onChange={(e) => handleChange('major', e.target.value)}
@@ -306,7 +306,7 @@ function Register() {
                   />
                   <label
                     htmlFor="major"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Major (Optional)
                   </label>
@@ -319,7 +319,7 @@ function Register() {
                     id="totalCredits"
                     min="0"
                     step="1"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Total Credits"
                     value={formData.totalCredits}
                     onChange={(e) => handleChange('totalCredits', e.target.value)}
@@ -328,7 +328,7 @@ function Register() {
                   />
                   <label
                     htmlFor="totalCredits"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Total Credits *
                   </label>
@@ -341,7 +341,7 @@ function Register() {
                     id="completedCredits"
                     min="0"
                     step="1"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Completed Credits"
                     value={formData.completedCredits}
                     onChange={(e) => handleChange('completedCredits', e.target.value)}
@@ -350,7 +350,7 @@ function Register() {
                   />
                   <label
                     htmlFor="completedCredits"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Completed Credits *
                   </label>
@@ -364,7 +364,7 @@ function Register() {
                     min="0"
                     max="4"
                     step="0.01"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+                    className="peer w-full px-4 py-3 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed transition-all"
                     placeholder="Cumulative GPA"
                     value={formData.cumulativeGpa}
                     onChange={(e) => handleChange('cumulativeGpa', e.target.value)}
@@ -373,7 +373,7 @@ function Register() {
                   />
                   <label
                     htmlFor="cumulativeGpa"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-[rgb(var(--text-secondary))] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Cumulative GPA (0.00 - 4.00) *
                   </label>
@@ -384,10 +384,10 @@ function Register() {
             {/* Submit Button */}
             <button
               onClick={handleSubmit}
-              className={`w-full py-3.5 px-4 rounded-lg font-medium text-white transition-all duration-200 flex items-center justify-center gap-2 shadow-md ${
+              className={`w-full py-3.5 px-4 rounded-lg font-medium text-[rgb(var(--text))] transition-all duration-200 flex items-center justify-center gap-2 shadow-md ${
                 isFormValid
                   ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 cursor-pointer hover:shadow-lg'
-                  : 'bg-gray-300 cursor-not-allowed'
+                  : 'bg-[rgb(var(--hover))] cursor-not-allowed'
               }`}
               disabled={!isFormValid}
             >
@@ -405,8 +405,8 @@ function Register() {
             </button>
 
             {/* Footer */}
-            <div className="text-center pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-600">
+            <div className="text-center pt-4 border-t border-[rgb(var(--border))]">
+              <p className="text-sm text-[rgb(var(--text-secondary))]">
                 Already have an account?{' '}
                 <Link
                   to="/login"

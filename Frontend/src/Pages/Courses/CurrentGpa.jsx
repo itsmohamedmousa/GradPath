@@ -57,15 +57,15 @@ function CurrentGpa({ calcCurrentGpa, currentGpa }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 sticky top-6">
+    <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6 sticky top-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="p-2 bg-blue-100 rounded-lg">
             <TrendingUp className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">Current GPA</h3>
-            {semesterName && <p className="text-xs text-gray-500">{semesterName}</p>}
+            <h3 className="font-bold text-[rgb(var(--text))]">Current GPA</h3>
+            {semesterName && <p className="text-xs text-[rgb(var(--text-secondary))]">{semesterName}</p>}
           </div>
         </div>
       </div>
@@ -93,26 +93,26 @@ function CurrentGpa({ calcCurrentGpa, currentGpa }) {
             textAnchor="middle"
             dominantBaseline="middle"
             className="font-bold text-2xl"
-            fill="#111827"
+            fill="rgb(var(--text))"
           >
             {currentGpa || '0.00'}
           </text>
-          {needle(currentGpa, gpaChartData, cx, cy, iR, oR, '#1f2937')}
+          {needle(currentGpa, gpaChartData, cx, cy, iR, oR, 'rgb(var(--text))')}
         </PieChart>
       </div>
 
       <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
         <div>
           <div className="w-3 h-3 bg-red-500 rounded-full mx-auto mb-1"></div>
-          <span className="text-gray-600">0-2.0</span>
+          <span className="text-[rgb(var(--text-secondary))]">0-2.0</span>
         </div>
         <div>
           <div className="w-3 h-3 bg-amber-500 rounded-full mx-auto mb-1"></div>
-          <span className="text-gray-600">2.0-3.5</span>
+          <span className="text-[rgb(var(--text-secondary))]">2.0-3.5</span>
         </div>
         <div>
           <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-1"></div>
-          <span className="text-gray-600">3.5-4.0</span>
+          <span className="text-[rgb(var(--text-secondary))]">3.5-4.0</span>
         </div>
       </div>
     </div>

@@ -193,19 +193,21 @@ function CalendarPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-2">
+    <div className="min-h-screen bg-[rgb(var(--bg))] p-2">
       <div className="max-w-7xl mx-auto h-full flex flex-col">
         {/* Header */}
         <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Calendar</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl md:text-4xl font-bold text-[rgb(var(--text))] mb-2">
+              Calendar
+            </h1>
+            <p className="text-[rgb(var(--text-secondary))]">
               {events.length} {events.length === 1 ? 'event' : 'events'} scheduled
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {/* View Toggle Group */}
-            <div className="flex bg-gray-100 rounded-lg p-1 w-full sm:w-auto">
+            <div className="flex bg-[rgb(var(--card))] rounded-lg p-1 w-full sm:w-auto">
               <button
                 onClick={() => {
                   setViewMode('calendar');
@@ -213,8 +215,8 @@ function CalendarPage() {
                 }}
                 className={`flex-1 sm:flex-none px-3 py-2 rounded-md transition flex items-center justify-center gap-1.5 ${
                   viewMode === 'calendar'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'text-[rgb(var(--primary))] bg-[rgb(var(--hover))] shadow-sm'
+                    : 'text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))]'
                 }`}
               >
                 <Calendar className="w-4 h-4" />
@@ -228,8 +230,8 @@ function CalendarPage() {
                 }}
                 className={`flex-1 sm:flex-none px-3 py-2 rounded-md transition flex items-center justify-center gap-1.5 ${
                   viewMode === 'list'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'text-[rgb(var(--primary))] bg-[rgb(var(--hover))] shadow-sm'
+                    : 'text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))]'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -244,10 +246,10 @@ function CalendarPage() {
                   setViewMode('all');
                   setHideHeader(true);
                 }}
-                className={`flex-1 sm:flex-none px-4 py-2 rounded-lg border transition flex items-center justify-center gap-1.5 ${
+                className={`flex-1 sm:flex-none px-4 py-2 rounded-lg border border-[rgb(var(--border))] transition flex items-center justify-center gap-1.5 ${
                   viewMode === 'all'
-                    ? 'bg-blue-50 border-blue-200 text-blue-600'
-                    : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                    ? 'text-[rgb(var(--primary))] bg-[rgb(var(--hover))] shadow-sm'
+                    : 'bg-[rgb(var(--card))] border-[rgb(var(--border))] text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))]'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -256,7 +258,7 @@ function CalendarPage() {
 
               <button
                 onClick={goToToday}
-                className="flex-[2] sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2 shadow-sm active:scale-95"
+                className="flex-[2] sm:flex-none px-4 py-2 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition flex items-center justify-center gap-2 shadow-sm active:scale-95"
               >
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm font-medium">Today</span>
@@ -266,24 +268,28 @@ function CalendarPage() {
         </div>
 
         {/* Calendar Container */}
-        <div className="bg-white rounded-xl shadow-md flex-1 flex flex-col overflow-hidden">
+        <div className="bg-[rgb(var(--card))] rounded-xl shadow-md flex-1 flex flex-col overflow-hidden">
           {/* Calendar Header */}
-          <div className={`p-4 sm:p-6 border-b border-gray-200 ${hideHeader ? 'hidden' : ''}`}>
+          <div
+            className={`p-4 sm:p-6 border-b border-[rgb(var(--border))] ${
+              hideHeader ? 'hidden' : ''
+            }`}
+          >
             <div className="flex items-center justify-between">
               <button
                 onClick={goToPreviousMonth}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                className="p-2 hover:bg-[rgb(var(--hover))] text-[rgb(var(--text))] rounded-lg transition"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
 
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h2 className="text-xl sm:text-2xl font-bold text-[rgb(var(--text))]">
                 {monthNames[month]} {year}
               </h2>
 
               <button
                 onClick={goToNextMonth}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                className="p-2 hover:bg-[rgb(var(--hover))] text-[rgb(var(--text))] rounded-lg transition"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
@@ -299,7 +305,7 @@ function CalendarPage() {
                   {dayNames.map((day) => (
                     <div
                       key={day}
-                      className="text-center font-semibold text-gray-600 text-xs sm:text-sm py-2"
+                      className="text-center font-semibold text-[rgb(var(--text-secondary))] text-xs sm:text-sm py-2"
                     >
                       <span className="hidden sm:inline">{day}</span>
                       <span className="sm:hidden">{day.slice(0, 1)}</span>
@@ -326,20 +332,25 @@ function CalendarPage() {
                         onClick={() => handleDateClick(day)}
                         className={`
                           aspect-square border rounded-lg p-1 sm:p-2 flex flex-col
-                          transition-all duration-200
+                          transition-all duration-200 text-[rgb(var(--text-secondary))] 
                           ${
                             isPast
-                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                              : 'bg-white hover:bg-blue-50 hover:border-blue-300 cursor-pointer'
+                              ? 'bg-[rgb(var(--bg))] cursor-not-allowed'
+                              : 'bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] hover:border-blue-300 cursor-pointer'
                           }
-                          ${isToday ? 'border-blue-500 border-2 bg-blue-50' : 'border-gray-200'}
+                          ${
+                            isToday
+                              ? 'border-blue-500 border-2 bg-[rgb(var(--card))]'
+                              : 'border-[rgb(var(--border))]'
+                          }
+
                           ${hasEvents && !isPast ? 'ring-1 sm:ring-2 ring-purple-200' : ''}
                         `}
                       >
                         <div
                           className={`
                             text-xs sm:text-sm font-semibold mb-0.5 sm:mb-1
-                            ${isToday ? 'text-blue-600' : ''}
+                            ${isToday ? 'text-[rgb(var(--primary))]' : ''}
                           `}
                         >
                           {day}
@@ -383,7 +394,7 @@ function CalendarPage() {
                                   </div>
                                 ))}
                                 {dayEvents.length > 2 && (
-                                  <div className="text-xs text-gray-500">
+                                  <div className="text-xs text-[rgb(var(--text-secondary))]">
                                     +{dayEvents.length - 2}
                                   </div>
                                 )}
@@ -407,12 +418,14 @@ function CalendarPage() {
                   {getEventsForMonth().map((event) => (
                     <div
                       key={event.id}
-                      className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition"
+                      className="border border-[rgb(var(--border))] rounded-lg p-4 hover:bg-[rgb(var(--hover))] transition"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h5 className="font-semibold text-gray-900 mb-1">{event.title}</h5>
-                          <div className="text-sm text-gray-600 mb-2">
+                          <h5 className="font-semibold text-[rgb(var(--text))] mb-1">
+                            {event.title}
+                          </h5>
+                          <div className="text-sm text-[rgb(var(--text-secondary))] mb-2">
                             {formatDate(event.event_time)} • {formatTime(event.event_time)}
                           </div>
                         </div>
@@ -423,19 +436,21 @@ function CalendarPage() {
                         </div>
                       </div>
                       {event.description && (
-                        <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                        <p className="text-[rgb(var(--text-secondary))] text-sm mb-3">
+                          {event.description}
+                        </p>
                       )}
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEditEvent(event)}
-                          className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1"
+                          className="flex-1 px-3 py-2 text-sm bg-blue-600 text-[rgb(var(--text))] rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1"
                         >
                           <Edit className="w-4 h-4" />
                           Edit
                         </button>
                         <button
                           onClick={() => handleDeleteEvent(event.id)}
-                          className="flex-1 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-1"
+                          className="flex-1 px-3 py-2 text-sm bg-red-600 text-[rgb(var(--text))] rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-1"
                         >
                           <Trash2 className="w-4 h-4" />
                           Delete
@@ -446,8 +461,8 @@ function CalendarPage() {
                 </div>
               ) : (
                 <div className="h-full flex items-center justify-center">
-                  <div className="text-center text-gray-500">
-                    <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                  <div className="text-center text-[rgb(var(--text-secondary))]">
+                    <Calendar className="w-12 h-12 mx-auto mb-2 text-[rgb(var(--text-secondary))]" />
                     <p>No events this month</p>
                   </div>
                 </div>
@@ -468,16 +483,22 @@ function CalendarPage() {
                   return (
                     <div
                       key={event.id}
-                      className={`border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition ${
-                        isPast ? 'opacity-60' : ''
+                      className={`bg-[rgb(var(--card))] border border-[rgb(var(--border))] rounded-lg p-4 hover:bg-[rgb(var(--hover))] transition ${
+                        isPast ? 'opacity-40' : ''
                       }`}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h5 className="font-semibold text-gray-900 mb-1">{event.title}</h5>
-                          <div className="text-sm text-gray-600 mb-2">
+                          <h5 className="font-semibold text-[rgb(var(--text))] mb-1">
+                            {event.title}
+                          </h5>
+                          <div className="text-sm text-[rgb(var(--text-secondary))] mb-2">
                             {formatDate(event.event_time)} • {formatTime(event.event_time)}
-                            {isPast && <span className="ml-2 text-xs text-gray-500">(Past)</span>}
+                            {isPast && (
+                              <span className="ml-2 text-xs text-[rgb(var(--text-secondary))]">
+                                (Past)
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center gap-2 ml-2">
@@ -487,19 +508,21 @@ function CalendarPage() {
                         </div>
                       </div>
                       {event.description && (
-                        <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                        <p className="text-[rgb(var(--text-secondary))] text-sm mb-3">
+                          {event.description}
+                        </p>
                       )}
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEditEvent(event)}
-                          className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1"
+                          className="flex-1 px-3 py-2 text-sm bg-blue-600 text-[rgb(var(--text))] rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1"
                         >
                           <Edit className="w-4 h-4" />
                           Edit
                         </button>
                         <button
                           onClick={() => handleDeleteEvent(event.id)}
-                          className="flex-1 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-1"
+                          className="flex-1 px-3 py-2 text-sm bg-red-600 text-[rgb(var(--text))] rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-1"
                         >
                           <Trash2 className="w-4 h-4" />
                           Delete
@@ -511,8 +534,8 @@ function CalendarPage() {
               </div>
             ) : (
               <div className="h-full flex items-center justify-center">
-                <div className="text-center text-gray-500">
-                  <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                <div className="text-center text-[rgb(var(--text-secondary))]">
+                  <Calendar className="w-12 h-12 mx-auto mb-2 text-[rgb(var(--secondary))]" />
                   <p>No events scheduled</p>
                 </div>
               </div>
@@ -529,12 +552,12 @@ function CalendarPage() {
               onClick={() => setShowDayModal(false)}
             >
               <div
-                className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-auto"
+                className="bg-[rgb(var(--card))] rounded-xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[rgb(var(--text))]">
                       {selectedDate.toLocaleDateString('en-US', {
                         weekday: 'long',
                         year: 'numeric',
@@ -544,23 +567,25 @@ function CalendarPage() {
                     </h3>
                     <button
                       onClick={() => setShowDayModal(false)}
-                      className="text-gray-400 hover:text-gray-600 text-2xl"
+                      className="text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))] text-2xl"
                     >
                       ×
                     </button>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-gray-700 mb-3">Events</h4>
+                    <h4 className="font-semibold text-[rgb(var(--text))] mb-3">Events</h4>
                     {getEventsForDate(selectedDate).length > 0 ? (
                       <div className="space-y-3">
                         {getEventsForDate(selectedDate).map((event) => (
                           <div
                             key={event.id}
-                            className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition"
+                            className="border border-[rgb(var(--border))] rounded-lg p-4 hover:bg-[rgb(var(--hover))] transition"
                           >
                             <div className="flex items-start justify-between mb-2">
-                              <h5 className="font-semibold text-gray-900 flex-1">{event.title}</h5>
+                              <h5 className="font-semibold text-[rgb(var(--text))] flex-1">
+                                {event.title}
+                              </h5>
                               <div className="flex items-center gap-2 ml-4">
                                 <span
                                   className={`text-xs px-2 py-1 rounded ${getTypeColor(
@@ -586,9 +611,11 @@ function CalendarPage() {
                               </div>
                             </div>
                             {event.description && (
-                              <p className="text-gray-600 text-sm mb-2">{event.description}</p>
+                              <p className="text-[rgb(var(--text-secondary))] text-sm mb-2">
+                                {event.description}
+                              </p>
                             )}
-                            <div className="flex items-center gap-4 text-sm text-gray-500">
+                            <div className="flex items-center gap-4 text-sm text-[rgb(var(--text-secondary))]">
                               <div className="flex items-center gap-1">
                                 <Clock className="w-4 h-4" />
                                 {formatTime(event.event_time)}
@@ -598,12 +625,14 @@ function CalendarPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-gray-500 text-sm">No events for this day</p>
+                      <p className="text-[rgb(var(--text-secondary))] text-sm">
+                        No events for this day
+                      </p>
                     )}
                   </div>
 
                   <button
-                    className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center"
+                    className="w-full px-6 py-3 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition flex items-center gap-2 justify-center"
                     onClick={() => {
                       setShowDayModal(false);
                       setShowEventModal(true);
@@ -636,27 +665,43 @@ function CalendarPage() {
         <>
           <div className="fixed inset-0 bg-black opacity-50 z-50" />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-sm">
-              <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
-              <p className="text-sm text-gray-600 mb-6">
+            <div
+              className="bg-[rgb(var(--card))] rounded-xl shadow-xl p-6 w-full max-w-sm"
+              style={{ animation: 'popUp 0.3s ease forwards' }}
+            >
+              <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--text))]">Confirm Delete</h2>
+              <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">
                 Are you sure you want to delete this event? This action cannot be undone.
               </p>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowConfirmModal(false)}
-                  className="flex-1 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium"
+                  className="flex-1 py-2 text-sm rounded-lg border border-[rgb(var(--border))] bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] text-[rgb(var(--text-secondary))] font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmDelete}
-                  className="flex-1 py-2 text-sm rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium"
+                  className="flex-1 py-2 text-sm rounded-lg bg-red-600 hover:bg-red-700 text-[rgb(var(--text))] font-medium"
                 >
                   Delete
                 </button>
               </div>
             </div>
           </div>
+
+          <style>{`
+            @keyframes popUp {
+              0% {
+                opacity: 0;
+                transform: translateY(50px);
+              }
+              100% {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          `}</style>
         </>
       )}
     </div>

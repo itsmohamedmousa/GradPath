@@ -49,12 +49,12 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-2">
+    <div className="min-h-screen bg-[rgb(var(--bg))] p-2">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
-          <p className="text-gray-600">Overview of your academic progress and activities</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-[rgb(var(--text))] mb-2">Dashboard</h1>
+          <p className="text-[rgb(var(--text-secondary))]">Overview of your academic progress and activities</p>
         </div>
 
         {courses.length > 0 ? (
@@ -66,18 +66,18 @@ function Dashboard() {
             <UpcomingEvent />
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-md p-12">
+          <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-12">
             <div className="max-w-md mx-auto text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <BarChart3 className="w-8 h-8 text-blue-600" />
+                <BarChart3 className="w-8 h-8 text-[rgb(var(--primary))]" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">No Courses Available</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">No Courses Available</h2>
+              <p className="text-[rgb(var(--text-secondary))] mb-6">
                 Start tracking your academic progress by adding your first course.
               </p>
               <Link
                 to="/courses"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] text-[rgb(var(--text))] rounded-lg transition font-medium"
               >
                 <Plus className="w-5 h-5" />
                 Add Your First Course

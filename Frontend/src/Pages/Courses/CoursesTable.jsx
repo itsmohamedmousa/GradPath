@@ -44,15 +44,15 @@ function CoursesTable({ setCourseToEdit }) {
 
   return (
     <>
-      <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+      <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 className="text-xl font-bold text-[rgb(var(--text))]">
             Registered Courses
             {semesterName && (
-              <span className="text-gray-500 font-normal ml-2">— {semesterName}</span>
+              <span className="text-[rgb(var(--text-secondary))] font-normal ml-2">— {semesterName}</span>
             )}
           </h2>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-[rgb(var(--text-secondary))]">
             {courses.length} {courses.length === 1 ? 'course' : 'courses'}
           </span>
         </div>
@@ -60,18 +60,18 @@ function CoursesTable({ setCourseToEdit }) {
         <div className="overflow-x-auto">
           <table className="min-w-full">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+              <tr className="border-b border-[rgb(var(--border))]">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[rgb(var(--text-secondary))]">
                   Course Name
                 </th>
-                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                <th className="px-4 py-3 text-center text-sm font-semibold text-[rgb(var(--text-secondary))]">
                   Credits
                 </th>
-                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Grade</th>
-                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                <th className="px-4 py-3 text-center text-sm font-semibold text-[rgb(var(--text-secondary))]">Grade</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-[rgb(var(--text-secondary))]">
                   Status
                 </th>
-                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                <th className="px-4 py-3 text-center text-sm font-semibold text-[rgb(var(--text-secondary))]">
                   Actions
                 </th>
               </tr>
@@ -80,10 +80,10 @@ function CoursesTable({ setCourseToEdit }) {
               {courses.map((course) => (
                 <tr
                   key={course.id}
-                  className="border-b border-gray-100 hover:bg-gray-50 transition"
+                  className="border-b border-[rgb(var(--border))] hover:bg-[rgb(var(--hover))] transition"
                 >
-                  <td className="px-4 py-4 text-gray-900">{course.name}</td>
-                  <td className="px-4 py-4 text-center text-gray-600">{course.credits || '-'}</td>
+                  <td className="px-4 py-4 text-[rgb(var(--text))]">{course.name}</td>
+                  <td className="px-4 py-4 text-center text-[rgb(var(--text-secondary))]">{course.credits || '-'}</td>
                   <td className="px-4 py-4 text-center">
                     {course.final_grade !== null && course.final_grade !== undefined ? (
                       <span
@@ -145,8 +145,8 @@ function CoursesTable({ setCourseToEdit }) {
               {courses.length === 0 && (
                 <tr>
                   <td colSpan="5" className="text-center py-12">
-                    <BookOpen className="w-12 h-12 mx-auto text-gray-400 mb-3" />
-                    <p className="text-gray-500">No courses found</p>
+                    <BookOpen className="w-12 h-12 mx-auto text-[rgb(var(--text-secondary))] mb-3" />
+                    <p className="text-[rgb(var(--text-secondary))]">No courses found</p>
                   </td>
                 </tr>
               )}
@@ -164,21 +164,21 @@ function CoursesTable({ setCourseToEdit }) {
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
-              className="bg-white rounded-lg shadow-xl p-6 w-80 text-center
+              className="bg-[rgb(var(--card))] rounded-lg shadow-xl p-6 w-80 text-center
                    transform transition-all duration-300 ease-out
                    opacity-100 translate-y-0"
               style={{
                 animation: 'popUp 0.3s ease forwards',
               }}
             >
-              <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
-              <p className="text-sm text-gray-600 mb-6">
+              <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--text))]">Confirm Delete</h2>
+              <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">
                 Are you sure you want to delete this course? This action cannot be undone.
               </p>
               <div className="flex justify-between space-x-4">
                 <button
                   onClick={() => setShowConfirmModal({ courseId: null, visible: false })}
-                  className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  className="flex-1 py-2 text-sm rounded bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] text-[rgb(var(--text))] border border-[rgb(var(--border))]"
                 >
                   Cancel
                 </button>
@@ -187,7 +187,7 @@ function CoursesTable({ setCourseToEdit }) {
                     deleteCourse(showConfirmModal.courseId);
                     setShowConfirmModal({ courseId: null, visible: false });
                   }}
-                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-[rgb(var(--text))]"
                 >
                   Delete
                 </button>

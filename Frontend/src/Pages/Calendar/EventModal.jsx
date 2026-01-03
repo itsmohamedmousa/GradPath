@@ -120,16 +120,16 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
         onClick={onClose}
       >
         <div
-          className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto"
+          className="bg-[rgb(var(--card))] rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="p-6">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-2xl font-bold text-[rgb(var(--text))]">
                 {editingEvent ? 'Edit Event' : 'Create New Event'}
               </h3>
-              <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition">
+              <button onClick={onClose} className="text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))] transition">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -138,9 +138,9 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Title */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
                   <FileText className="inline w-4 h-4 mr-1" />
-                  Title *
+                  Title <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -148,8 +148,8 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Enter event title"
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition ${
-                    errors.title ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 text-[rgb(var(--text))] border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition ${
+                    errors.title ? 'border-red-500' : 'border-[rgb(var(--border))]'
                   }`}
                 />
                 {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
@@ -157,20 +157,20 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">Description</label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Add a description (optional)"
                   rows="3"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
+                  className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
                 />
               </div>
 
               {/* Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
                   <Type className="inline w-4 h-4 mr-1" />
                   Event Type
                 </label>
@@ -178,31 +178,31 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition cursor-pointer"
+                  className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition cursor-pointer"
                 >
-                  <option value="event">Event</option>
-                  <option value="meeting">Meeting</option>
-                  <option value="exam">Exam</option>
-                  <option value="deadline">Deadline</option>
-                  <option value="reminder">Reminder</option>
-                  <option value="birthday">Birthday</option>
-                  <option value="appointment">Appointment</option>
+                  <option value="event" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Event</option>
+                  <option value="meeting" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Meeting</option>
+                  <option value="exam" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Exam</option>
+                  <option value="deadline" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Deadline</option>
+                  <option value="reminder" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Reminder</option>
+                  <option value="birthday" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Birthday</option>
+                  <option value="appointment" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Appointment</option>
                 </select>
               </div>
 
               {/* Event Time */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
                   <Calendar className="inline w-4 h-4 mr-1" />
-                  Event Date & Time *
+                  Event Date & Time <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="datetime-local"
                   name="event_time"
                   value={formData.event_time}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition ${
-                    errors.event_time ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 text-[rgb(var(--text))] border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition ${
+                    errors.event_time ? 'border-red-500' : 'border-[rgb(var(--border))]'
                   }`}
                 />
                 {errors.event_time && (
@@ -212,7 +212,7 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
 
               {/* Reminder Time */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
                   <Clock className="inline w-4 h-4 mr-1" />
                   Reminder Time (Optional)
                 </label>
@@ -221,14 +221,14 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
                   name="reminder_time"
                   value={formData.reminder_time}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition ${
-                    errors.reminder_time ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 text-[rgb(var(--text))] border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition ${
+                    errors.reminder_time ? 'border-red-500' : 'border-[rgb(var(--border))]'
                   }`}
                 />
                 {errors.reminder_time && (
                   <p className="text-red-500 text-sm mt-1">{errors.reminder_time}</p>
                 )}
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-[rgb(var(--text-secondary))] mt-1">
                   Set when you want to be reminded about this event
                 </p>
               </div>
@@ -238,13 +238,13 @@ function EventModal({ isOpen, onClose, onSave, selectedDate, editingEvent = null
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                  className="flex-1 px-6 py-3 border border-[rgb(var(--border))] text-[rgb(var(--text-secondary))] rounded-lg hover:bg-[rgb(var(--hover))] transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  className="flex-1 px-6 py-3 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition"
                 >
                   {editingEvent ? 'Update Event' : 'Create Event'}
                 </button>

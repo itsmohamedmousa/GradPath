@@ -78,52 +78,52 @@ function CreateNote() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-2">
+    <div className="min-h-screen bg-[rgb(var(--bg))] p-2">
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
         <button
           onClick={() => navigate('/notes')}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
+          className="flex items-center gap-2 text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))] mb-6 transition"
         >
           <ArrowLeft className="w-5 h-5" />
           Back to Notes
         </button>
 
         {/* Create Note Form */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-[rgb(var(--card))] rounded-lg shadow-md overflow-hidden">
           {/* Header */}
-          <div className="border-b border-gray-200 p-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Create New Note</h1>
+          <div className="border-b border-[rgb(var(--border))] p-6">
+            <h1 className="text-3xl font-bold text-[rgb(var(--text))] mb-6">Create New Note</h1>
 
             {/* Title Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
                 Title <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 placeholder="Enter note title..."
               />
             </div>
 
             {/* Subject Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">Subject</label>
               <input
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 placeholder="e.g., Mathematics, History, etc."
               />
             </div>
 
             {/* Tags Section */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
                 <Tag className="inline w-4 h-4 mr-1" />
                 Tags
               </label>
@@ -135,8 +135,8 @@ function CreateNote() {
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={handleTagKeyPress}
-                  className="flex-1 min-w-0 h-10 px-3 text-sm
-                    border border-gray-300 rounded-lg
+                  className="flex-1 min-w-0 h-10 px-3 text-sm text-[rgb(var(--text))]
+                    border border-[rgb(var(--border))] rounded-lg
                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
                     outline-none transition"
                   placeholder="Add a tag (press Enter)"
@@ -145,8 +145,8 @@ function CreateNote() {
                 <button
                   onClick={handleAddTag}
                   className="h-10 px-4 text-sm
-                    bg-blue-600 text-white rounded-lg
-                    hover:bg-blue-700 transition
+                    bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg
+                    hover:bg-[rgb(var(--primary-hover))] transition
                     whitespace-nowrap shrink-0
                     flex items-center justify-center"
                 >
@@ -172,7 +172,7 @@ function CreateNote() {
                     </span>
                   ))
                 ) : (
-                  <span className="text-sm text-gray-400">No tags yet</span>
+                  <span className="text-sm text-[rgb(var(--text-secondary))]">No tags yet</span>
                 )}
               </div>
             </div>
@@ -180,22 +180,22 @@ function CreateNote() {
 
           {/* Content */}
           <div className="p-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">
               Content <span className="text-red-500">*</span>
             </label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full min-h-[400px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-y"
+              className="w-full min-h-[400px] p-4 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-y"
               placeholder="Write your note content here..."
             />
           </div>
 
           {/* Actions */}
-          <div className="border-t border-gray-200 p-6 flex justify-end gap-3">
+          <div className="border-t border-[rgb(var(--border))] p-6 flex justify-end gap-3">
             <button
               onClick={() => navigate('/notes')}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+              className="px-6 py-2 border border-[rgb(var(--border))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--hover))] transition"
               disabled={isCreating}
             >
               Cancel
@@ -203,7 +203,7 @@ function CreateNote() {
             <button
               onClick={handleCreate}
               disabled={isCreating}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-6 py-2 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               {isCreating ? 'Creating...' : 'Create Note'}
@@ -212,7 +212,7 @@ function CreateNote() {
         </div>
 
         {/* Helper Text */}
-        <div className="mt-4 text-sm text-gray-600 text-center">
+        <div className="mt-4 text-sm text-[rgb(var(--text-secondary))] text-center">
           <span className="text-red-500">*</span> Required fields
         </div>
       </div>

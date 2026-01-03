@@ -53,9 +53,9 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+        <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-6 sm:p-8">
           {/* Logo Container */}
           <div className="flex justify-center mb-6">
             <img
@@ -68,10 +68,10 @@ function ForgotPassword() {
           {!emailSent ? (
             <>
               {/* Title */}
-              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-[rgb(var(--text))] mb-2">
                 Forgot Password?
               </h2>
-              <p className="text-center text-gray-600 mb-6 text-sm">
+              <p className="text-center text-[rgb(var(--text-secondary))] mb-6 text-sm">
                 Enter your email address and we'll send you a link to reset your password.
               </p>
 
@@ -82,7 +82,7 @@ function ForgotPassword() {
                   <input
                     type="email"
                     id="email"
-                    className="peer w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="peer w-full px-4 py-3 border border-[rgb(var(--border))] text-[rgb(var(--text))] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -91,7 +91,7 @@ function ForgotPassword() {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                    className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
                   >
                     Email Address
                   </label>
@@ -102,8 +102,8 @@ function ForgotPassword() {
                   type="submit"
                   className={`w-full py-3 px-4 rounded-md font-medium text-white transition-colors duration-200 flex items-center justify-center gap-2 ${
                     email.length > 0 && !loading
-                      ? 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
-                      : 'bg-gray-300 cursor-not-allowed'
+                      ? 'bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] cursor-pointer'
+                      : 'bg-[rgb(var(--hover))] cursor-not-allowed'
                   }`}
                   disabled={loading || !email}
                 >
@@ -139,11 +139,11 @@ function ForgotPassword() {
                 <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
                   <Mail className="h-8 w-8 text-green-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Check Your Email</h2>
-                <p className="text-gray-600 mb-6">
+                <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">Check Your Email</h2>
+                <p className="text-[rgb(var(--text-secondary))] mb-6">
                   We've sent a password reset link to <strong>{email}</strong>
                 </p>
-                <p className="text-sm text-gray-500 mb-6">
+                <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">
                   If you don't see the email, check your spam folder.
                 </p>
                 <Link

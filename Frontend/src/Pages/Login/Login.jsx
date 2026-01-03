@@ -66,9 +66,9 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+        <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-6 sm:p-8">
           {/* Logo Container */}
           <div className="flex justify-center mb-6">
             <img
@@ -79,7 +79,7 @@ function Login() {
           </div>
 
           {/* Title */}
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6">Login</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-[rgb(var(--text))] mb-6">Login</h2>
 
           {/* Form */}
           <form className="space-y-4">
@@ -88,7 +88,7 @@ function Login() {
               <input
                 type="text"
                 id="username"
-                className="peer w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="peer w-full px-4 py-3 border border-[rgb(var(--border))] text-[rgb(var(--text))] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed"
                 placeholder="Username or Email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -97,7 +97,7 @@ function Login() {
               />
               <label
                 htmlFor="username"
-                className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
               >
                 Username or Email
               </label>
@@ -108,7 +108,7 @@ function Login() {
               <input
                 type={passwordHidden ? 'password' : 'text'}
                 id="password"
-                className="peer w-full px-4 py-3 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="peer w-full px-4 py-3 pr-12 border border-[rgb(var(--border))] text-[rgb(var(--text))] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent disabled:bg-[rgb(var(--card))] disabled:cursor-not-allowed"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -117,7 +117,7 @@ function Login() {
               />
               <label
                 htmlFor="password"
-                className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
+                className="absolute left-4 -top-2.5 bg-[rgb(var(--card))] px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-600"
               >
                 Password
               </label>
@@ -136,10 +136,10 @@ function Login() {
             {/* Submit Button */}
             <button
               onClick={handleSubmit}
-              className={`w-full py-3 px-4 rounded-md font-medium text-white transition-colors duration-200 flex items-center justify-center gap-2 ${
+              className={`w-full py-3 px-4 rounded-md font-medium text-[rgb(var(--text))] transition-colors duration-200 flex items-center justify-center gap-2 ${
                 password.length > 0 && username.length > 0 && !loading
-                  ? 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
-                  : 'bg-gray-300 cursor-not-allowed'
+                  ? 'bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] cursor-pointer'
+                  : 'bg-[rgb(var(--hover))] cursor-not-allowed'
               }`}
               disabled={loading || !username || !password}
             >
@@ -155,7 +155,7 @@ function Login() {
 
             {/* Footer */}
             <div className="text-center mt-6">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-[rgb(var(--text-secondary))]">
                 Don't have an account?{' '}
                 <Link
                   to="/register"

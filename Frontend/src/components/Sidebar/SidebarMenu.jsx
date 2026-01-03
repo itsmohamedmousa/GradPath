@@ -79,14 +79,14 @@ function Sidebar({ isOpen, setIsOpen }) {
       {/* Sidebar */}
       <div
         className={`
-        fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-40 transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        lg:translate-x-0 lg:static lg:z-auto
-        w-64 shadow-xl
-      `}
+          fixed top-0 left-0 h-full bg-[rgb(var(--card))] border-r border-[rgb(var(--border))] z-40 transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:translate-x-0 lg:static lg:z-auto
+          w-64 shadow-xl
+        `}
       >
         {/* Header */}
-        <div className="h-20 p-2 mt-4 border-b border-gray-200 img-container flex items-center justify-center">
+        <div className="h-20 p-2 mt-4 border-b border-[rgb(var(--border))] img-container flex items-center justify-center">
           <img
             src="/src/assets/Logo-no-bg-landscape.png"
             alt="logo"
@@ -112,8 +112,8 @@ function Sidebar({ isOpen, setIsOpen }) {
                   flex items-center mt-4 mb-4 no-underline justify-between p-3 rounded-lg transition-all duration-200 group 
                   ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
+                      ? 'bg-[rgb(var(--primary))] text-[rgb(var(--card))] border border-[rgb(var(--border))]'
+                      : 'text-[rgb(var(--text-secondary))] hover:bg-[rgb(var(--hover))]'
                   }
                 `}
               >
@@ -121,7 +121,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                   <Icon
                     size={20}
                     className={
-                      isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'
+                      isActive ? 'text-[rgb(var(--card))]' : ''
                     }
                   />
                   <span className="font-medium">{item.label}</span>
@@ -142,7 +142,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         </nav>
 
         {/* Footer */}
-        <div className="absolute bottom-0 rounded-lg left-0 right-0 p-4 border-t border-gray-200">
+        <div className="absolute bottom-0 rounded-lg left-0 right-0 p-4 border-t border-[rgb(var(--border))] bg-[rgb(var(--card))]">
           {loadingProfile ? (
             <LoaderText />
           ) : (
@@ -163,10 +163,10 @@ function Sidebar({ isOpen, setIsOpen }) {
                   )}
                 </div>
                 <div className="flex-1 min-w-0 text-left">
-                  <p className="text-sm font-medium text-gray-900 truncate">
+                  <p className="text-sm font-medium text-[rgb(var(--text))] truncate">
                     {loadingProfile ? '' : user.username}
                   </p>
-                  <p className="text-xs text-gray-500 truncate">
+                  <p className="text-xs text-[rgb(var(--text-secondary))] truncate">
                     {loadingProfile ? '' : user.email}
                   </p>
                 </div>
@@ -182,7 +182,7 @@ function Sidebar({ isOpen, setIsOpen }) {
               {/* Drop-up Menu */}
               <div
                 className={`
-                absolute bottom-16 left-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50
+                absolute bottom-16 left-4 w-48 bg-[rgb(var(--card))] border border-[rgb(var(--border))] rounded-lg shadow-lg z-50
                 transform transition-all duration-200 origin-bottom
                 ${
                   menuOpen
@@ -195,7 +195,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                     setMenuOpen(false);
                     setThemeModalOpen(true);
                   }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                  className="block px-4 py-2 text-sm text-[rgb(var(--text))] hover:bg-[rgb(var(--hover))] w-full text-left"
                 >
                   Switch Theme
                 </button>
@@ -204,7 +204,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                     setMenuOpen(false);
                     setPasswordModalOpen(true);
                   }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                  className="block px-4 py-2 text-sm text-[rgb(var(--text))] hover:bg-[rgb(var(--hover))] w-full text-left"
                 >
                   Change Password
                 </button>
@@ -213,7 +213,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                     setMenuOpen(false);
                     setShowConfirmModal(true);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-[rgb(var(--hover))]"
                 >
                   Logout
                 </button>
@@ -228,7 +228,9 @@ function Sidebar({ isOpen, setIsOpen }) {
           onSubmit={handleChangePassword}
         />
       )}
-      {themeModalOpen && <ThemeModal open={() => setThemeModalOpen(true)} onClose={() => setThemeModalOpen(false)} />}
+      {themeModalOpen && (
+        <ThemeModal open={() => setThemeModalOpen(true)} onClose={() => setThemeModalOpen(false)} />
+      )}
       {showConfirmModal && (
         <>
           {/* Backdrop */}
@@ -237,22 +239,22 @@ function Sidebar({ isOpen, setIsOpen }) {
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
-              className="bg-white rounded-lg shadow-xl p-6 w-80 text-center
+              className="bg-[rgb(var(--card))] rounded-lg shadow-xl p-6 w-80 text-center
                    transform transition-all duration-300 ease-out
                    opacity-100 translate-y-0"
               style={{
                 animation: 'popUp 0.3s ease forwards',
               }}
             >
-              <h2 className="text-lg font-semibold mb-4">Confirm Logout</h2>
-              <p className="text-sm text-gray-600 mb-6">Are you sure you want to log out?</p>
+              <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--text))]">Confirm Logout</h2>
+              <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">Are you sure you want to log out?</p>
               <div className="flex justify-between space-x-4">
                 <button
                   onClick={() => {
                     setShowConfirmModal(false);
                     setMenuOpen(false);
                   }}
-                  className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  className="flex-1 py-2 text-sm rounded border border-[rgb(var(--border))] bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] text-[rgb(var(--text-secondary))]"
                 >
                   Cancel
                 </button>
@@ -261,7 +263,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                     setShowConfirmModal(false);
                     logout();
                   }}
-                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-[rgb(var(--text))]"
                 >
                   Confirm
                 </button>

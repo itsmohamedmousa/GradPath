@@ -73,7 +73,7 @@ function Courses() {
 
   if (errorCourses) {
     return (
-      <div className="min-h-screen bg-white p-6">
+      <div className="min-h-screen bg-[rgb(var(--bg))] p-6">
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-xl p-6">
             <h1 className="text-xl font-bold text-red-900 mb-2">Error loading courses</h1>
@@ -85,11 +85,11 @@ function Courses() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-2">
+    <div className="min-h-screen bg-[rgb(var(--bg))] p-2">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">My Courses</h1>
-          <p className="text-gray-600">Manage your courses and track your academic progress</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-[rgb(var(--text))] mb-2">My Courses</h1>
+          <p className="text-[rgb(var(--text-secondary))]">Manage your courses and track your academic progress</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

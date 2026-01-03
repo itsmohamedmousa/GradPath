@@ -40,15 +40,15 @@ function LastModifiedNote() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2 bg-amber-100 rounded-lg">
           <FileText className="w-5 h-5 text-amber-600" />
         </div>
         <div>
-          <h3 className="font-bold text-gray-900">Recent Note</h3>
-          <p className="text-xs text-gray-600">Last modified</p>
+          <h3 className="font-bold text-[rgb(var(--text))]">Recent Note</h3>
+          <p className="text-xs text-[rgb(var(--text-secondary))]">Last modified</p>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ function LastModifiedNote() {
           {/* Note Info */}
           <div className="space-y-2">
             <Link to={`/notes/${encodeURIComponent(lastModifiedNote.title)}`} className="block">
-              <h4 className="font-semibold text-gray-900 hover:text-blue-600 transition truncate">
+              <h4 className="font-semibold text-[rgb(var(--text))] hover:text-[rgb(var(--primary))] transition truncate">
                 {noteTitle}
               </h4>
             </Link>
@@ -77,7 +77,7 @@ function LastModifiedNote() {
               </div>
             )}
 
-            <div className="flex items-center gap-2 text-xs text-gray-500">
+            <div className="flex items-center gap-2 text-xs text-[rgb(var(--text-secondary))]">
               <Clock className="w-3 h-3" />
               <span>{formatDate(lastModifiedNote.updated_at)}</span>
             </div>
@@ -104,7 +104,7 @@ function LastModifiedNote() {
           {/* View Button */}
           <Link
             to={`/notes/${encodeURIComponent(lastModifiedNote.title)}`}
-            className="block w-full px-4 py-2 text-center bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition font-medium text-sm"
+            className="block w-full px-4 py-2 text-center bg-amber-600 hover:bg-amber-700 text-[rgb(var(--text))] rounded-lg transition font-medium text-sm"
           >
             View Note
           </Link>
@@ -112,11 +112,11 @@ function LastModifiedNote() {
       ) : (
         <div className="h-64 flex items-center justify-center">
           <div className="text-center">
-            <FileText className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-            <p className="text-gray-500 text-sm mb-3">No notes available</p>
+            <FileText className="w-12 h-12 mx-auto mb-3 text-[rgb(var(--text-secondary))]" />
+            <p className="text-[rgb(var(--text-secondary))] text-sm mb-3">No notes available</p>
             <Link
               to="/notes/create"
-              className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-medium"
+              className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-[rgb(var(--text))] rounded-lg transition text-sm font-medium"
             >
               Create Your First Note
             </Link>

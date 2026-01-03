@@ -42,10 +42,10 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
         <div
-          className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center"
+          className="bg-[rgb(var(--card))] rounded-xl shadow-2xl p-6 w-full max-w-sm text-center"
           style={{ animation: 'popUp 0.25s ease forwards' }}
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-5">Change Password</h2>
+          <h2 className="text-lg font-semibold text-[rgb(var(--text))] mb-5">Change Password</h2>
 
           {/* Current Password */}
           <div className="relative mb-4">
@@ -54,12 +54,12 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
               placeholder="Current password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm
+              className="w-full px-3 py-2.5 border border-[rgb(var(--border))] rounded-md text-sm
                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                          transition"
             />
             <div
-              className="absolute right-3 inset-y-0 flex items-center cursor-pointer text-gray-400 hover:text-gray-600 transition"
+              className="absolute right-3 inset-y-0 flex items-center cursor-pointer text-[rgb(var(--text-secondary))] hover:text-gray-600 transition"
               onClick={() => setCurrentHidden(!currentHidden)}
             >
               {currentHidden ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -73,7 +73,7 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
               placeholder="New password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className={`w-full px-3 py-2.5 border rounded-md text-sm
+              className={`w-full px-3 py-2.5 border border-[rgb(var(--border))] rounded-md text-sm
                           focus:outline-none focus:ring-2 transition
                 ${
                   newPassword.length > 0 && isInvalid
@@ -96,7 +96,7 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
               placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`w-full px-3 py-2.5 border rounded-md text-sm
+              className={`w-full px-3 py-2.5 border border-[rgb(var(--border))] rounded-md text-sm
                           focus:outline-none focus:ring-2 transition
                 ${
                   confirmPassword.length > 0 && isInvalid
@@ -110,8 +110,8 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
             <button
               onClick={onClose}
               className="flex-1 py-2.5 text-sm rounded-md
-                         bg-gray-100 hover:bg-gray-200
-                         text-gray-700 transition"
+                         bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))]
+                         text-[rgb(var(--text-secondary))] transition border border-[rgb(var(--border))]"
             >
               Cancel
             </button>
@@ -121,15 +121,15 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
                           ${
                             getErrorMessage()
                               ? `
-                                bg-blue-600/50
-                                text-white
+                                bg-[rgb(var(--primary))]/50
+                                text-[rgb(var(--text))]/70
                                 cursor-not-allowed
                                 pointer-events-auto
                               `
                               : `
-                                bg-blue-600
-                                hover:bg-blue-700
-                                text-white
+                                bg-[rgb(var(--primary))]
+                                hover:bg-[rgb(var(--primary-hover))]
+                                text-[rgb(var(--text))]
                                 cursor-pointer
                               `
                           }

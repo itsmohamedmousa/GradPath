@@ -173,24 +173,24 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Profile Header Card */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+      <div className="bg-[rgb(var(--card))] rounded-lg shadow-sm border border-[rgb(var(--border))] p-6 mb-6">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {profilePic ? (
             <img
               src={getImageUrl(profilePic)}
               alt="Profile"
-              className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
+              className="w-24 h-24 rounded-full border-4 border-[rgb(var(--border))] object-cover"
             />
           ) : (
-            <div className="w-24 h-24 rounded-full border-4 border-gray-100 flex items-center justify-center bg-gray-100">
+            <div className="w-24 h-24 rounded-full border-4 flex items-center justify-center bg-[rgb(var(--border))]">
               <User className="w-15 h-15 text-gray-300" />
             </div>
           )}
           <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{username}</h2>
-            <div className="space-y-1 text-gray-600">
+            <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">{username}</h2>
+            <div className="space-y-1 text-[rgb(var(--text-secondary))]">
               <p className="flex items-center gap-2 justify-center sm:justify-start">
                 <Mail className="w-4 h-4" />
                 {email}
@@ -211,7 +211,7 @@ export default function UserProfile() {
           </div>
           <button
             onClick={handleEditProfile}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] text-[rgb(var(--text-inverse))] rounded-lg transition-colors"
           >
             <Edit2 className="w-4 h-4" />
             Edit Profile
@@ -222,22 +222,22 @@ export default function UserProfile() {
       <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-6">
         <GpaChart />
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Actions</h3>
+        <div className="bg-[rgb(var(--card))] rounded-lg shadow-sm border border-[rgb(var(--border))] p-6">
+          <h3 className="text-lg font-semibold text-[rgb(var(--text))] mb-6">Actions</h3>
           <div className="space-y-4">
             <button
               onClick={() => setShowConfirmModal(true)}
-              className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200"
+              className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-[rgb(var(--text-inverse))] font-medium rounded-lg transition-colors duration-200"
             >
               End Semester
             </button>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-[rgb(var(--text-secondary))]">
               Click this button to finalize your semester grades and update your cumulative GPA.
             </p>
 
             <button
               onClick={() => setShowDeleteModal(true)}
-              className="w-full px-6 py-3 bg-gray-200 hover:bg-gray-300 text-red-600 font-medium rounded-lg transition-colors duration-200"
+              className="w-full px-6 py-3 bg-[rgb(var(--card))] hover:bg-[rgb(var(--bg-secondary))]  border border-[rgb(var(--border))] text-red-600 font-medium rounded-lg transition-colors duration-200"
             >
               Delete Account
             </button>
@@ -253,7 +253,7 @@ export default function UserProfile() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-3 sm:px-4">
             <div
               className="
-                bg-white rounded-xl shadow-xl w-full
+                bg-[rgb(var(--card))] rounded-xl shadow-xl w-full
                 max-w-sm sm:max-w-md
                 max-h-[90vh] overflow-y-auto
                 p-4 sm:p-6
@@ -261,7 +261,9 @@ export default function UserProfile() {
               "
               style={{ animation: 'popUp 0.3s ease forwards' }}
             >
-              <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Edit Profile</h2>
+              <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[rgb(var(--text))]">
+                Edit Profile
+              </h2>
 
               <div className="space-y-6">
                 {/* Profile Picture */}
@@ -270,10 +272,10 @@ export default function UserProfile() {
                     <img
                       src={getImageUrl(editForm.profilePic)}
                       alt="Profile"
-                      className="w-24 h-24 rounded-full border-4 border-gray-100 object-cover"
+                      className="w-24 h-24 rounded-full border-4 border-[rgb(var(--border))] object-cover"
                     />
                   ) : (
-                    <div className="w-24 h-24 rounded-full border-4 border-gray-100 flex items-center justify-center bg-gray-100">
+                    <div className="w-24 h-24 rounded-full border-4 border-[rgb(var(--border))] flex items-center justify-center bg-[rgb(var(--bg-secondary))]">
                       <User className="w-15 h-15 text-gray-300" />
                     </div>
                   )}
@@ -297,53 +299,59 @@ export default function UserProfile() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Username */}
                   <div className="sm:col-span-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1">
+                      Username
+                    </label>
                     <input
                       type="text"
                       value={editForm.username}
                       onChange={(e) => handleInputChange('username', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
 
                   {/* Email */}
                   <div className="sm:col-span-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1">
+                      Email
+                    </label>
                     <input
                       type="email"
                       value={editForm.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
 
                   {/* Major */}
                   <div className="sm:col-span-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Major</label>
+                    <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1">
+                      Major
+                    </label>
                     <input
                       type="text"
                       value={editForm.major}
                       onChange={(e) => handleInputChange('major', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
 
                   {/* University */}
                   <div className="sm:col-span-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1">
                       University
                     </label>
                     <input
                       type="text"
                       value={editForm.university}
                       onChange={(e) => handleInputChange('university', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
 
                   {/* Total Credits (Full width) */}
                   <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1">
                       Total Credits
                     </label>
                     <input
@@ -352,7 +360,7 @@ export default function UserProfile() {
                       onChange={(e) =>
                         handleInputChange('totalCredits', parseInt(e.target.value) || NaN)
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -362,13 +370,13 @@ export default function UserProfile() {
               <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6">
                 <button
                   onClick={() => setShowEditModal(false)}
-                  className="px-4 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 w-full sm:w-auto"
+                  className="px-4 py-2 text-sm rounded-lg bg-[rgb(var(--card))] hover:bg-[rgb(var(--bg-secondary))] text-[rgb(var(--text-secondary))] border border-[rgb(var(--border))] w-full sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveProfile}
-                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+                  className="px-4 py-2 text-sm rounded-lg bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] text-[rgb(var(--text))] w-full sm:w-auto"
                 >
                   Save Changes
                 </button>
@@ -398,19 +406,19 @@ export default function UserProfile() {
 
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
-              className="bg-white rounded-lg shadow-xl p-6 w-80 text-center
+              className="bg-[rgb(var(--card))] rounded-lg shadow-xl p-6 w-80 text-center
              transform transition-all duration-300 ease-out
              opacity-100 translate-y-0"
               style={{ animation: 'popUp 0.3s ease forwards' }}
             >
-              <h2 className="text-lg font-semibold mb-4">Delete Account</h2>
-              <p className="text-sm text-gray-600 mb-6">
+              <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--text))]">Delete Account</h2>
+              <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">
                 Are you sure you want to delete your account? This action cannot be undone.
               </p>
               <div className="flex justify-between space-x-4">
                 <button
                   onClick={() => setShowDeleteModal(false)}
-                  className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  className="flex-1 py-2 text-sm rounded bg-[rgb(var(--card))] hover:bg-[rgb(var(--bg-secondary))] text-[rgb(var(--text-secondary))]  border border-[rgb(var(--border))]"
                 >
                   Cancel
                 </button>
@@ -437,13 +445,26 @@ export default function UserProfile() {
                       show(err.message || 'Error deleting account', 'error');
                     }
                   }}
-                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-[rgb(var(--text))]"
                 >
                   Delete
                 </button>
               </div>
             </div>
           </div>
+
+          <style>{`
+            @keyframes popUp {
+              0% {
+                opacity: 0;
+                transform: translateY(50px);
+              }
+              100% {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          `}</style>
         </>
       )}
 
@@ -454,15 +475,15 @@ export default function UserProfile() {
 
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
-              className="bg-white rounded-lg shadow-xl p-6 w-80 text-center
+              className="bg-[rgb(var(--card))] rounded-lg shadow-xl p-6 w-80 text-center
                    transform transition-all duration-300 ease-out
                    opacity-100 translate-y-0"
               style={{
                 animation: 'popUp 0.3s ease forwards',
               }}
             >
-              <h2 className="text-lg font-semibold mb-4">End Semester</h2>
-              <p className="text-sm text-gray-600 mb-6">
+              <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--text))]">End Semester</h2>
+              <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">
                 Are you sure you want to end this semester? This will calculate your current
                 semester GPA and update your cumulative GPA.
               </p>
@@ -471,7 +492,7 @@ export default function UserProfile() {
                   onClick={() => {
                     setShowConfirmModal(false);
                   }}
-                  className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  className="flex-1 py-2 text-sm rounded bg-[rgb(var(--card))] border border-[rgb(var(--border))] hover:bg-[rgb(var(--bg-secondary))] text-[rgb(var(--text-secondary))]"
                 >
                   Cancel
                 </button>
@@ -480,7 +501,7 @@ export default function UserProfile() {
                     setShowConfirmModal(false);
                     confirmEndSemester();
                   }}
-                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 py-2 text-sm rounded bg-red-600 hover:bg-red-700 text-[rgb(var(--text))]"
                 >
                   Confirm
                 </button>

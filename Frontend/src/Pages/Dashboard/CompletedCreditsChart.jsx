@@ -31,15 +31,15 @@ function CompletedCreditsChart() {
     totalCredits > 0 ? ((completedCredits / totalCredits) * 100).toFixed(1) : 0;
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2 bg-green-100 rounded-lg">
           <Award className="w-5 h-5 text-green-600" />
         </div>
         <div>
-          <h3 className="font-bold text-gray-900">Credits Distribution</h3>
-          <p className="text-xs text-gray-600">{completionPercentage}% Complete</p>
+          <h3 className="font-bold text-[rgb(var(--text))]">Credits Distribution</h3>
+          <p className="text-xs text-[rgb(var(--text-secondary))]">{completionPercentage}% Complete</p>
         </div>
       </div>
 
@@ -85,9 +85,9 @@ function CompletedCreditsChart() {
           <div key={index} className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-              <span className="text-gray-700">{item.name}</span>
+              <span className="text-[rgb(var(--text-secondary))]">{item.name}</span>
             </div>
-            <span className="font-semibold text-gray-900">{item.value}</span>
+            <span className="font-semibold text-[rgb(var(--text))]">{item.value}</span>
           </div>
         ))}
       </div>
@@ -95,8 +95,8 @@ function CompletedCreditsChart() {
       {/* Total Credits */}
       <div className="mt-4 pt-4 border-t border-gray-200">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-700">Total Credits</span>
-          <span className="text-lg font-bold text-gray-900">{totalCredits}</span>
+          <span className="text-sm font-medium text-[rgb(var(--text-secondary))]">Total Credits</span>
+          <span className="text-lg font-bold text-[rgb(var(--text))]">{totalCredits}</span>
         </div>
       </div>
     </div>

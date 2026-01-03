@@ -12,7 +12,7 @@ function Layout() {
       <SidebarMenu isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="flex flex-1 flex-col lg:p-4 p-2 lg:py-0 py-0 overflow-y-auto scroll-smooth">
         <Header isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-        <main className="flex-1 bg-white-100 py-3">
+        <main className="flex-1 bg-[rgb(var(--bg))] py-3">
           <Outlet />
         </main>
       </div>

@@ -78,23 +78,23 @@ function AddCourse() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Add New Course</h2>
+    <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6 mb-6">
+      <h2 className="text-xl font-bold text-[rgb(var(--text))] mb-6">Add New Course</h2>
 
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Course Name</label>
+            <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">Course Name</label>
             <input
               name="course_name"
               placeholder="e.g. Networking 101"
               onChange={(e) => setCourseName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Credits</label>
+            <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-2">Credits</label>
             <input
               type="number"
               name="credits"
@@ -102,24 +102,24 @@ function AddCourse() {
               onChange={(e) => setCredits(e.target.value)}
               min="1"
               max="12"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">Grade Items</label>
+          <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-3">Grade Items</label>
           <div className="space-y-3">
             {gradeItems.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-1 md:grid-cols-5 gap-3 p-4 bg-gray-50 rounded-lg"
+                className="grid grid-cols-1 md:grid-cols-5 gap-3 p-4 bg-[rgb(var(--card))] rounded-lg"
               >
                 <input
                   placeholder="e.g. Midterm"
                   value={item.title}
                   onChange={(e) => handleGradeItemChange(index, 'title', e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                  className="px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 />
                 <input
                   type="number"
@@ -128,7 +128,7 @@ function AddCourse() {
                   min={1}
                   max={100}
                   onChange={(e) => handleGradeItemChange(index, 'weight', e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                  className="px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 />
                 <input
                   type="number"
@@ -137,18 +137,18 @@ function AddCourse() {
                   min={0}
                   max={100}
                   onChange={(e) => handleGradeItemChange(index, 'score', e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                  className="px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 />
                 <select
                   value={item.type}
                   onChange={(e) => handleGradeItemChange(index, 'type', e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition cursor-pointer"
+                  className="px-3 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition cursor-pointer"
                 >
-                  <option value="Exam">Exam</option>
-                  <option value="Assignment">Assignment</option>
-                  <option value="Attendance">Attendance</option>
-                  <option value="Project">Project</option>
-                  <option value="Other">Other</option>
+                  <option value="Exam" className="text-[rgb(var(--text))] bg-[rgb(var(--hover))]">Exam</option>
+                  <option value="Assignment" className="text-[rgb(var(--text))] bg-[rgb(var(--hover))]">Assignment</option>
+                  <option value="Attendance" className="text-[rgb(var(--text))] bg-[rgb(var(--hover))]">Attendance</option>
+                  <option value="Project" className="text-[rgb(var(--text))] bg-[rgb(var(--hover))]">Project</option>
+                  <option value="Other" className="text-[rgb(var(--text))] bg-[rgb(var(--hover))]">Other</option>
                 </select>
                 <button
                   type="button"
@@ -164,7 +164,7 @@ function AddCourse() {
           <button
             type="button"
             onClick={addGradeItem}
-            className="mt-3 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition font-medium"
+            className="mt-3 px-4 py-2 border border-[rgb(var(--border))] bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] text-[rgb(var(--text))] rounded-lg transition font-medium"
           >
             + Add Grade Item
           </button>
@@ -175,7 +175,7 @@ function AddCourse() {
           onClick={() => {
             addCourse(newCourse);
           }}
-          className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
+          className="w-full px-6 py-3 bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary-hover))] text-[rgb(var(--text))] rounded-lg transition font-medium"
         >
           Add Course
         </button>

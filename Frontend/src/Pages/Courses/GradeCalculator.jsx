@@ -99,44 +99,44 @@ function GradeCalculator() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+    <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-6 mb-6">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 bg-purple-100 rounded-lg">
           <Calculator className="w-6 h-6 text-purple-600" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Grade Calculator</h2>
-          <p className="text-sm text-gray-600">Calculate what you need on future assessments</p>
+          <h2 className="text-xl font-bold text-[rgb(var(--text))]">Grade Calculator</h2>
+          <p className="text-sm text-[rgb(var(--text-secondary))]">Calculate what you need on future assessments</p>
         </div>
       </div>
 
       <div className="space-y-4">
         {/* Course Selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Select Course</label>
+          <label className="block text-sm font-medium text-[rgb(var(--text))] mb-2">Select Course</label>
           <select
             value={selectedCourseId}
             onChange={(e) => {
               setSelectedCourseId(e.target.value);
               setResults([]);
             }}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition cursor-pointer"
+            className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition cursor-pointer"
           >
-            <option value="">Choose a course...</option>
+            <option value="" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Choose a course...</option>
             {registeredCourses.map((course) => (
-              <option key={course.id} value={course.id}>
+              <option key={course.id} value={course.id} className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">
                 {course.name}
               </option>
             ))}
           </select>
           {registeredCourses.length === 0 && (
-            <p className="mt-2 text-sm text-gray-500">No registered courses available</p>
+            <p className="mt-2 text-sm text-[rgb(var(--text-secondary))]">No registered courses available</p>
           )}
         </div>
 
         {/* Target Grade Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[rgb(var(--text))] mb-2">
             <Target className="inline w-4 h-4 mr-1" />
             Target Grade (%)
           </label>
@@ -147,7 +147,7 @@ function GradeCalculator() {
             onChange={(e) => setTargetGrade(e.target.value)}
             min="0"
             max="100"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+            className="w-full px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
           />
         </div>
 
@@ -157,22 +157,20 @@ function GradeCalculator() {
           disabled={registeredCourses.length === 0}
           className={`w-full px-6 py-3 rounded-lg transition font-medium flex items-center justify-center gap-2 ${
             registeredCourses.length === 0
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-purple-600 hover:bg-purple-700 text-white'
+              ? 'bg-[rgb(var(--hover))] text-gray-500 cursor-not-allowed'
+              : 'bg-purple-600 hover:bg-purple-700 text-[rgb(var(--text))]'
           }`}
         >
           <Calculator className="w-5 h-5" />
           Calculate Required Grades
         </button>
 
-        {/* Error Message - Removed since we use toast now */}
-
         {/* Current Grade Display */}
         {results.length > 0 && (
-          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="p-4 bg-[rgb(var(--card))] border border-[rgb(var(--border))] rounded-lg">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-blue-900">Current Grade:</span>
-              <span className="text-lg font-bold text-blue-600">{currentGrade.toFixed(2)}%</span>
+              <span className="text-sm font-medium text-[rgb(var(--primary-hover))]">Current Grade:</span>
+              <span className="text-lg font-bold text-[rgb(var(--primary))]">{currentGrade.toFixed(2)}%</span>
             </div>
           </div>
         )}
@@ -182,42 +180,38 @@ function GradeCalculator() {
           <div className="space-y-3 pt-2">
             <div className="flex items-center gap-2 mb-3">
               <TrendingUp className="w-5 h-5 text-purple-600" />
-              <h3 className="font-semibold text-gray-900">Required Scores:</h3>
+              <h3 className="font-semibold text-[rgb(var(--text))]">Required Scores:</h3>
             </div>
 
             {results.map((result, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-lg border-2 ${
-                  result.isAverage ? 'bg-purple-50 border-purple-200' : 'bg-gray-50 border-gray-200'
-                }`}
+                className={`p-4 rounded-lg border-2 bg-[rgb(var(--card))] border-[rgb(var(--border))] `}
               >
-                <div className="flex items-start justify-between mb-2">
+                <div className="flex items-start justify-between mb-2 bg-[rgb(var(--card))]">
                   <div className="flex-1">
                     <h4
-                      className={`font-semibold ${
-                        result.isAverage ? 'text-purple-900' : 'text-gray-900'
-                      }`}
+                      className={`font-semibold text-[rgb(var(--text))]`}
                     >
                       {result.title}
                     </h4>
-                    <p className="text-xs text-gray-600 mt-1">
+                    <p className="text-xs text-[rgb(var(--text-secondary))] mt-1">
                       Weight: {result.weight.toFixed(1)}%
                     </p>
                   </div>
                   <span
                     className={`text-xs px-2 py-1 rounded-full ${
                       result.isAverage
-                        ? 'bg-purple-200 text-purple-800'
-                        : 'bg-gray-200 text-gray-700'
+                        ? 'bg-[rgb(var(--primary))] text-purple-800'
+                        : 'bg-[rgb(var(--hover))] text-[rgb(var(--text-secondary))]'
                     }`}
                   >
                     {result.type}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between mt-3">
-                  <span className="text-sm text-gray-600">Required Score:</span>
+                <div className="flex items-center justify-between mt-3 bg-[rgb(var(--card))]">
+                  <span className="text-sm text-[rgb(var(--text-secondary))]">Required Score:</span>
                   <div className="text-right">
                     <span className={`text-2xl font-bold ${getScoreColor(result.requiredScore)}`}>
                       {result.requiredScore.toFixed(1)}%
@@ -229,7 +223,7 @@ function GradeCalculator() {
                 </div>
 
                 {result.requiredScore > 100 && (
-                  <div className="mt-3 p-2 bg-red-100 rounded text-xs text-red-800 flex items-center gap-2">
+                  <div className="mt-3 p-2 bg-[rgb(var(--error))] rounded text-xs text-[rgb(var(--text))] flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>This target may not be achievable with remaining assessments</span>
                   </div>
@@ -240,9 +234,9 @@ function GradeCalculator() {
         )}
 
         {/* Help Text */}
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h4 className="text-sm font-semibold text-gray-900 mb-2">How to use:</h4>
-          <ul className="text-xs text-gray-600 space-y-1">
+        <div className="mt-6 p-4 bg-[rgb(var(--card))] rounded-lg">
+          <h4 className="text-sm font-semibold text-[rgb(var(--text))] mb-2">How to use:</h4>
+          <ul className="text-xs text-[rgb(var(--text-secondary))] space-y-1">
             <li>• Select a course with incomplete grade items</li>
             <li>• Enter your desired target grade</li>
             <li>• See what score you need on each remaining assessment</li>

@@ -90,19 +90,19 @@ function Notes() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-2">
+    <div className="min-h-screen bg-[rgb(var(--background))] p-2">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">My Notes</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl md:text-4xl font-bold text-[rgb(var(--text))] mb-2">My Notes</h1>
+            <p className="text-[rgb(var(--text-secondary))]">
               {filteredNotes.length} {filteredNotes.length === 1 ? 'note' : 'notes'} found
             </p>
           </div>
           <button
             onClick={() => navigate('/notes/create')}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 justify-center sm:justify-start"
+            className="px-6 py-3 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition flex items-center gap-2 justify-center sm:justify-start"
           >
             <Plus className="w-5 h-5" />
             Create Note
@@ -110,11 +110,11 @@ function Notes() {
         </div>
 
         {/* Filters Section */}
-        <div className="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6 mb-6 overflow-hidden">
+        <div className="bg-[rgb(var(--card))] rounded-xl shadow-md p-3 sm:p-4 md:p-6 mb-6 overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 items-center">
             {/* Search Input */}
             <div className="lg:col-span-2 min-w-0">
-              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1 sm:mb-2">
                 <Search className="inline w-4 h-4 mr-1" />
                 Search Notes
               </label>
@@ -123,7 +123,7 @@ function Notes() {
                 placeholder="Search by title or content..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full min-w-0 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg
+                className="w-full min-w-0 px-3 sm:px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg
                    focus:ring-2 focus:ring-blue-500 focus:border-transparent
                    outline-none transition"
               />
@@ -131,20 +131,20 @@ function Notes() {
 
             {/* Subject Filter */}
             <div className="min-w-0">
-              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1 sm:mb-2">
                 <BookOpen className="inline w-4 h-4 mr-1" />
                 Subject
               </label>
               <select
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
-                className="w-full min-w-0 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg
+                className="w-full min-w-0 px-3 sm:px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg
                    focus:ring-2 focus:ring-blue-500 focus:border-transparent
                    outline-none transition cursor-pointer"
               >
-                <option value="all">All Subjects</option>
+                <option value="all" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">All Subjects</option>
                 {subjects.map((subject) => (
-                  <option key={subject} value={subject}>
+                  <option key={subject} value={subject} className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">
                     {subject}
                   </option>
                 ))}
@@ -153,20 +153,20 @@ function Notes() {
 
             {/* Tag Filter */}
             <div className="min-w-0">
-              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1 sm:mb-2">
                 <Tag className="inline w-4 h-4 mr-1" />
                 Tag
               </label>
               <select
                 value={selectedTag}
                 onChange={(e) => setSelectedTag(e.target.value)}
-                className="w-full min-w-0 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg
+                className="w-full min-w-0 px-3 sm:px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg
                    focus:ring-2 focus:ring-blue-500 focus:border-transparent
                    outline-none transition cursor-pointer"
               >
-                <option value="all">All Tags</option>
+                <option value="all" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">All Tags</option>
                 {tags.map((tag) => (
-                  <option key={tag} value={tag}>
+                  <option key={tag} value={tag} className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">
                     {tag}
                   </option>
                 ))}
@@ -175,7 +175,7 @@ function Notes() {
 
             {/* Sort Options */}
             <div className="min-w-0">
-              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+              <label className="block text-sm font-medium text-[rgb(var(--text-secondary))] mb-1 sm:mb-2">
                 <Calendar className="inline w-4 h-4 mr-1" />
                 Sort By
               </label>
@@ -184,20 +184,20 @@ function Notes() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full min-w-0 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg
+                  className="w-full min-w-0 px-3 sm:px-4 py-2 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg
                      focus:ring-2 focus:ring-blue-500 focus:border-transparent
                      outline-none transition cursor-pointer"
                 >
-                  <option value="updated">Last Modified</option>
-                  <option value="created">Date Created</option>
-                  <option value="title">Title</option>
+                  <option value="updated" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Last Modified</option>
+                  <option value="created" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Date Created</option>
+                  <option value="title" className="bg-[rgb(var(--hover))] text-[rgb(var(--text))]">Title</option>
                 </select>
 
                 <button
                   onClick={toggleSortOrder}
-                  className="flex items-center justify-center px-3 py-2
-                     border border-gray-300 rounded-lg
-                     hover:bg-gray-50 transition shrink-0"
+                  className="flex items-center text-[rgb(var(--text))] justify-center px-3 py-2
+                     border border-[rgb(var(--border))] rounded-lg
+                     hover:bg-[rgb(var(--hover))] transition shrink-0"
                   title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
                 >
                   {sortOrder === 'asc' ? (
@@ -264,7 +264,7 @@ function Notes() {
                   setSelectedSubject('all');
                   setSelectedTag('all');
                 }}
-                className="text-sm text-gray-600 hover:text-gray-900 underline"
+                className="text-sm text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))] underline"
               >
                 Clear all filters
               </button>
@@ -285,10 +285,10 @@ function Notes() {
                   <NoteCard text={note.content || 'No content'} />
                 </div>
                 <div className="px-2">
-                  <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-600 transition truncate">
+                  <h3 className="font-semibold text-[rgb(var(--text))] mb-1 group-hover:text-[rgb(var(--primary))] transition truncate">
                     {note.title || 'Untitled'}
                   </h3>
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                  <div className="flex items-center justify-between text-sm text-[rgb(var(--text-secondary))] mb-2">
                     <span className="truncate">{note.subject || 'No subject'}</span>
                     <span className="text-xs whitespace-nowrap ml-2">
                       {formatDate(note.updated_at)}
@@ -306,7 +306,7 @@ function Notes() {
                         </span>
                       ))}
                       {note.tags.length > 3 && (
-                        <span className="inline-block px-2 py-0.5 text-xs text-gray-500">
+                        <span className="inline-block px-2 py-0.5 text-xs text-[rgb(var(--text-secondary))]">
                           +{note.tags.length - 3}
                         </span>
                       )}
@@ -317,11 +317,11 @@ function Notes() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
+          <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-12 text-center">
             <div className="max-w-md mx-auto">
-              <BookOpen className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No notes found</h3>
-              <p className="text-gray-600 mb-6">
+              <BookOpen className="w-16 h-16 mx-auto text-[rgb(var(--text-secondary))] mb-4" />
+              <h3 className="text-xl font-semibold text-[rgb(var(--text))] mb-2">No notes found</h3>
+              <p className="text-[rgb(var(--text-secondary))] mb-6">
                 {searchQuery || selectedSubject !== 'all' || selectedTag !== 'all'
                   ? "Try adjusting your filters to find what you're looking for."
                   : 'Start creating notes to see them here.'}
@@ -333,7 +333,7 @@ function Notes() {
                     setSelectedSubject('all');
                     setSelectedTag('all');
                   }}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  className="px-6 py-2 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition"
                 >
                   Clear Filters
                 </button>

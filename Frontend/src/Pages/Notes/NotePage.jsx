@@ -147,21 +147,21 @@ function NotePage() {
   // If note not found
   if (!note) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
+      <div className="min-h-screen bg-[rgb(var(--background))] p-4 md:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => navigate('/notes')}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
+            className="flex items-center gap-2 text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))] mb-6 transition"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Notes
           </button>
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Note Not Found</h2>
-            <p className="text-gray-600 mb-6">The note "{decodedTitle}" could not be found.</p>
+          <div className="bg-[rgb(var(--card))] rounded-lg shadow-md p-12 text-center">
+            <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">Note Not Found</h2>
+            <p className="text-[rgb(var(--text-secondary))] mb-6">The note "{decodedTitle}" could not be found.</p>
             <button
               onClick={() => navigate('/notes')}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="px-6 py-2 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg hover:bg-[rgb(var(--primary-hover))] transition"
             >
               Go Back to Notes
             </button>
@@ -172,21 +172,21 @@ function NotePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-2">
+    <div className="min-h-screen bg-[rgb(var(--bg))] p-2">
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
         <button
           onClick={() => navigate('/notes')}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
+          className="flex items-center gap-2 text-[rgb(var(--text-secondary))] hover:text-[rgb(var(--text))] mb-6 transition"
         >
           <ArrowLeft className="w-5 h-5" />
           Back to Notes
         </button>
 
         {/* Note Content */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
+        <div className="bg-[rgb(var(--card))] rounded-lg shadow-md overflow-hidden border border-[rgb(var(--border))]">
           {/* Header */}
-          <div className="border-b border-gray-200 p-4 md:p-6">
+          <div className="border-b border-[rgb(var(--border))] p-4 md:p-6">
             {/* Title and Actions Row: Column on mobile, Row on md+ */}
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
               {isEditing ? (
@@ -194,11 +194,11 @@ function NotePage() {
                   type="text"
                   value={editedTitle}
                   onChange={(e) => setEditedTitle(e.target.value)}
-                  className="text-2xl md:text-3xl font-bold text-gray-900 border-b-2 border-blue-500 focus:outline-none w-full md:flex-1"
+                  className="text-2xl md:text-3xl font-bold text-[rgb(var(--text))] border-b-2 border-blue-500 focus:outline-none w-full md:flex-1"
                   placeholder="Note title..."
                 />
               ) : (
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex-1 break-words">
+                <h1 className="text-2xl md:text-3xl font-bold text-[rgb(var(--text))] flex-1 break-words">
                   {note.title || 'Untitled'}
                 </h1>
               )}
@@ -242,9 +242,9 @@ function NotePage() {
             </div>
 
             {/* Metadata Row: flex-wrap ensures it flows nicely on narrow screens */}
-            <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-600 mb-6">
+            <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-[rgb(var(--text-secondary))] mb-6">
               <div className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 shrink-0 text-gray-400" />
+                <BookOpen className="w-4 h-4 shrink-0 text-[rgb(var(--text-secondary))]" />
                 {isEditing ? (
                   <input
                     type="text"
@@ -258,7 +258,7 @@ function NotePage() {
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 shrink-0 text-gray-400" />
+                <Calendar className="w-4 h-4 shrink-0 text-[rgb(var(--text-secondary))]" />
                 <span>
                   Updated: <span className="font-medium">{formatDate(note.updated_at)}</span>
                 </span>
@@ -266,10 +266,10 @@ function NotePage() {
             </div>
 
             {/* Tags Section */}
-            <div className="pt-2 border-t border-gray-50 md:border-none">
+            <div className="pt-2 border-t border-[rgb(var(--border))] md:border-none">
               <div className="flex items-center gap-2 mb-3">
-                <Tag className="w-4 h-4 text-gray-500" />
-                <span className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                <Tag className="w-4 h-4 text-[rgb(var(--text-secondary))]" />
+                <span className="text-sm font-semibold text-[rgb(var(--text))] uppercase tracking-wider">
                   Tags
                 </span>
               </div>
@@ -283,16 +283,16 @@ function NotePage() {
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyDown={handleTagKeyPress}
-                      className="flex-1 min-w-0 h-10 px-3 text-sm
-                        border border-gray-300 rounded-lg
+                      className="flex-1 min-w-0 h-10 px-3 text-sm text-[rgb(var(--text))]
+                        border border-[rgb(var(--border))] rounded-lg
                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
                         outline-none transition"
                       placeholder="Add a tag..."
                     />
                     <button
                       onClick={handleAddTag}
-                      className="h-10 px-6 bg-blue-600 text-white rounded-lg
-                        hover:bg-blue-700 transition font-medium text-sm shrink-0"
+                      className="h-10 px-6 bg-[rgb(var(--primary))] text-[rgb(var(--text))] rounded-lg
+                        hover:bg-[rgb(var(--primary-hover))] transition font-medium text-sm shrink-0"
                     >
                       Add
                     </button>
@@ -327,7 +327,7 @@ function NotePage() {
                       </span>
                     ))
                   ) : (
-                    <span className="text-sm text-gray-400 italic">No tags associated</span>
+                    <span className="text-sm text-[rgb(var(--text-secondary))] italic">No tags associated</span>
                   )}
                 </div>
               )}
@@ -340,7 +340,7 @@ function NotePage() {
               <textarea
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
-                className="w-full min-h-[400px] p-4 text-gray-800 border border-gray-300 rounded-lg 
+                className="w-full min-h-[400px] p-4 text-[rgb(var(--text))] border border-[rgb(var(--border))] rounded-lg 
                   focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-y"
                 placeholder="Start writing your note..."
               />
@@ -359,22 +359,22 @@ function NotePage() {
 
           {/* Footer Actions / Info */}
           {isEditing ? (
-            <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex flex-col sm:flex-row justify-end gap-3">
+            <div className="border-t border-[rgb(var(--border))] p-4 md:p-6 bg-card flex flex-col sm:flex-row justify-end gap-3">
               <button
                 onClick={handleCancel}
-                className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition font-medium order-2 sm:order-1"
+                className="px-6 py-2.5 border border-[rgb(var(--border))] text-[rgb(var(--text))] rounded-lg bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] transition font-medium order-2 sm:order-1"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition font-medium order-1 sm:order-2"
+                className="px-6 py-2.5 bg-[rgb(var(--primary))] text-white rounded-lg hover:bg-[rgb(var(--primary-hover))] shadow-sm transition font-medium order-1 sm:order-2"
               >
                 Save Changes
               </button>
             </div>
           ) : (
-            <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 text-xs md:text-sm text-gray-500 flex justify-between items-center">
+            <div className="border-t border-[rgb(var(--border))] p-4 md:p-6 bg-[rgb(var(--card))] text-xs md:text-sm text-[rgb(var(--text-secondary))] flex justify-between items-center">
               <span>Created: {formatDate(note.created_at)}</span>
               <span className="hidden sm:inline">ID: {note.id}</span>
             </div>
@@ -391,21 +391,21 @@ function NotePage() {
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
-              className="bg-white rounded-lg shadow-xl p-6 w-80 text-center
+              className="bg-[rgb(var(--card))] rounded-lg shadow-xl p-6 w-80 text-center
                    transform transition-all duration-300 ease-out
                    opacity-100 translate-y-0"
               style={{
                 animation: 'popUp 0.3s ease forwards',
               }}
             >
-              <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
-              <p className="text-sm text-gray-600 mb-6">
+              <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--text))]">Confirm Delete</h2>
+              <p className="text-sm text-[rgb(var(--text-secondary))] mb-6">
                 Are you sure you want to delete this note? This action cannot be undone.
               </p>
               <div className="flex justify-between space-x-4">
                 <button
                   onClick={() => setShowConfirmModal(false)}
-                  className="flex-1 py-2 text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  className="flex-1 py-2 text-sm rounded border border-[rgb(var(--border))] bg-[rgb(var(--card))] hover:bg-[rgb(var(--hover))] text-[rgb(var(--text-secondary))]"
                 >
                   Cancel
                 </button>
