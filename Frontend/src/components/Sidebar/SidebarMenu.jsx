@@ -35,8 +35,6 @@ function Sidebar({ isOpen, setIsOpen }) {
   const { logout } = useAuth();
 
   const getImageUrl = (fileName) => {
-    if (!fileName) return 'https://api.dicebear.com/7.x/avataaars/svg?seed=John';
-    if (fileName.startsWith('http')) return fileName;
     return `${import.meta.env.VITE_ASSETS_URL}/${fileName}`;
   };
 
