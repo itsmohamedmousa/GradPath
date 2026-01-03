@@ -131,7 +131,7 @@ function Register() {
     !loading;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[rgb(var(--bg))] px-4 py-12 sm:px-6 lg:px-8 overflow-auto">
       <div className="w-full max-w-4xl">
         <div className="bg-[rgb(var(--card))] rounded-xl shadow-lg p-6 sm:p-8 lg:p-10">
           {/* Logo Container */}
